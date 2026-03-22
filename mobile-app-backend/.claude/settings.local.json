@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/hemantsinghrathore/Work/DairyTrack/backend/doodhwala_back/mobile-app-backend -type f -name *.prisma)",
+      "Bash(npm install:*)",
+      "Bash(npx prisma:*)"
+    ]
+  }
+}

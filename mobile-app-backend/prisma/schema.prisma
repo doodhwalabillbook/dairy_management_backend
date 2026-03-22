@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  VENDOR
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  mobile    String   @unique @db.VarChar(15)
+  name      String
+  pinHash   String
+  role      Role     @default(VENDOR)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  vendor    Vendor?
+}
+
+model Company {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  name      String   @unique @db.VarChar(255)
+  email     String?
+  phone     String?
+  address   String?
+  city      String?
+  state     String?
+  gstin     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  vendors   Vendor[]
+}
+
+model Vendor {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  companyId String   @db.VarChar(36)
+  userId    String?  @unique @db.VarChar(36)
+  name      String
+  phone     String
+  email     String?
+  area      String?
+  address   String?
+  isActive  Boolean  @default(true)
+  joinedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User?   @relation(fields: [userId], references: [id])
+}
+
+model ProductCategory {
+  id          String    @id @default(uuid()) @db.VarChar(36)
+  name        String    @unique @db.VarChar(255)
+  description String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  products    Product[]
+}
+
+model Product {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  categoryId  String   @db.VarChar(36)
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  category ProductCategory @relation(fields: [categoryId], references: [id])
+}
