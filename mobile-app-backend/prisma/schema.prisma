@@ -15,6 +15,12 @@ enum Role {
   ADMIN
 }
 
+enum PaymentMode {
+  CASH
+  UPI
+  CARD
+}
+
 model User {
   id        String   @id @default(uuid()) @db.VarChar(36)
   mobile    String   @unique @db.VarChar(15)
@@ -56,8 +62,59 @@ model Vendor {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  company Company @relation(fields: [companyId], references: [id])
-  user    User?   @relation(fields: [userId], references: [id])
+  company   Company    @relation(fields: [companyId], references: [id])
+  user      User?      @relation(fields: [userId], references: [id])
+  customers Customer[]
+}
+
+model Customer {
+  id              String   @id @default(uuid()) @db.VarChar(36)
+  vendorId        String   @db.VarChar(36)
+  name            String
+  phone           String   @unique @db.VarChar(15)
+  address         String
+  ratePerLiter    Decimal  @db.Decimal(10, 2)
+  morningQuantity Decimal  @default(0) @db.Decimal(10, 2)
+  eveningQuantity Decimal  @default(0) @db.Decimal(10, 2)
+  isActive        Boolean  @default(true)
+  date            DateTime @db.Date
+  createdBy       String   @db.VarChar(36)
+  updatedBy       String   @db.VarChar(36)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  vendor         Vendor         @relation(fields: [vendorId], references: [id])
+  milkDeliveries MilkDelivery[]
+  payments       Payment[]
+}
+
+model MilkDelivery {
+  id              String   @id @default(uuid()) @db.VarChar(36)
+  customerId      String   @db.VarChar(36)
+  date            DateTime @db.Date
+  morningQuantity Decimal  @default(0) @db.Decimal(10, 2)
+  eveningQuantity Decimal  @default(0) @db.Decimal(10, 2)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id])
+}
+
+model Payment {
+  id          String      @id @default(uuid()) @db.VarChar(36)
+  customerId  String      @db.VarChar(36)
+  amountPaid  Decimal     @db.Decimal(10, 2)
+  paymentDate DateTime    @db.Date
+  month       Int
+  year        Int
+  paymentMode PaymentMode @default(CASH)
+  notes       String?
+  createdBy   String      @db.VarChar(36)
+  updatedBy   String      @db.VarChar(36)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id])
 }
 
 model ProductCategory {

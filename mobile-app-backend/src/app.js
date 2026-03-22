@@ -15,6 +15,8 @@ app.get('/', (req, res) => {
 const authRoutes = require('./modules/auth/auth.routes');
 const adminRoutes = require('./modules/admin/admin.routes');
 const companyRoutes = require('./routes/company.routes');
+const customerRoutes = require('./routes/customer.routes');
+const billingRoutes = require('./routes/billing.routes');
 const authMiddleware = require('./middleware/auth.middleware');
 
 const swaggerUi = require('swagger-ui-express');
@@ -25,6 +27,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/companies', companyRoutes);
+app.use('/api/v1/customers', customerRoutes);
+app.use('/api/v1/billing', billingRoutes);
 
 app.get('/api/v1/profile', authMiddleware, (req, res) => {
   res.json({ user: req.user });

@@ -160,6 +160,48 @@ exports.Prisma.VendorScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CustomerScalarFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  name: 'name',
+  phone: 'phone',
+  address: 'address',
+  ratePerLiter: 'ratePerLiter',
+  morningQuantity: 'morningQuantity',
+  eveningQuantity: 'eveningQuantity',
+  isActive: 'isActive',
+  date: 'date',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MilkDeliveryScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  date: 'date',
+  morningQuantity: 'morningQuantity',
+  eveningQuantity: 'eveningQuantity',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  amountPaid: 'amountPaid',
+  paymentDate: 'paymentDate',
+  month: 'month',
+  year: 'year',
+  paymentMode: 'paymentMode',
+  notes: 'notes',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ProductCategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -217,6 +259,29 @@ exports.Prisma.VendorOrderByRelevanceFieldEnum = {
   address: 'address'
 };
 
+exports.Prisma.CustomerOrderByRelevanceFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  name: 'name',
+  phone: 'phone',
+  address: 'address',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
+};
+
+exports.Prisma.MilkDeliveryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerId: 'customerId'
+};
+
+exports.Prisma.PaymentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  notes: 'notes',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
+};
+
 exports.Prisma.ProductCategoryOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
@@ -234,10 +299,19 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN'
 };
 
+exports.PaymentMode = exports.$Enums.PaymentMode = {
+  CASH: 'CASH',
+  UPI: 'UPI',
+  CARD: 'CARD'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Company: 'Company',
   Vendor: 'Vendor',
+  Customer: 'Customer',
+  MilkDelivery: 'MilkDelivery',
+  Payment: 'Payment',
   ProductCategory: 'ProductCategory',
   Product: 'Product'
 };
