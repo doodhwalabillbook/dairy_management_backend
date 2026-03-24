@@ -151,9 +151,13 @@ exports.Prisma.VendorScalarFieldEnum = {
   userId: 'userId',
   name: 'name',
   phone: 'phone',
+  mobileNumber: 'mobileNumber',
   email: 'email',
   area: 'area',
   address: 'address',
+  registrationDate: 'registrationDate',
+  billingStartDate: 'billingStartDate',
+  status: 'status',
   isActive: 'isActive',
   joinedAt: 'joinedAt',
   createdAt: 'createdAt',
@@ -254,6 +258,7 @@ exports.Prisma.VendorOrderByRelevanceFieldEnum = {
   userId: 'userId',
   name: 'name',
   phone: 'phone',
+  mobileNumber: 'mobileNumber',
   email: 'email',
   area: 'area',
   address: 'address'
@@ -297,6 +302,11 @@ exports.Prisma.ProductOrderByRelevanceFieldEnum = {
 exports.Role = exports.$Enums.Role = {
   VENDOR: 'VENDOR',
   ADMIN: 'ADMIN'
+};
+
+exports.VendorStatus = exports.$Enums.VendorStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
 };
 
 exports.PaymentMode = exports.$Enums.PaymentMode = {

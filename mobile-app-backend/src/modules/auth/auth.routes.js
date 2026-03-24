@@ -1,31 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('./auth.controller');
-const { validateRequest, loginSchema, resetPinSchema } = require('../../validators/auth.validator');
+const { validateRequest, resetPinSchema } = require('../../validators/auth.validator');
 const authMiddleware = require('../../middleware/auth.middleware');
-
-/**
- * @swagger
- * /api/v1/auth/login:
- *   post:
- *     summary: Login user (Mobile + PIN)
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               mobile:
- *                 type: string
- *               pin:
- *                 type: string
- *     responses:
- *       200:
- *         description: Login successful
- */
-router.post('/login', validateRequest(loginSchema), controller.login);
 
 /**
  * @swagger

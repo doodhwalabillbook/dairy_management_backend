@@ -66,6 +66,14 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const VendorStatus: {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
+};
+
+export type VendorStatus = (typeof VendorStatus)[keyof typeof VendorStatus]
+
+
 export const PaymentMode: {
   CASH: 'CASH',
   UPI: 'UPI',
@@ -79,6 +87,10 @@ export type PaymentMode = (typeof PaymentMode)[keyof typeof PaymentMode]
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type VendorStatus = $Enums.VendorStatus
+
+export const VendorStatus: typeof $Enums.VendorStatus
 
 export type PaymentMode = $Enums.PaymentMode
 
@@ -3629,9 +3641,13 @@ export namespace Prisma {
     userId: string | null
     name: string | null
     phone: string | null
+    mobileNumber: string | null
     email: string | null
     area: string | null
     address: string | null
+    registrationDate: Date | null
+    billingStartDate: Date | null
+    status: $Enums.VendorStatus | null
     isActive: boolean | null
     joinedAt: Date | null
     createdAt: Date | null
@@ -3644,9 +3660,13 @@ export namespace Prisma {
     userId: string | null
     name: string | null
     phone: string | null
+    mobileNumber: string | null
     email: string | null
     area: string | null
     address: string | null
+    registrationDate: Date | null
+    billingStartDate: Date | null
+    status: $Enums.VendorStatus | null
     isActive: boolean | null
     joinedAt: Date | null
     createdAt: Date | null
@@ -3659,9 +3679,13 @@ export namespace Prisma {
     userId: number
     name: number
     phone: number
+    mobileNumber: number
     email: number
     area: number
     address: number
+    registrationDate: number
+    billingStartDate: number
+    status: number
     isActive: number
     joinedAt: number
     createdAt: number
@@ -3676,9 +3700,13 @@ export namespace Prisma {
     userId?: true
     name?: true
     phone?: true
+    mobileNumber?: true
     email?: true
     area?: true
     address?: true
+    registrationDate?: true
+    billingStartDate?: true
+    status?: true
     isActive?: true
     joinedAt?: true
     createdAt?: true
@@ -3691,9 +3719,13 @@ export namespace Prisma {
     userId?: true
     name?: true
     phone?: true
+    mobileNumber?: true
     email?: true
     area?: true
     address?: true
+    registrationDate?: true
+    billingStartDate?: true
+    status?: true
     isActive?: true
     joinedAt?: true
     createdAt?: true
@@ -3706,9 +3738,13 @@ export namespace Prisma {
     userId?: true
     name?: true
     phone?: true
+    mobileNumber?: true
     email?: true
     area?: true
     address?: true
+    registrationDate?: true
+    billingStartDate?: true
+    status?: true
     isActive?: true
     joinedAt?: true
     createdAt?: true
@@ -3793,10 +3829,14 @@ export namespace Prisma {
     companyId: string
     userId: string | null
     name: string
-    phone: string
+    phone: string | null
+    mobileNumber: string | null
     email: string | null
     area: string | null
     address: string | null
+    registrationDate: Date | null
+    billingStartDate: Date | null
+    status: $Enums.VendorStatus
     isActive: boolean
     joinedAt: Date
     createdAt: Date
@@ -3826,9 +3866,13 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     phone?: boolean
+    mobileNumber?: boolean
     email?: boolean
     area?: boolean
     address?: boolean
+    registrationDate?: boolean
+    billingStartDate?: boolean
+    status?: boolean
     isActive?: boolean
     joinedAt?: boolean
     createdAt?: boolean
@@ -3847,16 +3891,20 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     phone?: boolean
+    mobileNumber?: boolean
     email?: boolean
     area?: boolean
     address?: boolean
+    registrationDate?: boolean
+    billingStartDate?: boolean
+    status?: boolean
     isActive?: boolean
     joinedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type VendorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "userId" | "name" | "phone" | "email" | "area" | "address" | "isActive" | "joinedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["vendor"]>
+  export type VendorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "userId" | "name" | "phone" | "mobileNumber" | "email" | "area" | "address" | "registrationDate" | "billingStartDate" | "status" | "isActive" | "joinedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["vendor"]>
   export type VendorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     user?: boolean | Vendor$userArgs<ExtArgs>
@@ -3876,10 +3924,14 @@ export namespace Prisma {
       companyId: string
       userId: string | null
       name: string
-      phone: string
+      phone: string | null
+      mobileNumber: string | null
       email: string | null
       area: string | null
       address: string | null
+      registrationDate: Date | null
+      billingStartDate: Date | null
+      status: $Enums.VendorStatus
       isActive: boolean
       joinedAt: Date
       createdAt: Date
@@ -4261,9 +4313,13 @@ export namespace Prisma {
     readonly userId: FieldRef<"Vendor", 'String'>
     readonly name: FieldRef<"Vendor", 'String'>
     readonly phone: FieldRef<"Vendor", 'String'>
+    readonly mobileNumber: FieldRef<"Vendor", 'String'>
     readonly email: FieldRef<"Vendor", 'String'>
     readonly area: FieldRef<"Vendor", 'String'>
     readonly address: FieldRef<"Vendor", 'String'>
+    readonly registrationDate: FieldRef<"Vendor", 'DateTime'>
+    readonly billingStartDate: FieldRef<"Vendor", 'DateTime'>
+    readonly status: FieldRef<"Vendor", 'VendorStatus'>
     readonly isActive: FieldRef<"Vendor", 'Boolean'>
     readonly joinedAt: FieldRef<"Vendor", 'DateTime'>
     readonly createdAt: FieldRef<"Vendor", 'DateTime'>
@@ -9824,9 +9880,13 @@ export namespace Prisma {
     userId: 'userId',
     name: 'name',
     phone: 'phone',
+    mobileNumber: 'mobileNumber',
     email: 'email',
     area: 'area',
     address: 'address',
+    registrationDate: 'registrationDate',
+    billingStartDate: 'billingStartDate',
+    status: 'status',
     isActive: 'isActive',
     joinedAt: 'joinedAt',
     createdAt: 'createdAt',
@@ -9957,6 +10017,7 @@ export namespace Prisma {
     userId: 'userId',
     name: 'name',
     phone: 'phone',
+    mobileNumber: 'mobileNumber',
     email: 'email',
     area: 'area',
     address: 'address'
@@ -10046,6 +10107,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'VendorStatus'
+   */
+  export type EnumVendorStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VendorStatus'>
     
 
 
@@ -10245,10 +10313,14 @@ export namespace Prisma {
     companyId?: StringFilter<"Vendor"> | string
     userId?: StringNullableFilter<"Vendor"> | string | null
     name?: StringFilter<"Vendor"> | string
-    phone?: StringFilter<"Vendor"> | string
+    phone?: StringNullableFilter<"Vendor"> | string | null
+    mobileNumber?: StringNullableFilter<"Vendor"> | string | null
     email?: StringNullableFilter<"Vendor"> | string | null
     area?: StringNullableFilter<"Vendor"> | string | null
     address?: StringNullableFilter<"Vendor"> | string | null
+    registrationDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
+    billingStartDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
+    status?: EnumVendorStatusFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolFilter<"Vendor"> | boolean
     joinedAt?: DateTimeFilter<"Vendor"> | Date | string
     createdAt?: DateTimeFilter<"Vendor"> | Date | string
@@ -10263,10 +10335,14 @@ export namespace Prisma {
     companyId?: SortOrder
     userId?: SortOrderInput | SortOrder
     name?: SortOrder
-    phone?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    mobileNumber?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    registrationDate?: SortOrderInput | SortOrder
+    billingStartDate?: SortOrderInput | SortOrder
+    status?: SortOrder
     isActive?: SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
@@ -10280,15 +10356,19 @@ export namespace Prisma {
   export type VendorWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     userId?: string
+    mobileNumber?: string
     AND?: VendorWhereInput | VendorWhereInput[]
     OR?: VendorWhereInput[]
     NOT?: VendorWhereInput | VendorWhereInput[]
     companyId?: StringFilter<"Vendor"> | string
     name?: StringFilter<"Vendor"> | string
-    phone?: StringFilter<"Vendor"> | string
+    phone?: StringNullableFilter<"Vendor"> | string | null
     email?: StringNullableFilter<"Vendor"> | string | null
     area?: StringNullableFilter<"Vendor"> | string | null
     address?: StringNullableFilter<"Vendor"> | string | null
+    registrationDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
+    billingStartDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
+    status?: EnumVendorStatusFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolFilter<"Vendor"> | boolean
     joinedAt?: DateTimeFilter<"Vendor"> | Date | string
     createdAt?: DateTimeFilter<"Vendor"> | Date | string
@@ -10296,17 +10376,21 @@ export namespace Prisma {
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     customers?: CustomerListRelationFilter
-  }, "id" | "userId">
+  }, "id" | "userId" | "mobileNumber">
 
   export type VendorOrderByWithAggregationInput = {
     id?: SortOrder
     companyId?: SortOrder
     userId?: SortOrderInput | SortOrder
     name?: SortOrder
-    phone?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    mobileNumber?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    registrationDate?: SortOrderInput | SortOrder
+    billingStartDate?: SortOrderInput | SortOrder
+    status?: SortOrder
     isActive?: SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
@@ -10324,10 +10408,14 @@ export namespace Prisma {
     companyId?: StringWithAggregatesFilter<"Vendor"> | string
     userId?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
     name?: StringWithAggregatesFilter<"Vendor"> | string
-    phone?: StringWithAggregatesFilter<"Vendor"> | string
+    phone?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
+    mobileNumber?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
     email?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
     area?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
     address?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
+    registrationDate?: DateTimeNullableWithAggregatesFilter<"Vendor"> | Date | string | null
+    billingStartDate?: DateTimeNullableWithAggregatesFilter<"Vendor"> | Date | string | null
+    status?: EnumVendorStatusWithAggregatesFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolWithAggregatesFilter<"Vendor"> | boolean
     joinedAt?: DateTimeWithAggregatesFilter<"Vendor"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Vendor"> | Date | string
@@ -10912,10 +11000,14 @@ export namespace Prisma {
   export type VendorCreateInput = {
     id?: string
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -10930,10 +11022,14 @@ export namespace Prisma {
     companyId: string
     userId?: string | null
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -10944,10 +11040,14 @@ export namespace Prisma {
   export type VendorUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10962,10 +11062,14 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10978,10 +11082,14 @@ export namespace Prisma {
     companyId: string
     userId?: string | null
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -10991,10 +11099,14 @@ export namespace Prisma {
   export type VendorUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11006,10 +11118,14 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11672,6 +11788,24 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type EnumVendorStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VendorStatus | EnumVendorStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VendorStatus[]
+    notIn?: $Enums.VendorStatus[]
+    not?: NestedEnumVendorStatusFilter<$PrismaModel> | $Enums.VendorStatus
+  }
+
   export type CompanyScalarRelationFilter = {
     is?: CompanyWhereInput
     isNot?: CompanyWhereInput
@@ -11704,9 +11838,13 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    mobileNumber?: SortOrder
     email?: SortOrder
     area?: SortOrder
     address?: SortOrder
+    registrationDate?: SortOrder
+    billingStartDate?: SortOrder
+    status?: SortOrder
     isActive?: SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
@@ -11719,9 +11857,13 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    mobileNumber?: SortOrder
     email?: SortOrder
     area?: SortOrder
     address?: SortOrder
+    registrationDate?: SortOrder
+    billingStartDate?: SortOrder
+    status?: SortOrder
     isActive?: SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
@@ -11734,13 +11876,41 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    mobileNumber?: SortOrder
     email?: SortOrder
     area?: SortOrder
     address?: SortOrder
+    registrationDate?: SortOrder
+    billingStartDate?: SortOrder
+    status?: SortOrder
     isActive?: SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumVendorStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VendorStatus | EnumVendorStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VendorStatus[]
+    notIn?: $Enums.VendorStatus[]
+    not?: NestedEnumVendorStatusWithAggregatesFilter<$PrismaModel> | $Enums.VendorStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVendorStatusFilter<$PrismaModel>
+    _max?: NestedEnumVendorStatusFilter<$PrismaModel>
   }
 
   export type DecimalFilter<$PrismaModel = never> = {
@@ -12223,6 +12393,14 @@ export namespace Prisma {
     connect?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type EnumVendorStatusFieldUpdateOperationsInput = {
+    set?: $Enums.VendorStatus
+  }
+
   export type CompanyUpdateOneRequiredWithoutVendorsNestedInput = {
     create?: XOR<CompanyCreateWithoutVendorsInput, CompanyUncheckedCreateWithoutVendorsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutVendorsInput
@@ -12614,6 +12792,48 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumVendorStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VendorStatus | EnumVendorStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VendorStatus[]
+    notIn?: $Enums.VendorStatus[]
+    not?: NestedEnumVendorStatusFilter<$PrismaModel> | $Enums.VendorStatus
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumVendorStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VendorStatus | EnumVendorStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VendorStatus[]
+    notIn?: $Enums.VendorStatus[]
+    not?: NestedEnumVendorStatusWithAggregatesFilter<$PrismaModel> | $Enums.VendorStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVendorStatusFilter<$PrismaModel>
+    _max?: NestedEnumVendorStatusFilter<$PrismaModel>
+  }
+
   export type NestedDecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[]
@@ -12688,10 +12908,14 @@ export namespace Prisma {
   export type VendorCreateWithoutUserInput = {
     id?: string
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -12704,10 +12928,14 @@ export namespace Prisma {
     id?: string
     companyId: string
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -12734,10 +12962,14 @@ export namespace Prisma {
   export type VendorUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12750,10 +12982,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12764,10 +13000,14 @@ export namespace Prisma {
   export type VendorCreateWithoutCompanyInput = {
     id?: string
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -12780,10 +13020,14 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -12825,10 +13069,14 @@ export namespace Prisma {
     companyId?: StringFilter<"Vendor"> | string
     userId?: StringNullableFilter<"Vendor"> | string | null
     name?: StringFilter<"Vendor"> | string
-    phone?: StringFilter<"Vendor"> | string
+    phone?: StringNullableFilter<"Vendor"> | string | null
+    mobileNumber?: StringNullableFilter<"Vendor"> | string | null
     email?: StringNullableFilter<"Vendor"> | string | null
     area?: StringNullableFilter<"Vendor"> | string | null
     address?: StringNullableFilter<"Vendor"> | string | null
+    registrationDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
+    billingStartDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
+    status?: EnumVendorStatusFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolFilter<"Vendor"> | boolean
     joinedAt?: DateTimeFilter<"Vendor"> | Date | string
     createdAt?: DateTimeFilter<"Vendor"> | Date | string
@@ -13052,10 +13300,14 @@ export namespace Prisma {
   export type VendorCreateWithoutCustomersInput = {
     id?: string
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -13069,10 +13321,14 @@ export namespace Prisma {
     companyId: string
     userId?: string | null
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -13164,10 +13420,14 @@ export namespace Prisma {
   export type VendorUpdateWithoutCustomersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13181,10 +13441,14 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13539,10 +13803,14 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     name: string
-    phone: string
+    phone?: string | null
+    mobileNumber?: string | null
     email?: string | null
     area?: string | null
     address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
     isActive?: boolean
     joinedAt?: Date | string
     createdAt?: Date | string
@@ -13552,10 +13820,14 @@ export namespace Prisma {
   export type VendorUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13568,10 +13840,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13583,10 +13859,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

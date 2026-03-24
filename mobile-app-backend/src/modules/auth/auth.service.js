@@ -3,33 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const prisma = require('../../config/prisma');
 
-const login = async (mobile, pin) => {
-  const user = await authRepository.findUserByMobile(mobile);
-
-  if (!user || !user.isActive) {
-    const error = new Error('Invalid credentials');
-    error.statusCode = 401;
-    throw error;
-  }
-
-  const isMatch = await bcrypt.compare(pin, user.pinHash);
-
-  if (!isMatch) {
-    const error = new Error('Invalid credentials');
-    error.statusCode = 401;
-    throw error;
-  }
-
-  const payload = { id: user.id, mobile: user.mobile, role: user.role };
-  const token = jwt.sign(
-    payload,
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
-  );
-
-  return { user: payload, token };
-};
-
 const resetPin = async (mobile, currentPin, newPin) => {
   const user = await authRepository.findUserByMobile(mobile);
 
@@ -56,4 +29,4 @@ const resetPin = async (mobile, currentPin, newPin) => {
   return { message: 'PIN updated successfully' };
 };
 
-module.exports = { login, resetPin };
+module.exports = { resetPin };
