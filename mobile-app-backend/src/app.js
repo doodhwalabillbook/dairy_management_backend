@@ -15,6 +15,7 @@ app.get('/', (req, res) => {
 const authRoutes = require('./modules/auth/auth.routes');
 const vendorAuthRoutes = require('./modules/vendor-auth/vendor-auth.routes');
 const adminRoutes = require('./modules/admin/admin.routes');
+const milkDeliveryRoutes = require('./modules/milk-delivery/milk-delivery.routes');
 const companyRoutes = require('./routes/company.routes');
 const customerRoutes = require('./routes/customer.routes');
 const billingRoutes = require('./routes/billing.routes');
@@ -27,6 +28,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/vendor', vendorAuthRoutes);
+app.use('/api/v1/vendor/dashboard', require('./modules/dashboard/dashboard.routes'));
+app.use('/api/v1/vendor/milk-delivery', milkDeliveryRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/companies', companyRoutes);
 app.use('/api/v1/customers', customerRoutes);

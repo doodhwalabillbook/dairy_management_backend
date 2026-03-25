@@ -1596,10 +1596,12 @@ export namespace Prisma {
 
   export type VendorCountOutputType = {
     customers: number
+    milkDeliveries: number
   }
 
   export type VendorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customers?: boolean | VendorCountOutputTypeCountCustomersArgs
+    milkDeliveries?: boolean | VendorCountOutputTypeCountMilkDeliveriesArgs
   }
 
   // Custom InputTypes
@@ -1618,6 +1620,13 @@ export namespace Prisma {
    */
   export type VendorCountOutputTypeCountCustomersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CustomerWhereInput
+  }
+
+  /**
+   * VendorCountOutputType without action
+   */
+  export type VendorCountOutputTypeCountMilkDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MilkDeliveryWhereInput
   }
 
 
@@ -4010,6 +4019,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     user?: boolean | Vendor$userArgs<ExtArgs>
     customers?: boolean | Vendor$customersArgs<ExtArgs>
+    milkDeliveries?: boolean | Vendor$milkDeliveriesArgs<ExtArgs>
     _count?: boolean | VendorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vendor"]>
 
@@ -4041,6 +4051,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     user?: boolean | Vendor$userArgs<ExtArgs>
     customers?: boolean | Vendor$customersArgs<ExtArgs>
+    milkDeliveries?: boolean | Vendor$milkDeliveriesArgs<ExtArgs>
     _count?: boolean | VendorCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4050,6 +4061,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs> | null
       customers: Prisma.$CustomerPayload<ExtArgs>[]
+      milkDeliveries: Prisma.$MilkDeliveryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4413,6 +4425,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends Vendor$userArgs<ExtArgs> = {}>(args?: Subset<T, Vendor$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     customers<T extends Vendor$customersArgs<ExtArgs> = {}>(args?: Subset<T, Vendor$customersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    milkDeliveries<T extends Vendor$milkDeliveriesArgs<ExtArgs> = {}>(args?: Subset<T, Vendor$milkDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MilkDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4848,6 +4861,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CustomerScalarFieldEnum | CustomerScalarFieldEnum[]
+  }
+
+  /**
+   * Vendor.milkDeliveries
+   */
+  export type Vendor$milkDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MilkDelivery
+     */
+    select?: MilkDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MilkDelivery
+     */
+    omit?: MilkDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilkDeliveryInclude<ExtArgs> | null
+    where?: MilkDeliveryWhereInput
+    orderBy?: MilkDeliveryOrderByWithRelationInput | MilkDeliveryOrderByWithRelationInput[]
+    cursor?: MilkDeliveryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MilkDeliveryScalarFieldEnum | MilkDeliveryScalarFieldEnum[]
   }
 
   /**
@@ -5896,7 +5933,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
-    date: Date | null
+    registrationDate: Date | null
     isActive: boolean | null
     createdBy: string | null
     updatedBy: string | null
@@ -5914,7 +5951,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
-    date: Date | null
+    registrationDate: Date | null
     isActive: boolean | null
     createdBy: string | null
     updatedBy: string | null
@@ -5932,7 +5969,7 @@ export namespace Prisma {
     ratePerLiter: number
     morningQuantity: number
     eveningQuantity: number
-    date: number
+    registrationDate: number
     isActive: number
     createdBy: number
     updatedBy: number
@@ -5964,7 +6001,7 @@ export namespace Prisma {
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
-    date?: true
+    registrationDate?: true
     isActive?: true
     createdBy?: true
     updatedBy?: true
@@ -5982,7 +6019,7 @@ export namespace Prisma {
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
-    date?: true
+    registrationDate?: true
     isActive?: true
     createdBy?: true
     updatedBy?: true
@@ -6000,7 +6037,7 @@ export namespace Prisma {
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
-    date?: true
+    registrationDate?: true
     isActive?: true
     createdBy?: true
     updatedBy?: true
@@ -6105,7 +6142,7 @@ export namespace Prisma {
     ratePerLiter: Decimal
     morningQuantity: Decimal
     eveningQuantity: Decimal
-    date: Date
+    registrationDate: Date
     isActive: boolean
     createdBy: string | null
     updatedBy: string | null
@@ -6142,7 +6179,7 @@ export namespace Prisma {
     ratePerLiter?: boolean
     morningQuantity?: boolean
     eveningQuantity?: boolean
-    date?: boolean
+    registrationDate?: boolean
     isActive?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -6167,7 +6204,7 @@ export namespace Prisma {
     ratePerLiter?: boolean
     morningQuantity?: boolean
     eveningQuantity?: boolean
-    date?: boolean
+    registrationDate?: boolean
     isActive?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -6175,7 +6212,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "areaId" | "name" | "phone" | "address" | "ratePerLiter" | "morningQuantity" | "eveningQuantity" | "date" | "isActive" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "areaId" | "name" | "phone" | "address" | "ratePerLiter" | "morningQuantity" | "eveningQuantity" | "registrationDate" | "isActive" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
   export type CustomerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorDefaultArgs<ExtArgs>
     area?: boolean | AreaDefaultArgs<ExtArgs>
@@ -6202,7 +6239,7 @@ export namespace Prisma {
       ratePerLiter: Prisma.Decimal
       morningQuantity: Prisma.Decimal
       eveningQuantity: Prisma.Decimal
-      date: Date
+      registrationDate: Date
       isActive: boolean
       createdBy: string | null
       updatedBy: string | null
@@ -6590,7 +6627,7 @@ export namespace Prisma {
     readonly ratePerLiter: FieldRef<"Customer", 'Decimal'>
     readonly morningQuantity: FieldRef<"Customer", 'Decimal'>
     readonly eveningQuantity: FieldRef<"Customer", 'Decimal'>
-    readonly date: FieldRef<"Customer", 'DateTime'>
+    readonly registrationDate: FieldRef<"Customer", 'DateTime'>
     readonly isActive: FieldRef<"Customer", 'Boolean'>
     readonly createdBy: FieldRef<"Customer", 'String'>
     readonly updatedBy: FieldRef<"Customer", 'String'>
@@ -7034,30 +7071,42 @@ export namespace Prisma {
 
   export type MilkDeliveryMinAggregateOutputType = {
     id: string | null
+    vendorId: string | null
     customerId: string | null
     date: Date | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
+    isEdited: boolean | null
+    createdBy: string | null
+    updatedBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type MilkDeliveryMaxAggregateOutputType = {
     id: string | null
+    vendorId: string | null
     customerId: string | null
     date: Date | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
+    isEdited: boolean | null
+    createdBy: string | null
+    updatedBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type MilkDeliveryCountAggregateOutputType = {
     id: number
+    vendorId: number
     customerId: number
     date: number
     morningQuantity: number
     eveningQuantity: number
+    isEdited: number
+    createdBy: number
+    updatedBy: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7076,30 +7125,42 @@ export namespace Prisma {
 
   export type MilkDeliveryMinAggregateInputType = {
     id?: true
+    vendorId?: true
     customerId?: true
     date?: true
     morningQuantity?: true
     eveningQuantity?: true
+    isEdited?: true
+    createdBy?: true
+    updatedBy?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type MilkDeliveryMaxAggregateInputType = {
     id?: true
+    vendorId?: true
     customerId?: true
     date?: true
     morningQuantity?: true
     eveningQuantity?: true
+    isEdited?: true
+    createdBy?: true
+    updatedBy?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type MilkDeliveryCountAggregateInputType = {
     id?: true
+    vendorId?: true
     customerId?: true
     date?: true
     morningQuantity?: true
     eveningQuantity?: true
+    isEdited?: true
+    createdBy?: true
+    updatedBy?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7193,10 +7254,14 @@ export namespace Prisma {
 
   export type MilkDeliveryGroupByOutputType = {
     id: string
+    vendorId: string
     customerId: string
     date: Date
     morningQuantity: Decimal
     eveningQuantity: Decimal
+    isEdited: boolean
+    createdBy: string | null
+    updatedBy: string | null
     createdAt: Date
     updatedAt: Date
     _count: MilkDeliveryCountAggregateOutputType | null
@@ -7222,12 +7287,17 @@ export namespace Prisma {
 
   export type MilkDeliverySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    vendorId?: boolean
     customerId?: boolean
     date?: boolean
     morningQuantity?: boolean
     eveningQuantity?: boolean
+    isEdited?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    vendor?: boolean | VendorDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["milkDelivery"]>
 
@@ -7235,30 +7305,40 @@ export namespace Prisma {
 
   export type MilkDeliverySelectScalar = {
     id?: boolean
+    vendorId?: boolean
     customerId?: boolean
     date?: boolean
     morningQuantity?: boolean
     eveningQuantity?: boolean
+    isEdited?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MilkDeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "date" | "morningQuantity" | "eveningQuantity" | "createdAt" | "updatedAt", ExtArgs["result"]["milkDelivery"]>
+  export type MilkDeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "customerId" | "date" | "morningQuantity" | "eveningQuantity" | "isEdited" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["milkDelivery"]>
   export type MilkDeliveryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vendor?: boolean | VendorDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
 
   export type $MilkDeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "MilkDelivery"
     objects: {
+      vendor: Prisma.$VendorPayload<ExtArgs>
       customer: Prisma.$CustomerPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      vendorId: string
       customerId: string
       date: Date
       morningQuantity: Prisma.Decimal
       eveningQuantity: Prisma.Decimal
+      isEdited: boolean
+      createdBy: string | null
+      updatedBy: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["milkDelivery"]>
@@ -7601,6 +7681,7 @@ export namespace Prisma {
    */
   export interface Prisma__MilkDeliveryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    vendor<T extends VendorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorDefaultArgs<ExtArgs>>): Prisma__VendorClient<$Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7632,10 +7713,14 @@ export namespace Prisma {
    */
   interface MilkDeliveryFieldRefs {
     readonly id: FieldRef<"MilkDelivery", 'String'>
+    readonly vendorId: FieldRef<"MilkDelivery", 'String'>
     readonly customerId: FieldRef<"MilkDelivery", 'String'>
     readonly date: FieldRef<"MilkDelivery", 'DateTime'>
     readonly morningQuantity: FieldRef<"MilkDelivery", 'Decimal'>
     readonly eveningQuantity: FieldRef<"MilkDelivery", 'Decimal'>
+    readonly isEdited: FieldRef<"MilkDelivery", 'Boolean'>
+    readonly createdBy: FieldRef<"MilkDelivery", 'String'>
+    readonly updatedBy: FieldRef<"MilkDelivery", 'String'>
     readonly createdAt: FieldRef<"MilkDelivery", 'DateTime'>
     readonly updatedAt: FieldRef<"MilkDelivery", 'DateTime'>
   }
@@ -11066,7 +11151,7 @@ export namespace Prisma {
     ratePerLiter: 'ratePerLiter',
     morningQuantity: 'morningQuantity',
     eveningQuantity: 'eveningQuantity',
-    date: 'date',
+    registrationDate: 'registrationDate',
     isActive: 'isActive',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
@@ -11079,10 +11164,14 @@ export namespace Prisma {
 
   export const MilkDeliveryScalarFieldEnum: {
     id: 'id',
+    vendorId: 'vendorId',
     customerId: 'customerId',
     date: 'date',
     morningQuantity: 'morningQuantity',
     eveningQuantity: 'eveningQuantity',
+    isEdited: 'isEdited',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11217,7 +11306,10 @@ export namespace Prisma {
 
   export const MilkDeliveryOrderByRelevanceFieldEnum: {
     id: 'id',
-    customerId: 'customerId'
+    vendorId: 'vendorId',
+    customerId: 'customerId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy'
   };
 
   export type MilkDeliveryOrderByRelevanceFieldEnum = (typeof MilkDeliveryOrderByRelevanceFieldEnum)[keyof typeof MilkDeliveryOrderByRelevanceFieldEnum]
@@ -11506,6 +11598,7 @@ export namespace Prisma {
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     customers?: CustomerListRelationFilter
+    milkDeliveries?: MilkDeliveryListRelationFilter
   }
 
   export type VendorOrderByWithRelationInput = {
@@ -11530,6 +11623,7 @@ export namespace Prisma {
     company?: CompanyOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     customers?: CustomerOrderByRelationAggregateInput
+    milkDeliveries?: MilkDeliveryOrderByRelationAggregateInput
     _relevance?: VendorOrderByRelevanceInput
   }
 
@@ -11558,6 +11652,7 @@ export namespace Prisma {
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     customers?: CustomerListRelationFilter
+    milkDeliveries?: MilkDeliveryListRelationFilter
   }, "id" | "userId" | "mobileNumber">
 
   export type VendorOrderByWithAggregationInput = {
@@ -11692,7 +11787,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFilter<"Customer"> | Date | string
+    registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
     createdBy?: StringNullableFilter<"Customer"> | string | null
     updatedBy?: StringNullableFilter<"Customer"> | string | null
@@ -11714,7 +11809,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    date?: SortOrder
+    registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrderInput | SortOrder
     updatedBy?: SortOrderInput | SortOrder
@@ -11740,7 +11835,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFilter<"Customer"> | Date | string
+    registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
     createdBy?: StringNullableFilter<"Customer"> | string | null
     updatedBy?: StringNullableFilter<"Customer"> | string | null
@@ -11762,7 +11857,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    date?: SortOrder
+    registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrderInput | SortOrder
     updatedBy?: SortOrderInput | SortOrder
@@ -11788,7 +11883,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    date?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
+    registrationDate?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
     isActive?: BoolWithAggregatesFilter<"Customer"> | boolean
     createdBy?: StringNullableWithAggregatesFilter<"Customer"> | string | null
     updatedBy?: StringNullableWithAggregatesFilter<"Customer"> | string | null
@@ -11801,47 +11896,67 @@ export namespace Prisma {
     OR?: MilkDeliveryWhereInput[]
     NOT?: MilkDeliveryWhereInput | MilkDeliveryWhereInput[]
     id?: StringFilter<"MilkDelivery"> | string
+    vendorId?: StringFilter<"MilkDelivery"> | string
     customerId?: StringFilter<"MilkDelivery"> | string
     date?: DateTimeFilter<"MilkDelivery"> | Date | string
     morningQuantity?: DecimalFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFilter<"MilkDelivery"> | boolean
+    createdBy?: StringNullableFilter<"MilkDelivery"> | string | null
+    updatedBy?: StringNullableFilter<"MilkDelivery"> | string | null
     createdAt?: DateTimeFilter<"MilkDelivery"> | Date | string
     updatedAt?: DateTimeFilter<"MilkDelivery"> | Date | string
+    vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }
 
   export type MilkDeliveryOrderByWithRelationInput = {
     id?: SortOrder
+    vendorId?: SortOrder
     customerId?: SortOrder
     date?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    isEdited?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    vendor?: VendorOrderByWithRelationInput
     customer?: CustomerOrderByWithRelationInput
     _relevance?: MilkDeliveryOrderByRelevanceInput
   }
 
   export type MilkDeliveryWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    customerId_date?: MilkDeliveryCustomerIdDateCompoundUniqueInput
     AND?: MilkDeliveryWhereInput | MilkDeliveryWhereInput[]
     OR?: MilkDeliveryWhereInput[]
     NOT?: MilkDeliveryWhereInput | MilkDeliveryWhereInput[]
+    vendorId?: StringFilter<"MilkDelivery"> | string
     customerId?: StringFilter<"MilkDelivery"> | string
     date?: DateTimeFilter<"MilkDelivery"> | Date | string
     morningQuantity?: DecimalFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFilter<"MilkDelivery"> | boolean
+    createdBy?: StringNullableFilter<"MilkDelivery"> | string | null
+    updatedBy?: StringNullableFilter<"MilkDelivery"> | string | null
     createdAt?: DateTimeFilter<"MilkDelivery"> | Date | string
     updatedAt?: DateTimeFilter<"MilkDelivery"> | Date | string
+    vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
-  }, "id">
+  }, "id" | "customerId_date">
 
   export type MilkDeliveryOrderByWithAggregationInput = {
     id?: SortOrder
+    vendorId?: SortOrder
     customerId?: SortOrder
     date?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    isEdited?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: MilkDeliveryCountOrderByAggregateInput
@@ -11856,10 +11971,14 @@ export namespace Prisma {
     OR?: MilkDeliveryScalarWhereWithAggregatesInput[]
     NOT?: MilkDeliveryScalarWhereWithAggregatesInput | MilkDeliveryScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"MilkDelivery"> | string
+    vendorId?: StringWithAggregatesFilter<"MilkDelivery"> | string
     customerId?: StringWithAggregatesFilter<"MilkDelivery"> | string
     date?: DateTimeWithAggregatesFilter<"MilkDelivery"> | Date | string
     morningQuantity?: DecimalWithAggregatesFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalWithAggregatesFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolWithAggregatesFilter<"MilkDelivery"> | boolean
+    createdBy?: StringNullableWithAggregatesFilter<"MilkDelivery"> | string | null
+    updatedBy?: StringNullableWithAggregatesFilter<"MilkDelivery"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"MilkDelivery"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MilkDelivery"> | Date | string
   }
@@ -12282,6 +12401,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutVendorsInput
     user?: UserCreateNestedOneWithoutVendorInput
     customers?: CustomerCreateNestedManyWithoutVendorInput
+    milkDeliveries?: MilkDeliveryCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUncheckedCreateInput = {
@@ -12304,6 +12424,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customers?: CustomerUncheckedCreateNestedManyWithoutVendorInput
+    milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUpdateInput = {
@@ -12326,6 +12447,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutVendorsNestedInput
     user?: UserUpdateOneWithoutVendorNestedInput
     customers?: CustomerUpdateManyWithoutVendorNestedInput
+    milkDeliveries?: MilkDeliveryUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateInput = {
@@ -12348,6 +12470,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customers?: CustomerUncheckedUpdateManyWithoutVendorNestedInput
+    milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorCreateManyInput = {
@@ -12500,7 +12623,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -12522,7 +12645,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -12540,7 +12663,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12562,7 +12685,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12582,7 +12705,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -12598,7 +12721,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12616,7 +12739,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12629,17 +12752,25 @@ export namespace Prisma {
     date: Date | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    vendor: VendorCreateNestedOneWithoutMilkDeliveriesInput
     customer: CustomerCreateNestedOneWithoutMilkDeliveriesInput
   }
 
   export type MilkDeliveryUncheckedCreateInput = {
     id?: string
+    vendorId: string
     customerId: string
     date: Date | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12649,27 +12780,39 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorUpdateOneRequiredWithoutMilkDeliveriesNestedInput
     customer?: CustomerUpdateOneRequiredWithoutMilkDeliveriesNestedInput
   }
 
   export type MilkDeliveryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
     customerId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MilkDeliveryCreateManyInput = {
     id?: string
+    vendorId: string
     customerId: string
     date: Date | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12679,16 +12822,23 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MilkDeliveryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
     customerId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13188,7 +13338,17 @@ export namespace Prisma {
     none?: CustomerWhereInput
   }
 
+  export type MilkDeliveryListRelationFilter = {
+    every?: MilkDeliveryWhereInput
+    some?: MilkDeliveryWhereInput
+    none?: MilkDeliveryWhereInput
+  }
+
   export type CustomerOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MilkDeliveryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13345,20 +13505,10 @@ export namespace Prisma {
     isNot?: AreaWhereInput
   }
 
-  export type MilkDeliveryListRelationFilter = {
-    every?: MilkDeliveryWhereInput
-    some?: MilkDeliveryWhereInput
-    none?: MilkDeliveryWhereInput
-  }
-
   export type PaymentListRelationFilter = {
     every?: PaymentWhereInput
     some?: PaymentWhereInput
     none?: PaymentWhereInput
-  }
-
-  export type MilkDeliveryOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type PaymentOrderByRelationAggregateInput = {
@@ -13381,7 +13531,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    date?: SortOrder
+    registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -13405,7 +13555,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    date?: SortOrder
+    registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -13423,7 +13573,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    date?: SortOrder
+    registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -13464,12 +13614,21 @@ export namespace Prisma {
     search: string
   }
 
+  export type MilkDeliveryCustomerIdDateCompoundUniqueInput = {
+    customerId: string
+    date: Date | string
+  }
+
   export type MilkDeliveryCountOrderByAggregateInput = {
     id?: SortOrder
+    vendorId?: SortOrder
     customerId?: SortOrder
     date?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    isEdited?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13481,20 +13640,28 @@ export namespace Prisma {
 
   export type MilkDeliveryMaxOrderByAggregateInput = {
     id?: SortOrder
+    vendorId?: SortOrder
     customerId?: SortOrder
     date?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    isEdited?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type MilkDeliveryMinOrderByAggregateInput = {
     id?: SortOrder
+    vendorId?: SortOrder
     customerId?: SortOrder
     date?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    isEdited?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13805,11 +13972,25 @@ export namespace Prisma {
     connect?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
   }
 
+  export type MilkDeliveryCreateNestedManyWithoutVendorInput = {
+    create?: XOR<MilkDeliveryCreateWithoutVendorInput, MilkDeliveryUncheckedCreateWithoutVendorInput> | MilkDeliveryCreateWithoutVendorInput[] | MilkDeliveryUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: MilkDeliveryCreateOrConnectWithoutVendorInput | MilkDeliveryCreateOrConnectWithoutVendorInput[]
+    createMany?: MilkDeliveryCreateManyVendorInputEnvelope
+    connect?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+  }
+
   export type CustomerUncheckedCreateNestedManyWithoutVendorInput = {
     create?: XOR<CustomerCreateWithoutVendorInput, CustomerUncheckedCreateWithoutVendorInput> | CustomerCreateWithoutVendorInput[] | CustomerUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: CustomerCreateOrConnectWithoutVendorInput | CustomerCreateOrConnectWithoutVendorInput[]
     createMany?: CustomerCreateManyVendorInputEnvelope
     connect?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+  }
+
+  export type MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput = {
+    create?: XOR<MilkDeliveryCreateWithoutVendorInput, MilkDeliveryUncheckedCreateWithoutVendorInput> | MilkDeliveryCreateWithoutVendorInput[] | MilkDeliveryUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: MilkDeliveryCreateOrConnectWithoutVendorInput | MilkDeliveryCreateOrConnectWithoutVendorInput[]
+    createMany?: MilkDeliveryCreateManyVendorInputEnvelope
+    connect?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -13852,6 +14033,20 @@ export namespace Prisma {
     deleteMany?: CustomerScalarWhereInput | CustomerScalarWhereInput[]
   }
 
+  export type MilkDeliveryUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<MilkDeliveryCreateWithoutVendorInput, MilkDeliveryUncheckedCreateWithoutVendorInput> | MilkDeliveryCreateWithoutVendorInput[] | MilkDeliveryUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: MilkDeliveryCreateOrConnectWithoutVendorInput | MilkDeliveryCreateOrConnectWithoutVendorInput[]
+    upsert?: MilkDeliveryUpsertWithWhereUniqueWithoutVendorInput | MilkDeliveryUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: MilkDeliveryCreateManyVendorInputEnvelope
+    set?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+    disconnect?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+    delete?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+    connect?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+    update?: MilkDeliveryUpdateWithWhereUniqueWithoutVendorInput | MilkDeliveryUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: MilkDeliveryUpdateManyWithWhereWithoutVendorInput | MilkDeliveryUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: MilkDeliveryScalarWhereInput | MilkDeliveryScalarWhereInput[]
+  }
+
   export type CustomerUncheckedUpdateManyWithoutVendorNestedInput = {
     create?: XOR<CustomerCreateWithoutVendorInput, CustomerUncheckedCreateWithoutVendorInput> | CustomerCreateWithoutVendorInput[] | CustomerUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: CustomerCreateOrConnectWithoutVendorInput | CustomerCreateOrConnectWithoutVendorInput[]
@@ -13864,6 +14059,20 @@ export namespace Prisma {
     update?: CustomerUpdateWithWhereUniqueWithoutVendorInput | CustomerUpdateWithWhereUniqueWithoutVendorInput[]
     updateMany?: CustomerUpdateManyWithWhereWithoutVendorInput | CustomerUpdateManyWithWhereWithoutVendorInput[]
     deleteMany?: CustomerScalarWhereInput | CustomerScalarWhereInput[]
+  }
+
+  export type MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<MilkDeliveryCreateWithoutVendorInput, MilkDeliveryUncheckedCreateWithoutVendorInput> | MilkDeliveryCreateWithoutVendorInput[] | MilkDeliveryUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: MilkDeliveryCreateOrConnectWithoutVendorInput | MilkDeliveryCreateOrConnectWithoutVendorInput[]
+    upsert?: MilkDeliveryUpsertWithWhereUniqueWithoutVendorInput | MilkDeliveryUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: MilkDeliveryCreateManyVendorInputEnvelope
+    set?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+    disconnect?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+    delete?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+    connect?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+    update?: MilkDeliveryUpdateWithWhereUniqueWithoutVendorInput | MilkDeliveryUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: MilkDeliveryUpdateManyWithWhereWithoutVendorInput | MilkDeliveryUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: MilkDeliveryScalarWhereInput | MilkDeliveryScalarWhereInput[]
   }
 
   export type CustomerCreateNestedManyWithoutAreaInput = {
@@ -14028,10 +14237,24 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type VendorCreateNestedOneWithoutMilkDeliveriesInput = {
+    create?: XOR<VendorCreateWithoutMilkDeliveriesInput, VendorUncheckedCreateWithoutMilkDeliveriesInput>
+    connectOrCreate?: VendorCreateOrConnectWithoutMilkDeliveriesInput
+    connect?: VendorWhereUniqueInput
+  }
+
   export type CustomerCreateNestedOneWithoutMilkDeliveriesInput = {
     create?: XOR<CustomerCreateWithoutMilkDeliveriesInput, CustomerUncheckedCreateWithoutMilkDeliveriesInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutMilkDeliveriesInput
     connect?: CustomerWhereUniqueInput
+  }
+
+  export type VendorUpdateOneRequiredWithoutMilkDeliveriesNestedInput = {
+    create?: XOR<VendorCreateWithoutMilkDeliveriesInput, VendorUncheckedCreateWithoutMilkDeliveriesInput>
+    connectOrCreate?: VendorCreateOrConnectWithoutMilkDeliveriesInput
+    upsert?: VendorUpsertWithoutMilkDeliveriesInput
+    connect?: VendorWhereUniqueInput
+    update?: XOR<XOR<VendorUpdateToOneWithWhereWithoutMilkDeliveriesInput, VendorUpdateWithoutMilkDeliveriesInput>, VendorUncheckedUpdateWithoutMilkDeliveriesInput>
   }
 
   export type CustomerUpdateOneRequiredWithoutMilkDeliveriesNestedInput = {
@@ -14399,6 +14622,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutVendorsInput
     customers?: CustomerCreateNestedManyWithoutVendorInput
+    milkDeliveries?: MilkDeliveryCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUncheckedCreateWithoutUserInput = {
@@ -14420,6 +14644,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customers?: CustomerUncheckedCreateNestedManyWithoutVendorInput
+    milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorCreateOrConnectWithoutUserInput = {
@@ -14457,6 +14682,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutVendorsNestedInput
     customers?: CustomerUpdateManyWithoutVendorNestedInput
+    milkDeliveries?: MilkDeliveryUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateWithoutUserInput = {
@@ -14478,6 +14704,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customers?: CustomerUncheckedUpdateManyWithoutVendorNestedInput
+    milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorCreateWithoutCompanyInput = {
@@ -14499,6 +14726,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutVendorInput
     customers?: CustomerCreateNestedManyWithoutVendorInput
+    milkDeliveries?: MilkDeliveryCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUncheckedCreateWithoutCompanyInput = {
@@ -14520,6 +14748,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customers?: CustomerUncheckedCreateNestedManyWithoutVendorInput
+    milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorCreateOrConnectWithoutCompanyInput = {
@@ -14640,7 +14869,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -14660,7 +14889,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -14677,6 +14906,42 @@ export namespace Prisma {
 
   export type CustomerCreateManyVendorInputEnvelope = {
     data: CustomerCreateManyVendorInput | CustomerCreateManyVendorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MilkDeliveryCreateWithoutVendorInput = {
+    id?: string
+    date: Date | string
+    morningQuantity?: Decimal | DecimalJsLike | number | string
+    eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutMilkDeliveriesInput
+  }
+
+  export type MilkDeliveryUncheckedCreateWithoutVendorInput = {
+    id?: string
+    customerId: string
+    date: Date | string
+    morningQuantity?: Decimal | DecimalJsLike | number | string
+    eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MilkDeliveryCreateOrConnectWithoutVendorInput = {
+    where: MilkDeliveryWhereUniqueInput
+    create: XOR<MilkDeliveryCreateWithoutVendorInput, MilkDeliveryUncheckedCreateWithoutVendorInput>
+  }
+
+  export type MilkDeliveryCreateManyVendorInputEnvelope = {
+    data: MilkDeliveryCreateManyVendorInput | MilkDeliveryCreateManyVendorInput[]
     skipDuplicates?: boolean
   }
 
@@ -14781,12 +15046,45 @@ export namespace Prisma {
     ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFilter<"Customer"> | Date | string
+    registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
     createdBy?: StringNullableFilter<"Customer"> | string | null
     updatedBy?: StringNullableFilter<"Customer"> | string | null
     createdAt?: DateTimeFilter<"Customer"> | Date | string
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
+  }
+
+  export type MilkDeliveryUpsertWithWhereUniqueWithoutVendorInput = {
+    where: MilkDeliveryWhereUniqueInput
+    update: XOR<MilkDeliveryUpdateWithoutVendorInput, MilkDeliveryUncheckedUpdateWithoutVendorInput>
+    create: XOR<MilkDeliveryCreateWithoutVendorInput, MilkDeliveryUncheckedCreateWithoutVendorInput>
+  }
+
+  export type MilkDeliveryUpdateWithWhereUniqueWithoutVendorInput = {
+    where: MilkDeliveryWhereUniqueInput
+    data: XOR<MilkDeliveryUpdateWithoutVendorInput, MilkDeliveryUncheckedUpdateWithoutVendorInput>
+  }
+
+  export type MilkDeliveryUpdateManyWithWhereWithoutVendorInput = {
+    where: MilkDeliveryScalarWhereInput
+    data: XOR<MilkDeliveryUpdateManyMutationInput, MilkDeliveryUncheckedUpdateManyWithoutVendorInput>
+  }
+
+  export type MilkDeliveryScalarWhereInput = {
+    AND?: MilkDeliveryScalarWhereInput | MilkDeliveryScalarWhereInput[]
+    OR?: MilkDeliveryScalarWhereInput[]
+    NOT?: MilkDeliveryScalarWhereInput | MilkDeliveryScalarWhereInput[]
+    id?: StringFilter<"MilkDelivery"> | string
+    vendorId?: StringFilter<"MilkDelivery"> | string
+    customerId?: StringFilter<"MilkDelivery"> | string
+    date?: DateTimeFilter<"MilkDelivery"> | Date | string
+    morningQuantity?: DecimalFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFilter<"MilkDelivery"> | boolean
+    createdBy?: StringNullableFilter<"MilkDelivery"> | string | null
+    updatedBy?: StringNullableFilter<"MilkDelivery"> | string | null
+    createdAt?: DateTimeFilter<"MilkDelivery"> | Date | string
+    updatedAt?: DateTimeFilter<"MilkDelivery"> | Date | string
   }
 
   export type CustomerCreateWithoutAreaInput = {
@@ -14797,7 +15095,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -14817,7 +15115,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -14872,6 +15170,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutVendorsInput
     user?: UserCreateNestedOneWithoutVendorInput
+    milkDeliveries?: MilkDeliveryCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUncheckedCreateWithoutCustomersInput = {
@@ -14893,6 +15192,7 @@ export namespace Prisma {
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorCreateOrConnectWithoutCustomersInput = {
@@ -14932,15 +15232,23 @@ export namespace Prisma {
     date: Date | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    vendor: VendorCreateNestedOneWithoutMilkDeliveriesInput
   }
 
   export type MilkDeliveryUncheckedCreateWithoutCustomerInput = {
     id?: string
+    vendorId: string
     date: Date | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15023,6 +15331,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutVendorsNestedInput
     user?: UserUpdateOneWithoutVendorNestedInput
+    milkDeliveries?: MilkDeliveryUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateWithoutCustomersInput = {
@@ -15044,6 +15353,7 @@ export namespace Prisma {
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type AreaUpsertWithoutCustomersInput = {
@@ -15095,19 +15405,6 @@ export namespace Prisma {
     data: XOR<MilkDeliveryUpdateManyMutationInput, MilkDeliveryUncheckedUpdateManyWithoutCustomerInput>
   }
 
-  export type MilkDeliveryScalarWhereInput = {
-    AND?: MilkDeliveryScalarWhereInput | MilkDeliveryScalarWhereInput[]
-    OR?: MilkDeliveryScalarWhereInput[]
-    NOT?: MilkDeliveryScalarWhereInput | MilkDeliveryScalarWhereInput[]
-    id?: StringFilter<"MilkDelivery"> | string
-    customerId?: StringFilter<"MilkDelivery"> | string
-    date?: DateTimeFilter<"MilkDelivery"> | Date | string
-    morningQuantity?: DecimalFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFilter<"MilkDelivery"> | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFilter<"MilkDelivery"> | Date | string
-    updatedAt?: DateTimeFilter<"MilkDelivery"> | Date | string
-  }
-
   export type PaymentUpsertWithWhereUniqueWithoutCustomerInput = {
     where: PaymentWhereUniqueInput
     update: XOR<PaymentUpdateWithoutCustomerInput, PaymentUncheckedUpdateWithoutCustomerInput>
@@ -15142,6 +15439,55 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
   }
 
+  export type VendorCreateWithoutMilkDeliveriesInput = {
+    id?: string
+    name: string
+    phone?: string | null
+    mobileNumber?: string | null
+    email?: string | null
+    area?: string | null
+    address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutVendorsInput
+    user?: UserCreateNestedOneWithoutVendorInput
+    customers?: CustomerCreateNestedManyWithoutVendorInput
+  }
+
+  export type VendorUncheckedCreateWithoutMilkDeliveriesInput = {
+    id?: string
+    companyId: string
+    userId?: string | null
+    name: string
+    phone?: string | null
+    mobileNumber?: string | null
+    email?: string | null
+    area?: string | null
+    address?: string | null
+    registrationDate?: Date | string | null
+    billingStartDate?: Date | string | null
+    status?: $Enums.VendorStatus
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customers?: CustomerUncheckedCreateNestedManyWithoutVendorInput
+  }
+
+  export type VendorCreateOrConnectWithoutMilkDeliveriesInput = {
+    where: VendorWhereUniqueInput
+    create: XOR<VendorCreateWithoutMilkDeliveriesInput, VendorUncheckedCreateWithoutMilkDeliveriesInput>
+  }
+
   export type CustomerCreateWithoutMilkDeliveriesInput = {
     id?: string
     name: string
@@ -15150,7 +15496,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -15171,7 +15517,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -15183,6 +15529,61 @@ export namespace Prisma {
   export type CustomerCreateOrConnectWithoutMilkDeliveriesInput = {
     where: CustomerWhereUniqueInput
     create: XOR<CustomerCreateWithoutMilkDeliveriesInput, CustomerUncheckedCreateWithoutMilkDeliveriesInput>
+  }
+
+  export type VendorUpsertWithoutMilkDeliveriesInput = {
+    update: XOR<VendorUpdateWithoutMilkDeliveriesInput, VendorUncheckedUpdateWithoutMilkDeliveriesInput>
+    create: XOR<VendorCreateWithoutMilkDeliveriesInput, VendorUncheckedCreateWithoutMilkDeliveriesInput>
+    where?: VendorWhereInput
+  }
+
+  export type VendorUpdateToOneWithWhereWithoutMilkDeliveriesInput = {
+    where?: VendorWhereInput
+    data: XOR<VendorUpdateWithoutMilkDeliveriesInput, VendorUncheckedUpdateWithoutMilkDeliveriesInput>
+  }
+
+  export type VendorUpdateWithoutMilkDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutVendorsNestedInput
+    user?: UserUpdateOneWithoutVendorNestedInput
+    customers?: CustomerUpdateManyWithoutVendorNestedInput
+  }
+
+  export type VendorUncheckedUpdateWithoutMilkDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customers?: CustomerUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type CustomerUpsertWithoutMilkDeliveriesInput = {
@@ -15204,7 +15605,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15225,7 +15626,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15242,7 +15643,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -15263,7 +15664,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -15296,7 +15697,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15317,7 +15718,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15470,6 +15871,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutVendorNestedInput
     customers?: CustomerUpdateManyWithoutVendorNestedInput
+    milkDeliveries?: MilkDeliveryUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateWithoutCompanyInput = {
@@ -15491,6 +15893,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customers?: CustomerUncheckedUpdateManyWithoutVendorNestedInput
+    milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateManyWithoutCompanyInput = {
@@ -15522,8 +15925,21 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MilkDeliveryCreateManyVendorInput = {
+    id?: string
+    customerId: string
+    date: Date | string
+    morningQuantity?: Decimal | DecimalJsLike | number | string
+    eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
     createdBy?: string | null
     updatedBy?: string | null
     createdAt?: Date | string
@@ -15538,7 +15954,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15558,7 +15974,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15577,8 +15993,47 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MilkDeliveryUpdateWithoutVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutMilkDeliveriesNestedInput
+  }
+
+  export type MilkDeliveryUncheckedUpdateWithoutVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MilkDeliveryUncheckedUpdateManyWithoutVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15594,7 +16049,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
-    date?: Date | string
+    registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -15610,7 +16065,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15630,7 +16085,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15649,7 +16104,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15659,9 +16114,13 @@ export namespace Prisma {
 
   export type MilkDeliveryCreateManyCustomerInput = {
     id?: string
+    vendorId: string
     date: Date | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15685,24 +16144,36 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorUpdateOneRequiredWithoutMilkDeliveriesNestedInput
   }
 
   export type MilkDeliveryUncheckedUpdateWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MilkDeliveryUncheckedUpdateManyWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

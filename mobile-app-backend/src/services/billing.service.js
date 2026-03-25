@@ -1,7 +1,9 @@
 const billingRepo = require('../repositories/billing.repository');
+const prisma = require('../config/prisma');
+const { calculateCustomerMonthlyTotals } = require('./billing.calculator');
 
 /**
- * Fetch billing summary and per-customer breakdown for a given month/year.
+ * Fetch billing summary and per-customer breakdown for a given month/year natively cleanly routing to the dynamic JS calculator.
  *
  * @param {Object} params
  * @param {number} params.month       - 1..12
@@ -12,47 +14,73 @@ const billingRepo = require('../repositories/billing.repository');
 const getBilling = async ({ month, year, filterType, vendorId }) => {
   console.log(`[Billing] Fetching billing data month=${month} year=${year} filterType=${filterType}`);
 
-  // --- Step 1: Fetch aggregated raw data from DB (single query) ---
-  const rawRows = vendorId
-    ? await billingRepo.getAggregatedBillingDataByVendor(month, year, vendorId)
-    : await billingRepo.getAggregatedBillingData(month, year);
+  // 1. Fetch all eligible Customer boundaries natively 
+  const customerWhere = { isActive: true };
+  if (vendorId) customerWhere.vendorId = vendorId;
 
-  // --- Step 2: Compute derived fields per customer ---
-  const customers = rawRows.map((row) => {
-    const ratePerLiter   = parseFloat(row.ratePerLiter)     || 0;
-    const totalMilk      = parseFloat(row.totalMilkDelivered) || 0;
-    const paymentPaid    = parseFloat(row.paymentPaid)       || 0;
-    const totalDays      = Number(row.totalDaysMilkTaken)    || 0;
-
-    const totalAmount       = parseFloat((totalMilk * ratePerLiter).toFixed(2));
-    const remainingPayment  = parseFloat((totalAmount - paymentPaid).toFixed(2));
-    const paymentStatus     = remainingPayment <= 0 ? 'PAID' : 'UNPAID';
-
-    return {
-      customerId:         row.customerId,
-      name:               row.name,
-      address:            row.address,
-      totalDaysMilkTaken: totalDays,
-      totalMilkDelivered: parseFloat(totalMilk.toFixed(2)),
-      ratePerLiter,
-      totalAmount,
-      paymentPaid:        parseFloat(paymentPaid.toFixed(2)),
-      remainingPayment:   Math.max(0, remainingPayment), // clamp negative to 0
-      paymentStatus,
-    };
+  const rawCustomers = await prisma.customer.findMany({
+    where: customerWhere,
   });
 
-  // --- Step 3: Apply filterType ---
-  const filtered = filterType === 'ALL'
-    ? customers
-    : customers.filter((c) => c.paymentStatus === filterType);
+  if (rawCustomers.length === 0) {
+    return _buildEmptyBillingOutput(month, year);
+  }
 
-  // --- Step 4: Build summary from ALL customers (before filter) ---
-  const totalEarning          = customers.reduce((s, c) => s + c.totalAmount,      0);
-  const totalPaymentPaid      = customers.reduce((s, c) => s + c.paymentPaid,      0);
-  const totalRemainingPayment = customers.reduce((s, c) => s + c.remainingPayment, 0);
-  const paidCustomersCount    = customers.filter((c) => c.paymentStatus === 'PAID').length;
-  const unpaidCustomersCount  = customers.filter((c) => c.paymentStatus === 'UNPAID').length;
+  const customerIds = rawCustomers.map(c => c.id);
+
+  // 2. Fetch Deliveries & Payments securely bound
+  const [deliveries, payments] = await Promise.all([
+    prisma.milkDelivery.findMany({
+      where: {
+        customerId: { in: customerIds },
+        date: {
+          gte: new Date(Date.UTC(year, month - 1, 1)),
+          lte: new Date(Date.UTC(year, month, 0)),
+        }
+      }
+    }),
+    prisma.payment.findMany({
+      where: {
+        customerId: { in: customerIds },
+        month,
+        year,
+      }
+    })
+  ]);
+
+  // Map into hash maps minimizing O(N) overlaps cleanly
+  const deliveryMap = {};
+  const paymentMap = {};
+  customerIds.forEach(id => {
+    deliveryMap[id] = [];
+    paymentMap[id] = [];
+  });
+  
+  deliveries.forEach(d => deliveryMap[d.customerId].push(d));
+  payments.forEach(p => paymentMap[p.customerId].push(p));
+
+  // 3. Compute derived arrays
+  const customersInfo = rawCustomers.map(customer => {
+    return calculateCustomerMonthlyTotals({
+      customer,
+      month,
+      year,
+      deliveries: deliveryMap[customer.id],
+      payments: paymentMap[customer.id]
+    });
+  });
+
+  // 4. Apply filter mappings cleanly
+  const filtered = filterType === 'ALL'
+    ? customersInfo
+    : customersInfo.filter((c) => c.paymentStatus === filterType);
+
+  // 5. Accumulate sum totals natively globally matching metrics correctly
+  const totalEarning          = customersInfo.reduce((s, c) => s + c.totalAmount,      0);
+  const totalPaymentPaid      = customersInfo.reduce((s, c) => s + c.paymentPaid,      0);
+  const totalRemainingPayment = customersInfo.reduce((s, c) => s + c.remainingPayment, 0);
+  const paidCustomersCount    = customersInfo.filter((c) => c.paymentStatus === 'PAID').length;
+  const unpaidCustomersCount  = customersInfo.filter((c) => c.paymentStatus === 'UNPAID').length;
 
   return {
     month,
@@ -61,7 +89,7 @@ const getBilling = async ({ month, year, filterType, vendorId }) => {
       totalEarning:          parseFloat(totalEarning.toFixed(2)),
       totalPaymentPaid:      parseFloat(totalPaymentPaid.toFixed(2)),
       totalRemainingPayment: parseFloat(totalRemainingPayment.toFixed(2)),
-      totalCustomers:        customers.length,
+      totalCustomers:        customersInfo.length,
       paidCustomersCount,
       unpaidCustomersCount,
     },
@@ -69,20 +97,26 @@ const getBilling = async ({ month, year, filterType, vendorId }) => {
   };
 };
 
+const _buildEmptyBillingOutput = (month, year) => ({
+  month,
+  year,
+  summary: {
+    totalEarning: 0,
+    totalPaymentPaid: 0,
+    totalRemainingPayment: 0,
+    totalCustomers: 0,
+    paidCustomersCount: 0,
+    unpaidCustomersCount: 0,
+  },
+  customers: [],
+});
+
 module.exports = { getBilling };
 
 // ─── Payment Service Methods ──────────────────────────────────────────────────
 
-const prisma = require('../config/prisma');
-
 /**
- * Record a new payment and return an up-to-date billing snapshot.
- *
- * Steps:
- *  1. Validate the customer exists
- *  2. Insert payment record
- *  3. Re-fetch billing totals from DB (single aggregate query)
- *  4. Compute derived fields and paymentStatus
+ * Record a new payment dynamically mapping single calculations accurately isolating SQL.
  */
 const recordPayment = async (data, userId) => {
   console.log(`[Billing] Recording payment for customerId=${data.customerId} month=${data.month} year=${data.year}`);
@@ -108,34 +142,38 @@ const recordPayment = async (data, userId) => {
     updatedBy:   userId,
   });
 
-  // Step 3 — Re-fetch aggregated billing totals (includes the new payment)
-  const totals = await billingRepo.getCustomerMonthBillingTotals(
-    data.customerId,
-    data.month,
-    data.year,
-  );
+  // Step 3 — Generate calculation natively mapping bounded queries bypassing old cached SQL queries explicitly
+  const [deliveries, payments] = await Promise.all([
+    prisma.milkDelivery.findMany({
+      where: {
+        customerId: data.customerId,
+        date: {
+          gte: new Date(Date.UTC(data.year, data.month - 1, 1)),
+          lte: new Date(Date.UTC(data.year, data.month, 0)),
+        }
+      }
+    }),
+    prisma.payment.findMany({
+      where: { customerId: data.customerId, month: data.month, year: data.year }
+    })
+  ]);
 
-  const ratePerLiter       = parseFloat(totals?.ratePerLiter)       || 0;
-  const totalMilkDelivered = parseFloat(totals?.totalMilkDelivered) || 0;
-  const totalPaid          = parseFloat(totals?.totalPaid)          || 0;
-
-  // Step 4 — Derive billing summary
-  const totalAmount      = parseFloat((totalMilkDelivered * ratePerLiter).toFixed(2));
-  const remainingAmount  = parseFloat(Math.max(0, totalAmount - totalPaid).toFixed(2));
-
-  let paymentStatus;
-  if (totalPaid === 0)            paymentStatus = 'UNPAID';
-  else if (remainingAmount <= 0)  paymentStatus = 'PAID';
-  else                            paymentStatus = 'PARTIAL';
+  const calc = calculateCustomerMonthlyTotals({
+    customer,
+    month: data.month,
+    year: data.year,
+    deliveries,
+    payments
+  });
 
   return {
     customerId:    data.customerId,
     month:         data.month,
     year:          data.year,
-    totalAmount,
-    totalPaid:     parseFloat(totalPaid.toFixed(2)),
-    remainingAmount,
-    paymentStatus,
+    totalAmount:   calc.totalAmount,
+    totalPaid:     calc.paymentPaid,
+    remainingAmount: calc.remainingPayment,
+    paymentStatus: calc.paymentStatus,
   };
 };
 

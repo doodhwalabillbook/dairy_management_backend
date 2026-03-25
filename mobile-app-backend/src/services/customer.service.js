@@ -39,7 +39,7 @@ const createCustomer = async (data, userId) => {
     ratePerLiter: data.ratePerLiter,
     morningQuantity: data.morningQuantity ?? 0,
     eveningQuantity: data.eveningQuantity ?? 0,
-    date: new Date(data.date),
+    registrationDate: new Date(data.registrationDate),
     isActive: true,
     createdBy: userId,
     updatedBy: userId,
@@ -127,7 +127,7 @@ const updateCustomer = async (id, data, userId) => {
   const updatePayload = {
     ...data,
     updatedBy: userId,
-    ...(data.date ? { date: new Date(data.date) } : {}),
+    ...(data.registrationDate ? { registrationDate: new Date(data.registrationDate) } : {}),
   };
 
   return customerRepo.updateCustomer(id, updatePayload);

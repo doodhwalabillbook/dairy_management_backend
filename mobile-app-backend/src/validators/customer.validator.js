@@ -23,9 +23,9 @@ const createCustomerSchema = z.object({
     .number({ invalid_type_error: 'eveningQuantity must be a number' })
     .min(0, 'eveningQuantity must be non-negative')
     .default(0),
-  date: z
+  registrationDate: z
     .string()
-    .refine((val) => !isNaN(Date.parse(val)), { message: 'date must be a valid date string (YYYY-MM-DD)' }),
+    .refine((val) => !isNaN(Date.parse(val)), { message: 'registrationDate must be a valid date string (YYYY-MM-DD)' }),
 });
 
 /**

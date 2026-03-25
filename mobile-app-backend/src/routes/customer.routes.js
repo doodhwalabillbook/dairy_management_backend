@@ -36,7 +36,7 @@ router.use(authMiddleware);
  *               - phone
  *               - address
  *               - ratePerLiter
- *               - date
+ *               - registrationDate
  *             properties:
  *               vendorId:
  *                 type: string
@@ -69,7 +69,7 @@ router.use(authMiddleware);
  *                 format: float
  *                 default: 0
  *                 example: 1.0
- *               date:
+ *               registrationDate:
  *                 type: string
  *                 format: date
  *                 example: "2026-03-22"
@@ -229,7 +229,7 @@ router.get('/:id', controller.getCustomerById);
  *                 type: number
  *               eveningQuantity:
  *                 type: number
- *               date:
+ *               registrationDate:
  *                 type: string
  *                 format: date
  *               vendorId:
