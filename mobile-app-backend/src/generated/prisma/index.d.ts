@@ -29,6 +29,11 @@ export type Company = $Result.DefaultSelection<Prisma.$CompanyPayload>
  */
 export type Vendor = $Result.DefaultSelection<Prisma.$VendorPayload>
 /**
+ * Model Area
+ * 
+ */
+export type Area = $Result.DefaultSelection<Prisma.$AreaPayload>
+/**
  * Model Customer
  * 
  */
@@ -246,6 +251,16 @@ export class PrismaClient<
     * ```
     */
   get vendor(): Prisma.VendorDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.area`: Exposes CRUD operations for the **Area** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Areas
+    * const areas = await prisma.area.findMany()
+    * ```
+    */
+  get area(): Prisma.AreaDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.customer`: Exposes CRUD operations for the **Customer** model.
@@ -733,6 +748,7 @@ export namespace Prisma {
     User: 'User',
     Company: 'Company',
     Vendor: 'Vendor',
+    Area: 'Area',
     Customer: 'Customer',
     MilkDelivery: 'MilkDelivery',
     Payment: 'Payment',
@@ -753,7 +769,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "company" | "vendor" | "customer" | "milkDelivery" | "payment" | "productCategory" | "product"
+      modelProps: "user" | "company" | "vendor" | "area" | "customer" | "milkDelivery" | "payment" | "productCategory" | "product"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -952,6 +968,72 @@ export namespace Prisma {
           count: {
             args: Prisma.VendorCountArgs<ExtArgs>
             result: $Utils.Optional<VendorCountAggregateOutputType> | number
+          }
+        }
+      }
+      Area: {
+        payload: Prisma.$AreaPayload<ExtArgs>
+        fields: Prisma.AreaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AreaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AreaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaPayload>
+          }
+          findFirst: {
+            args: Prisma.AreaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AreaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaPayload>
+          }
+          findMany: {
+            args: Prisma.AreaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaPayload>[]
+          }
+          create: {
+            args: Prisma.AreaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaPayload>
+          }
+          createMany: {
+            args: Prisma.AreaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.AreaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaPayload>
+          }
+          update: {
+            args: Prisma.AreaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaPayload>
+          }
+          deleteMany: {
+            args: Prisma.AreaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AreaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AreaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaPayload>
+          }
+          aggregate: {
+            args: Prisma.AreaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateArea>
+          }
+          groupBy: {
+            args: Prisma.AreaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AreaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AreaCountArgs<ExtArgs>
+            result: $Utils.Optional<AreaCountAggregateOutputType> | number
           }
         }
       }
@@ -1396,6 +1478,7 @@ export namespace Prisma {
     user?: UserOmit
     company?: CompanyOmit
     vendor?: VendorOmit
+    area?: AreaOmit
     customer?: CustomerOmit
     milkDelivery?: MilkDeliveryOmit
     payment?: PaymentOmit
@@ -1534,6 +1617,37 @@ export namespace Prisma {
    * VendorCountOutputType without action
    */
   export type VendorCountOutputTypeCountCustomersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomerWhereInput
+  }
+
+
+  /**
+   * Count Type AreaCountOutputType
+   */
+
+  export type AreaCountOutputType = {
+    customers: number
+  }
+
+  export type AreaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customers?: boolean | AreaCountOutputTypeCountCustomersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AreaCountOutputType without action
+   */
+  export type AreaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaCountOutputType
+     */
+    select?: AreaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AreaCountOutputType without action
+   */
+  export type AreaCountOutputTypeCountCustomersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CustomerWhereInput
   }
 
@@ -3649,6 +3763,8 @@ export namespace Prisma {
     billingStartDate: Date | null
     status: $Enums.VendorStatus | null
     isActive: boolean | null
+    createdBy: string | null
+    updatedBy: string | null
     joinedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3668,6 +3784,8 @@ export namespace Prisma {
     billingStartDate: Date | null
     status: $Enums.VendorStatus | null
     isActive: boolean | null
+    createdBy: string | null
+    updatedBy: string | null
     joinedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3687,6 +3805,8 @@ export namespace Prisma {
     billingStartDate: number
     status: number
     isActive: number
+    createdBy: number
+    updatedBy: number
     joinedAt: number
     createdAt: number
     updatedAt: number
@@ -3708,6 +3828,8 @@ export namespace Prisma {
     billingStartDate?: true
     status?: true
     isActive?: true
+    createdBy?: true
+    updatedBy?: true
     joinedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -3727,6 +3849,8 @@ export namespace Prisma {
     billingStartDate?: true
     status?: true
     isActive?: true
+    createdBy?: true
+    updatedBy?: true
     joinedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -3746,6 +3870,8 @@ export namespace Prisma {
     billingStartDate?: true
     status?: true
     isActive?: true
+    createdBy?: true
+    updatedBy?: true
     joinedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -3838,6 +3964,8 @@ export namespace Prisma {
     billingStartDate: Date | null
     status: $Enums.VendorStatus
     isActive: boolean
+    createdBy: string | null
+    updatedBy: string | null
     joinedAt: Date
     createdAt: Date
     updatedAt: Date
@@ -3874,6 +4002,8 @@ export namespace Prisma {
     billingStartDate?: boolean
     status?: boolean
     isActive?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
     joinedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3899,12 +4029,14 @@ export namespace Prisma {
     billingStartDate?: boolean
     status?: boolean
     isActive?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
     joinedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type VendorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "userId" | "name" | "phone" | "mobileNumber" | "email" | "area" | "address" | "registrationDate" | "billingStartDate" | "status" | "isActive" | "joinedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["vendor"]>
+  export type VendorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "userId" | "name" | "phone" | "mobileNumber" | "email" | "area" | "address" | "registrationDate" | "billingStartDate" | "status" | "isActive" | "createdBy" | "updatedBy" | "joinedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["vendor"]>
   export type VendorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     user?: boolean | Vendor$userArgs<ExtArgs>
@@ -3933,6 +4065,8 @@ export namespace Prisma {
       billingStartDate: Date | null
       status: $Enums.VendorStatus
       isActive: boolean
+      createdBy: string | null
+      updatedBy: string | null
       joinedAt: Date
       createdAt: Date
       updatedAt: Date
@@ -4321,6 +4455,8 @@ export namespace Prisma {
     readonly billingStartDate: FieldRef<"Vendor", 'DateTime'>
     readonly status: FieldRef<"Vendor", 'VendorStatus'>
     readonly isActive: FieldRef<"Vendor", 'Boolean'>
+    readonly createdBy: FieldRef<"Vendor", 'String'>
+    readonly updatedBy: FieldRef<"Vendor", 'String'>
     readonly joinedAt: FieldRef<"Vendor", 'DateTime'>
     readonly createdAt: FieldRef<"Vendor", 'DateTime'>
     readonly updatedAt: FieldRef<"Vendor", 'DateTime'>
@@ -4734,6 +4870,999 @@ export namespace Prisma {
 
 
   /**
+   * Model Area
+   */
+
+  export type AggregateArea = {
+    _count: AreaCountAggregateOutputType | null
+    _min: AreaMinAggregateOutputType | null
+    _max: AreaMaxAggregateOutputType | null
+  }
+
+  export type AreaMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    status: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AreaMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    status: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AreaCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    status: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AreaMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    status?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AreaMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    status?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AreaCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    status?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AreaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Area to aggregate.
+     */
+    where?: AreaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Areas to fetch.
+     */
+    orderBy?: AreaOrderByWithRelationInput | AreaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AreaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Areas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Areas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Areas
+    **/
+    _count?: true | AreaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AreaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AreaMaxAggregateInputType
+  }
+
+  export type GetAreaAggregateType<T extends AreaAggregateArgs> = {
+        [P in keyof T & keyof AggregateArea]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateArea[P]>
+      : GetScalarType<T[P], AggregateArea[P]>
+  }
+
+
+
+
+  export type AreaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AreaWhereInput
+    orderBy?: AreaOrderByWithAggregationInput | AreaOrderByWithAggregationInput[]
+    by: AreaScalarFieldEnum[] | AreaScalarFieldEnum
+    having?: AreaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AreaCountAggregateInputType | true
+    _min?: AreaMinAggregateInputType
+    _max?: AreaMaxAggregateInputType
+  }
+
+  export type AreaGroupByOutputType = {
+    id: string
+    name: string
+    description: string | null
+    status: string
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AreaCountAggregateOutputType | null
+    _min: AreaMinAggregateOutputType | null
+    _max: AreaMaxAggregateOutputType | null
+  }
+
+  type GetAreaGroupByPayload<T extends AreaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AreaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AreaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AreaGroupByOutputType[P]>
+            : GetScalarType<T[P], AreaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AreaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    status?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customers?: boolean | Area$customersArgs<ExtArgs>
+    _count?: boolean | AreaCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["area"]>
+
+
+
+  export type AreaSelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    status?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AreaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "status" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["area"]>
+  export type AreaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customers?: boolean | Area$customersArgs<ExtArgs>
+    _count?: boolean | AreaCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $AreaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Area"
+    objects: {
+      customers: Prisma.$CustomerPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      description: string | null
+      status: string
+      createdBy: string | null
+      updatedBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["area"]>
+    composites: {}
+  }
+
+  type AreaGetPayload<S extends boolean | null | undefined | AreaDefaultArgs> = $Result.GetResult<Prisma.$AreaPayload, S>
+
+  type AreaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AreaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AreaCountAggregateInputType | true
+    }
+
+  export interface AreaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Area'], meta: { name: 'Area' } }
+    /**
+     * Find zero or one Area that matches the filter.
+     * @param {AreaFindUniqueArgs} args - Arguments to find a Area
+     * @example
+     * // Get one Area
+     * const area = await prisma.area.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AreaFindUniqueArgs>(args: SelectSubset<T, AreaFindUniqueArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Area that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AreaFindUniqueOrThrowArgs} args - Arguments to find a Area
+     * @example
+     * // Get one Area
+     * const area = await prisma.area.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AreaFindUniqueOrThrowArgs>(args: SelectSubset<T, AreaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Area that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaFindFirstArgs} args - Arguments to find a Area
+     * @example
+     * // Get one Area
+     * const area = await prisma.area.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AreaFindFirstArgs>(args?: SelectSubset<T, AreaFindFirstArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Area that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaFindFirstOrThrowArgs} args - Arguments to find a Area
+     * @example
+     * // Get one Area
+     * const area = await prisma.area.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AreaFindFirstOrThrowArgs>(args?: SelectSubset<T, AreaFindFirstOrThrowArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Areas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Areas
+     * const areas = await prisma.area.findMany()
+     * 
+     * // Get first 10 Areas
+     * const areas = await prisma.area.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const areaWithIdOnly = await prisma.area.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AreaFindManyArgs>(args?: SelectSubset<T, AreaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Area.
+     * @param {AreaCreateArgs} args - Arguments to create a Area.
+     * @example
+     * // Create one Area
+     * const Area = await prisma.area.create({
+     *   data: {
+     *     // ... data to create a Area
+     *   }
+     * })
+     * 
+     */
+    create<T extends AreaCreateArgs>(args: SelectSubset<T, AreaCreateArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Areas.
+     * @param {AreaCreateManyArgs} args - Arguments to create many Areas.
+     * @example
+     * // Create many Areas
+     * const area = await prisma.area.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AreaCreateManyArgs>(args?: SelectSubset<T, AreaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Area.
+     * @param {AreaDeleteArgs} args - Arguments to delete one Area.
+     * @example
+     * // Delete one Area
+     * const Area = await prisma.area.delete({
+     *   where: {
+     *     // ... filter to delete one Area
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AreaDeleteArgs>(args: SelectSubset<T, AreaDeleteArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Area.
+     * @param {AreaUpdateArgs} args - Arguments to update one Area.
+     * @example
+     * // Update one Area
+     * const area = await prisma.area.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AreaUpdateArgs>(args: SelectSubset<T, AreaUpdateArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Areas.
+     * @param {AreaDeleteManyArgs} args - Arguments to filter Areas to delete.
+     * @example
+     * // Delete a few Areas
+     * const { count } = await prisma.area.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AreaDeleteManyArgs>(args?: SelectSubset<T, AreaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Areas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Areas
+     * const area = await prisma.area.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AreaUpdateManyArgs>(args: SelectSubset<T, AreaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Area.
+     * @param {AreaUpsertArgs} args - Arguments to update or create a Area.
+     * @example
+     * // Update or create a Area
+     * const area = await prisma.area.upsert({
+     *   create: {
+     *     // ... data to create a Area
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Area we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AreaUpsertArgs>(args: SelectSubset<T, AreaUpsertArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Areas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaCountArgs} args - Arguments to filter Areas to count.
+     * @example
+     * // Count the number of Areas
+     * const count = await prisma.area.count({
+     *   where: {
+     *     // ... the filter for the Areas we want to count
+     *   }
+     * })
+    **/
+    count<T extends AreaCountArgs>(
+      args?: Subset<T, AreaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AreaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Area.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AreaAggregateArgs>(args: Subset<T, AreaAggregateArgs>): Prisma.PrismaPromise<GetAreaAggregateType<T>>
+
+    /**
+     * Group by Area.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AreaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AreaGroupByArgs['orderBy'] }
+        : { orderBy?: AreaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AreaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAreaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Area model
+   */
+  readonly fields: AreaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Area.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AreaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customers<T extends Area$customersArgs<ExtArgs> = {}>(args?: Subset<T, Area$customersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Area model
+   */
+  interface AreaFieldRefs {
+    readonly id: FieldRef<"Area", 'String'>
+    readonly name: FieldRef<"Area", 'String'>
+    readonly description: FieldRef<"Area", 'String'>
+    readonly status: FieldRef<"Area", 'String'>
+    readonly createdBy: FieldRef<"Area", 'String'>
+    readonly updatedBy: FieldRef<"Area", 'String'>
+    readonly createdAt: FieldRef<"Area", 'DateTime'>
+    readonly updatedAt: FieldRef<"Area", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Area findUnique
+   */
+  export type AreaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+    /**
+     * Filter, which Area to fetch.
+     */
+    where: AreaWhereUniqueInput
+  }
+
+  /**
+   * Area findUniqueOrThrow
+   */
+  export type AreaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+    /**
+     * Filter, which Area to fetch.
+     */
+    where: AreaWhereUniqueInput
+  }
+
+  /**
+   * Area findFirst
+   */
+  export type AreaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+    /**
+     * Filter, which Area to fetch.
+     */
+    where?: AreaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Areas to fetch.
+     */
+    orderBy?: AreaOrderByWithRelationInput | AreaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Areas.
+     */
+    cursor?: AreaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Areas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Areas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Areas.
+     */
+    distinct?: AreaScalarFieldEnum | AreaScalarFieldEnum[]
+  }
+
+  /**
+   * Area findFirstOrThrow
+   */
+  export type AreaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+    /**
+     * Filter, which Area to fetch.
+     */
+    where?: AreaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Areas to fetch.
+     */
+    orderBy?: AreaOrderByWithRelationInput | AreaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Areas.
+     */
+    cursor?: AreaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Areas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Areas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Areas.
+     */
+    distinct?: AreaScalarFieldEnum | AreaScalarFieldEnum[]
+  }
+
+  /**
+   * Area findMany
+   */
+  export type AreaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+    /**
+     * Filter, which Areas to fetch.
+     */
+    where?: AreaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Areas to fetch.
+     */
+    orderBy?: AreaOrderByWithRelationInput | AreaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Areas.
+     */
+    cursor?: AreaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Areas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Areas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Areas.
+     */
+    distinct?: AreaScalarFieldEnum | AreaScalarFieldEnum[]
+  }
+
+  /**
+   * Area create
+   */
+  export type AreaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Area.
+     */
+    data: XOR<AreaCreateInput, AreaUncheckedCreateInput>
+  }
+
+  /**
+   * Area createMany
+   */
+  export type AreaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Areas.
+     */
+    data: AreaCreateManyInput | AreaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Area update
+   */
+  export type AreaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Area.
+     */
+    data: XOR<AreaUpdateInput, AreaUncheckedUpdateInput>
+    /**
+     * Choose, which Area to update.
+     */
+    where: AreaWhereUniqueInput
+  }
+
+  /**
+   * Area updateMany
+   */
+  export type AreaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Areas.
+     */
+    data: XOR<AreaUpdateManyMutationInput, AreaUncheckedUpdateManyInput>
+    /**
+     * Filter which Areas to update
+     */
+    where?: AreaWhereInput
+    /**
+     * Limit how many Areas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Area upsert
+   */
+  export type AreaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Area to update in case it exists.
+     */
+    where: AreaWhereUniqueInput
+    /**
+     * In case the Area found by the `where` argument doesn't exist, create a new Area with this data.
+     */
+    create: XOR<AreaCreateInput, AreaUncheckedCreateInput>
+    /**
+     * In case the Area was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AreaUpdateInput, AreaUncheckedUpdateInput>
+  }
+
+  /**
+   * Area delete
+   */
+  export type AreaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+    /**
+     * Filter which Area to delete.
+     */
+    where: AreaWhereUniqueInput
+  }
+
+  /**
+   * Area deleteMany
+   */
+  export type AreaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Areas to delete
+     */
+    where?: AreaWhereInput
+    /**
+     * Limit how many Areas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Area.customers
+   */
+  export type Area$customersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    where?: CustomerWhereInput
+    orderBy?: CustomerOrderByWithRelationInput | CustomerOrderByWithRelationInput[]
+    cursor?: CustomerWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomerScalarFieldEnum | CustomerScalarFieldEnum[]
+  }
+
+  /**
+   * Area without action
+   */
+  export type AreaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Area
+     */
+    select?: AreaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Area
+     */
+    omit?: AreaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Customer
    */
 
@@ -4760,14 +5889,15 @@ export namespace Prisma {
   export type CustomerMinAggregateOutputType = {
     id: string | null
     vendorId: string | null
+    areaId: string | null
     name: string | null
     phone: string | null
     address: string | null
     ratePerLiter: Decimal | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
-    isActive: boolean | null
     date: Date | null
+    isActive: boolean | null
     createdBy: string | null
     updatedBy: string | null
     createdAt: Date | null
@@ -4777,14 +5907,15 @@ export namespace Prisma {
   export type CustomerMaxAggregateOutputType = {
     id: string | null
     vendorId: string | null
+    areaId: string | null
     name: string | null
     phone: string | null
     address: string | null
     ratePerLiter: Decimal | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
-    isActive: boolean | null
     date: Date | null
+    isActive: boolean | null
     createdBy: string | null
     updatedBy: string | null
     createdAt: Date | null
@@ -4794,14 +5925,15 @@ export namespace Prisma {
   export type CustomerCountAggregateOutputType = {
     id: number
     vendorId: number
+    areaId: number
     name: number
     phone: number
     address: number
     ratePerLiter: number
     morningQuantity: number
     eveningQuantity: number
-    isActive: number
     date: number
+    isActive: number
     createdBy: number
     updatedBy: number
     createdAt: number
@@ -4825,14 +5957,15 @@ export namespace Prisma {
   export type CustomerMinAggregateInputType = {
     id?: true
     vendorId?: true
+    areaId?: true
     name?: true
     phone?: true
     address?: true
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
-    isActive?: true
     date?: true
+    isActive?: true
     createdBy?: true
     updatedBy?: true
     createdAt?: true
@@ -4842,14 +5975,15 @@ export namespace Prisma {
   export type CustomerMaxAggregateInputType = {
     id?: true
     vendorId?: true
+    areaId?: true
     name?: true
     phone?: true
     address?: true
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
-    isActive?: true
     date?: true
+    isActive?: true
     createdBy?: true
     updatedBy?: true
     createdAt?: true
@@ -4859,14 +5993,15 @@ export namespace Prisma {
   export type CustomerCountAggregateInputType = {
     id?: true
     vendorId?: true
+    areaId?: true
     name?: true
     phone?: true
     address?: true
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
-    isActive?: true
     date?: true
+    isActive?: true
     createdBy?: true
     updatedBy?: true
     createdAt?: true
@@ -4963,16 +6098,17 @@ export namespace Prisma {
   export type CustomerGroupByOutputType = {
     id: string
     vendorId: string
+    areaId: string
     name: string
     phone: string
     address: string
     ratePerLiter: Decimal
     morningQuantity: Decimal
     eveningQuantity: Decimal
-    isActive: boolean
     date: Date
-    createdBy: string
-    updatedBy: string
+    isActive: boolean
+    createdBy: string | null
+    updatedBy: string | null
     createdAt: Date
     updatedAt: Date
     _count: CustomerCountAggregateOutputType | null
@@ -4999,19 +6135,21 @@ export namespace Prisma {
   export type CustomerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     vendorId?: boolean
+    areaId?: boolean
     name?: boolean
     phone?: boolean
     address?: boolean
     ratePerLiter?: boolean
     morningQuantity?: boolean
     eveningQuantity?: boolean
-    isActive?: boolean
     date?: boolean
+    isActive?: boolean
     createdBy?: boolean
     updatedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     vendor?: boolean | VendorDefaultArgs<ExtArgs>
+    area?: boolean | AreaDefaultArgs<ExtArgs>
     milkDeliveries?: boolean | Customer$milkDeliveriesArgs<ExtArgs>
     payments?: boolean | Customer$paymentsArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
@@ -5022,23 +6160,25 @@ export namespace Prisma {
   export type CustomerSelectScalar = {
     id?: boolean
     vendorId?: boolean
+    areaId?: boolean
     name?: boolean
     phone?: boolean
     address?: boolean
     ratePerLiter?: boolean
     morningQuantity?: boolean
     eveningQuantity?: boolean
-    isActive?: boolean
     date?: boolean
+    isActive?: boolean
     createdBy?: boolean
     updatedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "name" | "phone" | "address" | "ratePerLiter" | "morningQuantity" | "eveningQuantity" | "isActive" | "date" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "areaId" | "name" | "phone" | "address" | "ratePerLiter" | "morningQuantity" | "eveningQuantity" | "date" | "isActive" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
   export type CustomerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorDefaultArgs<ExtArgs>
+    area?: boolean | AreaDefaultArgs<ExtArgs>
     milkDeliveries?: boolean | Customer$milkDeliveriesArgs<ExtArgs>
     payments?: boolean | Customer$paymentsArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
@@ -5048,22 +6188,24 @@ export namespace Prisma {
     name: "Customer"
     objects: {
       vendor: Prisma.$VendorPayload<ExtArgs>
+      area: Prisma.$AreaPayload<ExtArgs>
       milkDeliveries: Prisma.$MilkDeliveryPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       vendorId: string
+      areaId: string
       name: string
       phone: string
       address: string
       ratePerLiter: Prisma.Decimal
       morningQuantity: Prisma.Decimal
       eveningQuantity: Prisma.Decimal
-      isActive: boolean
       date: Date
-      createdBy: string
-      updatedBy: string
+      isActive: boolean
+      createdBy: string | null
+      updatedBy: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["customer"]>
@@ -5407,6 +6549,7 @@ export namespace Prisma {
   export interface Prisma__CustomerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     vendor<T extends VendorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorDefaultArgs<ExtArgs>>): Prisma__VendorClient<$Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    area<T extends AreaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AreaDefaultArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     milkDeliveries<T extends Customer$milkDeliveriesArgs<ExtArgs> = {}>(args?: Subset<T, Customer$milkDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MilkDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Customer$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -5440,14 +6583,15 @@ export namespace Prisma {
   interface CustomerFieldRefs {
     readonly id: FieldRef<"Customer", 'String'>
     readonly vendorId: FieldRef<"Customer", 'String'>
+    readonly areaId: FieldRef<"Customer", 'String'>
     readonly name: FieldRef<"Customer", 'String'>
     readonly phone: FieldRef<"Customer", 'String'>
     readonly address: FieldRef<"Customer", 'String'>
     readonly ratePerLiter: FieldRef<"Customer", 'Decimal'>
     readonly morningQuantity: FieldRef<"Customer", 'Decimal'>
     readonly eveningQuantity: FieldRef<"Customer", 'Decimal'>
-    readonly isActive: FieldRef<"Customer", 'Boolean'>
     readonly date: FieldRef<"Customer", 'DateTime'>
+    readonly isActive: FieldRef<"Customer", 'Boolean'>
     readonly createdBy: FieldRef<"Customer", 'String'>
     readonly updatedBy: FieldRef<"Customer", 'String'>
     readonly createdAt: FieldRef<"Customer", 'DateTime'>
@@ -9888,6 +11032,8 @@ export namespace Prisma {
     billingStartDate: 'billingStartDate',
     status: 'status',
     isActive: 'isActive',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
     joinedAt: 'joinedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -9896,17 +11042,32 @@ export namespace Prisma {
   export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum]
 
 
+  export const AreaScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    status: 'status',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AreaScalarFieldEnum = (typeof AreaScalarFieldEnum)[keyof typeof AreaScalarFieldEnum]
+
+
   export const CustomerScalarFieldEnum: {
     id: 'id',
     vendorId: 'vendorId',
+    areaId: 'areaId',
     name: 'name',
     phone: 'phone',
     address: 'address',
     ratePerLiter: 'ratePerLiter',
     morningQuantity: 'morningQuantity',
     eveningQuantity: 'eveningQuantity',
-    isActive: 'isActive',
     date: 'date',
+    isActive: 'isActive',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
     createdAt: 'createdAt',
@@ -10020,15 +11181,30 @@ export namespace Prisma {
     mobileNumber: 'mobileNumber',
     email: 'email',
     area: 'area',
-    address: 'address'
+    address: 'address',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy'
   };
 
   export type VendorOrderByRelevanceFieldEnum = (typeof VendorOrderByRelevanceFieldEnum)[keyof typeof VendorOrderByRelevanceFieldEnum]
 
 
+  export const AreaOrderByRelevanceFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    status: 'status',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy'
+  };
+
+  export type AreaOrderByRelevanceFieldEnum = (typeof AreaOrderByRelevanceFieldEnum)[keyof typeof AreaOrderByRelevanceFieldEnum]
+
+
   export const CustomerOrderByRelevanceFieldEnum: {
     id: 'id',
     vendorId: 'vendorId',
+    areaId: 'areaId',
     name: 'name',
     phone: 'phone',
     address: 'address',
@@ -10322,6 +11498,8 @@ export namespace Prisma {
     billingStartDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
     status?: EnumVendorStatusFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolFilter<"Vendor"> | boolean
+    createdBy?: StringNullableFilter<"Vendor"> | string | null
+    updatedBy?: StringNullableFilter<"Vendor"> | string | null
     joinedAt?: DateTimeFilter<"Vendor"> | Date | string
     createdAt?: DateTimeFilter<"Vendor"> | Date | string
     updatedAt?: DateTimeFilter<"Vendor"> | Date | string
@@ -10344,6 +11522,8 @@ export namespace Prisma {
     billingStartDate?: SortOrderInput | SortOrder
     status?: SortOrder
     isActive?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10370,6 +11550,8 @@ export namespace Prisma {
     billingStartDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
     status?: EnumVendorStatusFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolFilter<"Vendor"> | boolean
+    createdBy?: StringNullableFilter<"Vendor"> | string | null
+    updatedBy?: StringNullableFilter<"Vendor"> | string | null
     joinedAt?: DateTimeFilter<"Vendor"> | Date | string
     createdAt?: DateTimeFilter<"Vendor"> | Date | string
     updatedAt?: DateTimeFilter<"Vendor"> | Date | string
@@ -10392,6 +11574,8 @@ export namespace Prisma {
     billingStartDate?: SortOrderInput | SortOrder
     status?: SortOrder
     isActive?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10417,9 +11601,82 @@ export namespace Prisma {
     billingStartDate?: DateTimeNullableWithAggregatesFilter<"Vendor"> | Date | string | null
     status?: EnumVendorStatusWithAggregatesFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolWithAggregatesFilter<"Vendor"> | boolean
+    createdBy?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
+    updatedBy?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
     joinedAt?: DateTimeWithAggregatesFilter<"Vendor"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Vendor"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Vendor"> | Date | string
+  }
+
+  export type AreaWhereInput = {
+    AND?: AreaWhereInput | AreaWhereInput[]
+    OR?: AreaWhereInput[]
+    NOT?: AreaWhereInput | AreaWhereInput[]
+    id?: StringFilter<"Area"> | string
+    name?: StringFilter<"Area"> | string
+    description?: StringNullableFilter<"Area"> | string | null
+    status?: StringFilter<"Area"> | string
+    createdBy?: StringNullableFilter<"Area"> | string | null
+    updatedBy?: StringNullableFilter<"Area"> | string | null
+    createdAt?: DateTimeFilter<"Area"> | Date | string
+    updatedAt?: DateTimeFilter<"Area"> | Date | string
+    customers?: CustomerListRelationFilter
+  }
+
+  export type AreaOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    customers?: CustomerOrderByRelationAggregateInput
+    _relevance?: AreaOrderByRelevanceInput
+  }
+
+  export type AreaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    AND?: AreaWhereInput | AreaWhereInput[]
+    OR?: AreaWhereInput[]
+    NOT?: AreaWhereInput | AreaWhereInput[]
+    description?: StringNullableFilter<"Area"> | string | null
+    status?: StringFilter<"Area"> | string
+    createdBy?: StringNullableFilter<"Area"> | string | null
+    updatedBy?: StringNullableFilter<"Area"> | string | null
+    createdAt?: DateTimeFilter<"Area"> | Date | string
+    updatedAt?: DateTimeFilter<"Area"> | Date | string
+    customers?: CustomerListRelationFilter
+  }, "id" | "name">
+
+  export type AreaOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AreaCountOrderByAggregateInput
+    _max?: AreaMaxOrderByAggregateInput
+    _min?: AreaMinOrderByAggregateInput
+  }
+
+  export type AreaScalarWhereWithAggregatesInput = {
+    AND?: AreaScalarWhereWithAggregatesInput | AreaScalarWhereWithAggregatesInput[]
+    OR?: AreaScalarWhereWithAggregatesInput[]
+    NOT?: AreaScalarWhereWithAggregatesInput | AreaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Area"> | string
+    name?: StringWithAggregatesFilter<"Area"> | string
+    description?: StringNullableWithAggregatesFilter<"Area"> | string | null
+    status?: StringWithAggregatesFilter<"Area"> | string
+    createdBy?: StringNullableWithAggregatesFilter<"Area"> | string | null
+    updatedBy?: StringNullableWithAggregatesFilter<"Area"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Area"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Area"> | Date | string
   }
 
   export type CustomerWhereInput = {
@@ -10428,19 +11685,21 @@ export namespace Prisma {
     NOT?: CustomerWhereInput | CustomerWhereInput[]
     id?: StringFilter<"Customer"> | string
     vendorId?: StringFilter<"Customer"> | string
+    areaId?: StringFilter<"Customer"> | string
     name?: StringFilter<"Customer"> | string
     phone?: StringFilter<"Customer"> | string
     address?: StringFilter<"Customer"> | string
     ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFilter<"Customer"> | boolean
     date?: DateTimeFilter<"Customer"> | Date | string
-    createdBy?: StringFilter<"Customer"> | string
-    updatedBy?: StringFilter<"Customer"> | string
+    isActive?: BoolFilter<"Customer"> | boolean
+    createdBy?: StringNullableFilter<"Customer"> | string | null
+    updatedBy?: StringNullableFilter<"Customer"> | string | null
     createdAt?: DateTimeFilter<"Customer"> | Date | string
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
     vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
+    area?: XOR<AreaScalarRelationFilter, AreaWhereInput>
     milkDeliveries?: MilkDeliveryListRelationFilter
     payments?: PaymentListRelationFilter
   }
@@ -10448,19 +11707,21 @@ export namespace Prisma {
   export type CustomerOrderByWithRelationInput = {
     id?: SortOrder
     vendorId?: SortOrder
+    areaId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    isActive?: SortOrder
     date?: SortOrder
-    createdBy?: SortOrder
-    updatedBy?: SortOrder
+    isActive?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     vendor?: VendorOrderByWithRelationInput
+    area?: AreaOrderByWithRelationInput
     milkDeliveries?: MilkDeliveryOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     _relevance?: CustomerOrderByRelevanceInput
@@ -10473,18 +11734,20 @@ export namespace Prisma {
     OR?: CustomerWhereInput[]
     NOT?: CustomerWhereInput | CustomerWhereInput[]
     vendorId?: StringFilter<"Customer"> | string
+    areaId?: StringFilter<"Customer"> | string
     name?: StringFilter<"Customer"> | string
     address?: StringFilter<"Customer"> | string
     ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFilter<"Customer"> | boolean
     date?: DateTimeFilter<"Customer"> | Date | string
-    createdBy?: StringFilter<"Customer"> | string
-    updatedBy?: StringFilter<"Customer"> | string
+    isActive?: BoolFilter<"Customer"> | boolean
+    createdBy?: StringNullableFilter<"Customer"> | string | null
+    updatedBy?: StringNullableFilter<"Customer"> | string | null
     createdAt?: DateTimeFilter<"Customer"> | Date | string
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
     vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
+    area?: XOR<AreaScalarRelationFilter, AreaWhereInput>
     milkDeliveries?: MilkDeliveryListRelationFilter
     payments?: PaymentListRelationFilter
   }, "id" | "phone">
@@ -10492,16 +11755,17 @@ export namespace Prisma {
   export type CustomerOrderByWithAggregationInput = {
     id?: SortOrder
     vendorId?: SortOrder
+    areaId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    isActive?: SortOrder
     date?: SortOrder
-    createdBy?: SortOrder
-    updatedBy?: SortOrder
+    isActive?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CustomerCountOrderByAggregateInput
@@ -10517,16 +11781,17 @@ export namespace Prisma {
     NOT?: CustomerScalarWhereWithAggregatesInput | CustomerScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Customer"> | string
     vendorId?: StringWithAggregatesFilter<"Customer"> | string
+    areaId?: StringWithAggregatesFilter<"Customer"> | string
     name?: StringWithAggregatesFilter<"Customer"> | string
     phone?: StringWithAggregatesFilter<"Customer"> | string
     address?: StringWithAggregatesFilter<"Customer"> | string
     ratePerLiter?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    isActive?: BoolWithAggregatesFilter<"Customer"> | boolean
     date?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
-    createdBy?: StringWithAggregatesFilter<"Customer"> | string
-    updatedBy?: StringWithAggregatesFilter<"Customer"> | string
+    isActive?: BoolWithAggregatesFilter<"Customer"> | boolean
+    createdBy?: StringNullableWithAggregatesFilter<"Customer"> | string | null
+    updatedBy?: StringNullableWithAggregatesFilter<"Customer"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
   }
@@ -11009,6 +12274,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11031,6 +12298,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11049,6 +12318,8 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11071,6 +12342,8 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11091,6 +12364,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11108,6 +12383,8 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11127,7 +12404,90 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AreaCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    status?: string
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customers?: CustomerCreateNestedManyWithoutAreaInput
+  }
+
+  export type AreaUncheckedCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    status?: string
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customers?: CustomerUncheckedCreateNestedManyWithoutAreaInput
+  }
+
+  export type AreaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customers?: CustomerUpdateManyWithoutAreaNestedInput
+  }
+
+  export type AreaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customers?: CustomerUncheckedUpdateManyWithoutAreaNestedInput
+  }
+
+  export type AreaCreateManyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    status?: string
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AreaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AreaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11140,13 +12500,14 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vendor: VendorCreateNestedOneWithoutCustomersInput
+    area: AreaCreateNestedOneWithoutCustomersInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
   }
@@ -11154,16 +12515,17 @@ export namespace Prisma {
   export type CustomerUncheckedCreateInput = {
     id?: string
     vendorId: string
+    areaId: string
     name: string
     phone: string
     address: string
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
@@ -11178,13 +12540,14 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
+    area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
   }
@@ -11192,16 +12555,17 @@ export namespace Prisma {
   export type CustomerUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    areaId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
@@ -11211,16 +12575,17 @@ export namespace Prisma {
   export type CustomerCreateManyInput = {
     id?: string
     vendorId: string
+    areaId: string
     name: string
     phone: string
     address: string
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11233,10 +12598,10 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11244,16 +12609,17 @@ export namespace Prisma {
   export type CustomerUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    areaId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11846,6 +13212,8 @@ export namespace Prisma {
     billingStartDate?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11865,6 +13233,8 @@ export namespace Prisma {
     billingStartDate?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11884,6 +13254,8 @@ export namespace Prisma {
     billingStartDate?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
     joinedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11913,6 +13285,45 @@ export namespace Prisma {
     _max?: NestedEnumVendorStatusFilter<$PrismaModel>
   }
 
+  export type AreaOrderByRelevanceInput = {
+    fields: AreaOrderByRelevanceFieldEnum | AreaOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type AreaCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AreaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AreaMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type DecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[]
@@ -11927,6 +13338,11 @@ export namespace Prisma {
   export type VendorScalarRelationFilter = {
     is?: VendorWhereInput
     isNot?: VendorWhereInput
+  }
+
+  export type AreaScalarRelationFilter = {
+    is?: AreaWhereInput
+    isNot?: AreaWhereInput
   }
 
   export type MilkDeliveryListRelationFilter = {
@@ -11958,14 +13374,15 @@ export namespace Prisma {
   export type CustomerCountOrderByAggregateInput = {
     id?: SortOrder
     vendorId?: SortOrder
+    areaId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    isActive?: SortOrder
     date?: SortOrder
+    isActive?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
     createdAt?: SortOrder
@@ -11981,14 +13398,15 @@ export namespace Prisma {
   export type CustomerMaxOrderByAggregateInput = {
     id?: SortOrder
     vendorId?: SortOrder
+    areaId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    isActive?: SortOrder
     date?: SortOrder
+    isActive?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
     createdAt?: SortOrder
@@ -11998,14 +13416,15 @@ export namespace Prisma {
   export type CustomerMinOrderByAggregateInput = {
     id?: SortOrder
     vendorId?: SortOrder
+    areaId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
-    isActive?: SortOrder
     date?: SortOrder
+    isActive?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
     createdAt?: SortOrder
@@ -12447,10 +13866,58 @@ export namespace Prisma {
     deleteMany?: CustomerScalarWhereInput | CustomerScalarWhereInput[]
   }
 
+  export type CustomerCreateNestedManyWithoutAreaInput = {
+    create?: XOR<CustomerCreateWithoutAreaInput, CustomerUncheckedCreateWithoutAreaInput> | CustomerCreateWithoutAreaInput[] | CustomerUncheckedCreateWithoutAreaInput[]
+    connectOrCreate?: CustomerCreateOrConnectWithoutAreaInput | CustomerCreateOrConnectWithoutAreaInput[]
+    createMany?: CustomerCreateManyAreaInputEnvelope
+    connect?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+  }
+
+  export type CustomerUncheckedCreateNestedManyWithoutAreaInput = {
+    create?: XOR<CustomerCreateWithoutAreaInput, CustomerUncheckedCreateWithoutAreaInput> | CustomerCreateWithoutAreaInput[] | CustomerUncheckedCreateWithoutAreaInput[]
+    connectOrCreate?: CustomerCreateOrConnectWithoutAreaInput | CustomerCreateOrConnectWithoutAreaInput[]
+    createMany?: CustomerCreateManyAreaInputEnvelope
+    connect?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+  }
+
+  export type CustomerUpdateManyWithoutAreaNestedInput = {
+    create?: XOR<CustomerCreateWithoutAreaInput, CustomerUncheckedCreateWithoutAreaInput> | CustomerCreateWithoutAreaInput[] | CustomerUncheckedCreateWithoutAreaInput[]
+    connectOrCreate?: CustomerCreateOrConnectWithoutAreaInput | CustomerCreateOrConnectWithoutAreaInput[]
+    upsert?: CustomerUpsertWithWhereUniqueWithoutAreaInput | CustomerUpsertWithWhereUniqueWithoutAreaInput[]
+    createMany?: CustomerCreateManyAreaInputEnvelope
+    set?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+    disconnect?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+    delete?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+    connect?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+    update?: CustomerUpdateWithWhereUniqueWithoutAreaInput | CustomerUpdateWithWhereUniqueWithoutAreaInput[]
+    updateMany?: CustomerUpdateManyWithWhereWithoutAreaInput | CustomerUpdateManyWithWhereWithoutAreaInput[]
+    deleteMany?: CustomerScalarWhereInput | CustomerScalarWhereInput[]
+  }
+
+  export type CustomerUncheckedUpdateManyWithoutAreaNestedInput = {
+    create?: XOR<CustomerCreateWithoutAreaInput, CustomerUncheckedCreateWithoutAreaInput> | CustomerCreateWithoutAreaInput[] | CustomerUncheckedCreateWithoutAreaInput[]
+    connectOrCreate?: CustomerCreateOrConnectWithoutAreaInput | CustomerCreateOrConnectWithoutAreaInput[]
+    upsert?: CustomerUpsertWithWhereUniqueWithoutAreaInput | CustomerUpsertWithWhereUniqueWithoutAreaInput[]
+    createMany?: CustomerCreateManyAreaInputEnvelope
+    set?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+    disconnect?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+    delete?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+    connect?: CustomerWhereUniqueInput | CustomerWhereUniqueInput[]
+    update?: CustomerUpdateWithWhereUniqueWithoutAreaInput | CustomerUpdateWithWhereUniqueWithoutAreaInput[]
+    updateMany?: CustomerUpdateManyWithWhereWithoutAreaInput | CustomerUpdateManyWithWhereWithoutAreaInput[]
+    deleteMany?: CustomerScalarWhereInput | CustomerScalarWhereInput[]
+  }
+
   export type VendorCreateNestedOneWithoutCustomersInput = {
     create?: XOR<VendorCreateWithoutCustomersInput, VendorUncheckedCreateWithoutCustomersInput>
     connectOrCreate?: VendorCreateOrConnectWithoutCustomersInput
     connect?: VendorWhereUniqueInput
+  }
+
+  export type AreaCreateNestedOneWithoutCustomersInput = {
+    create?: XOR<AreaCreateWithoutCustomersInput, AreaUncheckedCreateWithoutCustomersInput>
+    connectOrCreate?: AreaCreateOrConnectWithoutCustomersInput
+    connect?: AreaWhereUniqueInput
   }
 
   export type MilkDeliveryCreateNestedManyWithoutCustomerInput = {
@@ -12495,6 +13962,14 @@ export namespace Prisma {
     upsert?: VendorUpsertWithoutCustomersInput
     connect?: VendorWhereUniqueInput
     update?: XOR<XOR<VendorUpdateToOneWithWhereWithoutCustomersInput, VendorUpdateWithoutCustomersInput>, VendorUncheckedUpdateWithoutCustomersInput>
+  }
+
+  export type AreaUpdateOneRequiredWithoutCustomersNestedInput = {
+    create?: XOR<AreaCreateWithoutCustomersInput, AreaUncheckedCreateWithoutCustomersInput>
+    connectOrCreate?: AreaCreateOrConnectWithoutCustomersInput
+    upsert?: AreaUpsertWithoutCustomersInput
+    connect?: AreaWhereUniqueInput
+    update?: XOR<XOR<AreaUpdateToOneWithWhereWithoutCustomersInput, AreaUpdateWithoutCustomersInput>, AreaUncheckedUpdateWithoutCustomersInput>
   }
 
   export type MilkDeliveryUpdateManyWithoutCustomerNestedInput = {
@@ -12917,6 +14392,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12937,6 +14414,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12971,6 +14450,8 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12991,6 +14472,8 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13009,6 +14492,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13029,6 +14514,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13078,6 +14565,8 @@ export namespace Prisma {
     billingStartDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
     status?: EnumVendorStatusFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolFilter<"Vendor"> | boolean
+    createdBy?: StringNullableFilter<"Vendor"> | string | null
+    updatedBy?: StringNullableFilter<"Vendor"> | string | null
     joinedAt?: DateTimeFilter<"Vendor"> | Date | string
     createdAt?: DateTimeFilter<"Vendor"> | Date | string
     updatedAt?: DateTimeFilter<"Vendor"> | Date | string
@@ -13151,28 +14640,30 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    area: AreaCreateNestedOneWithoutCustomersInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutVendorInput = {
     id?: string
+    areaId: string
     name: string
     phone: string
     address: string
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
@@ -13283,18 +14774,83 @@ export namespace Prisma {
     NOT?: CustomerScalarWhereInput | CustomerScalarWhereInput[]
     id?: StringFilter<"Customer"> | string
     vendorId?: StringFilter<"Customer"> | string
+    areaId?: StringFilter<"Customer"> | string
     name?: StringFilter<"Customer"> | string
     phone?: StringFilter<"Customer"> | string
     address?: StringFilter<"Customer"> | string
     ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFilter<"Customer"> | boolean
     date?: DateTimeFilter<"Customer"> | Date | string
-    createdBy?: StringFilter<"Customer"> | string
-    updatedBy?: StringFilter<"Customer"> | string
+    isActive?: BoolFilter<"Customer"> | boolean
+    createdBy?: StringNullableFilter<"Customer"> | string | null
+    updatedBy?: StringNullableFilter<"Customer"> | string | null
     createdAt?: DateTimeFilter<"Customer"> | Date | string
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
+  }
+
+  export type CustomerCreateWithoutAreaInput = {
+    id?: string
+    name: string
+    phone: string
+    address: string
+    ratePerLiter: Decimal | DecimalJsLike | number | string
+    morningQuantity?: Decimal | DecimalJsLike | number | string
+    eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendor: VendorCreateNestedOneWithoutCustomersInput
+    milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
+    payments?: PaymentCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerUncheckedCreateWithoutAreaInput = {
+    id?: string
+    vendorId: string
+    name: string
+    phone: string
+    address: string
+    ratePerLiter: Decimal | DecimalJsLike | number | string
+    morningQuantity?: Decimal | DecimalJsLike | number | string
+    eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerCreateOrConnectWithoutAreaInput = {
+    where: CustomerWhereUniqueInput
+    create: XOR<CustomerCreateWithoutAreaInput, CustomerUncheckedCreateWithoutAreaInput>
+  }
+
+  export type CustomerCreateManyAreaInputEnvelope = {
+    data: CustomerCreateManyAreaInput | CustomerCreateManyAreaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CustomerUpsertWithWhereUniqueWithoutAreaInput = {
+    where: CustomerWhereUniqueInput
+    update: XOR<CustomerUpdateWithoutAreaInput, CustomerUncheckedUpdateWithoutAreaInput>
+    create: XOR<CustomerCreateWithoutAreaInput, CustomerUncheckedCreateWithoutAreaInput>
+  }
+
+  export type CustomerUpdateWithWhereUniqueWithoutAreaInput = {
+    where: CustomerWhereUniqueInput
+    data: XOR<CustomerUpdateWithoutAreaInput, CustomerUncheckedUpdateWithoutAreaInput>
+  }
+
+  export type CustomerUpdateManyWithWhereWithoutAreaInput = {
+    where: CustomerScalarWhereInput
+    data: XOR<CustomerUpdateManyMutationInput, CustomerUncheckedUpdateManyWithoutAreaInput>
   }
 
   export type VendorCreateWithoutCustomersInput = {
@@ -13309,6 +14865,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13330,6 +14888,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13338,6 +14898,33 @@ export namespace Prisma {
   export type VendorCreateOrConnectWithoutCustomersInput = {
     where: VendorWhereUniqueInput
     create: XOR<VendorCreateWithoutCustomersInput, VendorUncheckedCreateWithoutCustomersInput>
+  }
+
+  export type AreaCreateWithoutCustomersInput = {
+    id?: string
+    name: string
+    description?: string | null
+    status?: string
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AreaUncheckedCreateWithoutCustomersInput = {
+    id?: string
+    name: string
+    description?: string | null
+    status?: string
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AreaCreateOrConnectWithoutCustomersInput = {
+    where: AreaWhereUniqueInput
+    create: XOR<AreaCreateWithoutCustomersInput, AreaUncheckedCreateWithoutCustomersInput>
   }
 
   export type MilkDeliveryCreateWithoutCustomerInput = {
@@ -13429,6 +15016,8 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13450,7 +15039,42 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AreaUpsertWithoutCustomersInput = {
+    update: XOR<AreaUpdateWithoutCustomersInput, AreaUncheckedUpdateWithoutCustomersInput>
+    create: XOR<AreaCreateWithoutCustomersInput, AreaUncheckedCreateWithoutCustomersInput>
+    where?: AreaWhereInput
+  }
+
+  export type AreaUpdateToOneWithWhereWithoutCustomersInput = {
+    where?: AreaWhereInput
+    data: XOR<AreaUpdateWithoutCustomersInput, AreaUncheckedUpdateWithoutCustomersInput>
+  }
+
+  export type AreaUpdateWithoutCustomersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AreaUncheckedUpdateWithoutCustomersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13526,29 +15150,31 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vendor: VendorCreateNestedOneWithoutCustomersInput
+    area: AreaCreateNestedOneWithoutCustomersInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutMilkDeliveriesInput = {
     id?: string
     vendorId: string
+    areaId: string
     name: string
     phone: string
     address: string
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
@@ -13578,29 +15204,31 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
+    area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutMilkDeliveriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    areaId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -13614,29 +15242,31 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vendor: VendorCreateNestedOneWithoutCustomersInput
+    area: AreaCreateNestedOneWithoutCustomersInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutPaymentsInput = {
     id?: string
     vendorId: string
+    areaId: string
     name: string
     phone: string
     address: string
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
@@ -13666,29 +15296,31 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
+    area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    areaId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
@@ -13812,6 +15444,8 @@ export namespace Prisma {
     billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
     joinedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13829,6 +15463,8 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13849,6 +15485,8 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13868,6 +15506,8 @@ export namespace Prisma {
     billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13875,16 +15515,17 @@ export namespace Prisma {
 
   export type CustomerCreateManyVendorInput = {
     id?: string
+    areaId: string
     name: string
     phone: string
     address: string
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
     isActive?: boolean
-    date: Date | string
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13897,28 +15538,30 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutVendorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    areaId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
@@ -13927,16 +15570,89 @@ export namespace Prisma {
 
   export type CustomerUncheckedUpdateManyWithoutVendorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    areaId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerCreateManyAreaInput = {
+    id?: string
+    vendorId: string
+    name: string
+    phone: string
+    address: string
+    ratePerLiter: Decimal | DecimalJsLike | number | string
+    morningQuantity?: Decimal | DecimalJsLike | number | string
+    eveningQuantity?: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomerUpdateWithoutAreaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
+    milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
+    payments?: PaymentUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateWithoutAreaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateManyWithoutAreaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

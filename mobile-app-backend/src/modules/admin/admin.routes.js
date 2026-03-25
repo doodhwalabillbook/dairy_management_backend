@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('./admin.controller');
+const areaRoutes = require('../area/area.routes');
 const { 
   validateRequest, 
   validateQuery,
@@ -10,6 +11,9 @@ const {
   vendorStatusSchema,
   vendorFiltersSchema
 } = require('../../validators/auth.validator');
+
+// Area CRUD Routes mapped
+router.use('/areas', areaRoutes);
 
 /**
  * @swagger

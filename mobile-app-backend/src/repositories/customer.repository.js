@@ -7,20 +7,21 @@ const prisma = require('../config/prisma');
 const createCustomer = async (data) =>
   prisma.customer.create({
     data,
-    include: { vendor: { select: { id: true, name: true } } },
+    include: { vendor: { select: { id: true, name: true } }, area: { select: { id: true, name: true } } },
   });
 
 /**
  * Get paginated list of customers with optional filters.
  * @param {Object} options - { page, limit, isActive, vendorId }
  */
-const findAllCustomers = async ({ page = 1, limit = 10, isActive, vendorId }) => {
+const findAllCustomers = async ({ page = 1, limit = 10, isActive, vendorId, areaId }) => {
   const skip = (page - 1) * limit;
 
   // Build dynamic where clause
   const where = {};
   if (isActive !== undefined) where.isActive = isActive;
   if (vendorId) where.vendorId = vendorId;
+  if (areaId) where.areaId = areaId;
 
   const [total, data] = await Promise.all([
     prisma.customer.count({ where }),
@@ -29,7 +30,7 @@ const findAllCustomers = async ({ page = 1, limit = 10, isActive, vendorId }) =>
       skip,
       take: limit,
       orderBy: { createdAt: 'desc' },
-      include: { vendor: { select: { id: true, name: true } } },
+      include: { vendor: { select: { id: true, name: true } }, area: { select: { id: true, name: true } } },
     }),
   ]);
 
@@ -43,7 +44,7 @@ const findAllCustomers = async ({ page = 1, limit = 10, isActive, vendorId }) =>
 const findCustomerById = async (id) =>
   prisma.customer.findUnique({
     where: { id },
-    include: { vendor: { select: { id: true, name: true, phone: true } } },
+    include: { vendor: { select: { id: true, name: true, phone: true } }, area: { select: { id: true, name: true } } },
   });
 
 /**
@@ -55,7 +56,7 @@ const updateCustomer = async (id, data) =>
   prisma.customer.update({
     where: { id },
     data,
-    include: { vendor: { select: { id: true, name: true } } },
+    include: { vendor: { select: { id: true, name: true } }, area: { select: { id: true, name: true } } },
   });
 
 /**

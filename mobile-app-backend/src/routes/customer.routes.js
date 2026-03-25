@@ -31,6 +31,7 @@ router.use(authMiddleware);
  *             type: object
  *             required:
  *               - vendorId
+ *               - areaId
  *               - name
  *               - phone
  *               - address
@@ -41,6 +42,10 @@ router.use(authMiddleware);
  *                 type: string
  *                 format: uuid
  *                 example: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+ *               areaId:
+ *                 type: string
+ *                 format: uuid
+ *                 example: "a1b2c3d4-e5f6-7890-abcd-ef1234567891"
  *               name:
  *                 type: string
  *                 example: "Ramesh Kumar"
@@ -125,6 +130,12 @@ router.post('/', validateRequest(createCustomerSchema), controller.createCustome
  *           type: string
  *           format: uuid
  *         description: Filter by vendor
+ *       - in: query
+ *         name: areaId
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: Filter by area
  *     responses:
  *       200:
  *         description: Paginated list of customers
@@ -222,6 +233,9 @@ router.get('/:id', controller.getCustomerById);
  *                 type: string
  *                 format: date
  *               vendorId:
+ *                 type: string
+ *                 format: uuid
+ *               areaId:
  *                 type: string
  *                 format: uuid
  *     responses:

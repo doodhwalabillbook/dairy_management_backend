@@ -6,6 +6,7 @@ const { z } = require('zod');
  */
 const createCustomerSchema = z.object({
   vendorId: z.string().uuid('vendorId must be a valid UUID'),
+  areaId: z.string().uuid('areaId must be a valid UUID'),
   name: z.string().min(2, 'Name must be at least 2 characters'),
   phone: z
     .string()

@@ -159,7 +159,20 @@ exports.Prisma.VendorScalarFieldEnum = {
   billingStartDate: 'billingStartDate',
   status: 'status',
   isActive: 'isActive',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
   joinedAt: 'joinedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AreaScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  status: 'status',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -167,14 +180,15 @@ exports.Prisma.VendorScalarFieldEnum = {
 exports.Prisma.CustomerScalarFieldEnum = {
   id: 'id',
   vendorId: 'vendorId',
+  areaId: 'areaId',
   name: 'name',
   phone: 'phone',
   address: 'address',
   ratePerLiter: 'ratePerLiter',
   morningQuantity: 'morningQuantity',
   eveningQuantity: 'eveningQuantity',
-  isActive: 'isActive',
   date: 'date',
+  isActive: 'isActive',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',
   createdAt: 'createdAt',
@@ -261,12 +275,24 @@ exports.Prisma.VendorOrderByRelevanceFieldEnum = {
   mobileNumber: 'mobileNumber',
   email: 'email',
   area: 'area',
-  address: 'address'
+  address: 'address',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
+};
+
+exports.Prisma.AreaOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  status: 'status',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 };
 
 exports.Prisma.CustomerOrderByRelevanceFieldEnum = {
   id: 'id',
   vendorId: 'vendorId',
+  areaId: 'areaId',
   name: 'name',
   phone: 'phone',
   address: 'address',
@@ -319,6 +345,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Company: 'Company',
   Vendor: 'Vendor',
+  Area: 'Area',
   Customer: 'Customer',
   MilkDelivery: 'MilkDelivery',
   Payment: 'Payment',

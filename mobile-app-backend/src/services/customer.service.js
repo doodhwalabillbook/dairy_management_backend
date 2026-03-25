@@ -1,9 +1,11 @@
 const customerRepo = require('../repositories/customer.repository');
 const vendorRepo = require('../repositories/vendor.repository');
+const areaRepo = require('../modules/area/area.repository');
 
 /**
  * Create a new customer.
  * - Validates vendor existence
+ * - Validates area existence
  * - Guards against duplicate phone numbers
  * - Populates createdBy / updatedBy from the authenticated user
  */
@@ -12,6 +14,14 @@ const createCustomer = async (data, userId) => {
   const vendor = await vendorRepo.findVendorById(data.vendorId);
   if (!vendor) {
     const error = new Error('Vendor not found');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Validate area exists
+  const area = await areaRepo.getAreaById(data.areaId);
+  if (!area) {
+    const error = new Error('Area not found');
     error.statusCode = 404;
     throw error;
   }
@@ -50,8 +60,9 @@ const getAllCustomers = async (query) => {
   }
 
   const vendorId = query.vendorId || undefined;
+  const areaId = query.areaId || undefined;
 
-  return customerRepo.findAllCustomers({ page, limit, isActive, vendorId });
+  return customerRepo.findAllCustomers({ page, limit, isActive, vendorId, areaId });
 };
 
 /**
@@ -87,6 +98,16 @@ const updateCustomer = async (id, data, userId) => {
     const vendor = await vendorRepo.findVendorById(data.vendorId);
     if (!vendor) {
       const error = new Error('Vendor not found');
+      error.statusCode = 404;
+      throw error;
+    }
+  }
+
+  // If areaId is being changed, validate new area
+  if (data.areaId) {
+    const area = await areaRepo.getAreaById(data.areaId);
+    if (!area) {
+      const error = new Error('Area not found');
       error.statusCode = 404;
       throw error;
     }

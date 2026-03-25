@@ -78,25 +78,43 @@ model Vendor {
   customers Customer[]
 }
 
+model Area {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  name        String   @unique
+  description String?
+  status      String   @default("ACTIVE")
+  createdBy   String?  @db.VarChar(36)
+  updatedBy   String?  @db.VarChar(36)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  customers Customer[]
+}
+
 model Customer {
   id              String   @id @default(uuid()) @db.VarChar(36)
   vendorId        String   @db.VarChar(36)
+  areaId          String   @db.VarChar(36)
   name            String
   phone           String   @unique @db.VarChar(15)
   address         String
   ratePerLiter    Decimal  @db.Decimal(10, 2)
   morningQuantity Decimal  @default(0) @db.Decimal(10, 2)
   eveningQuantity Decimal  @default(0) @db.Decimal(10, 2)
-  isActive        Boolean  @default(true)
   date            DateTime @db.Date
-  createdBy       String   @db.VarChar(36)
-  updatedBy       String   @db.VarChar(36)
+  isActive        Boolean  @default(true)
+  createdBy       String?  @db.VarChar(36)
+  updatedBy       String?  @db.VarChar(36)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   vendor         Vendor         @relation(fields: [vendorId], references: [id])
+  area           Area           @relation(fields: [areaId], references: [id])
   milkDeliveries MilkDelivery[]
   payments       Payment[]
+
+  @@index([vendorId])
+  @@index([areaId])
 }
 
 model MilkDelivery {
