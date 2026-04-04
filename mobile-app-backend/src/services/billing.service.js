@@ -76,7 +76,9 @@ const getBilling = async ({ month, year, filterType, vendorId }) => {
     : customersInfo.filter((c) => c.paymentStatus === filterType);
 
   // 5. Accumulate sum totals natively globally matching metrics correctly
-  const totalEarning          = customersInfo.reduce((s, c) => s + c.totalAmount,      0);
+  const totalBaseAmount       = customersInfo.reduce((s, c) => s + c.baseAmount,      0);
+  const totalOpeningDue       = customersInfo.reduce((s, c) => s + c.openingDue,      0);
+  const totalAmount           = customersInfo.reduce((s, c) => s + c.totalAmount,      0);
   const totalPaymentPaid      = customersInfo.reduce((s, c) => s + c.paymentPaid,      0);
   const totalRemainingPayment = customersInfo.reduce((s, c) => s + c.remainingPayment, 0);
   const paidCustomersCount    = customersInfo.filter((c) => c.paymentStatus === 'PAID').length;
@@ -86,9 +88,11 @@ const getBilling = async ({ month, year, filterType, vendorId }) => {
     month,
     year,
     summary: {
-      totalEarning:          parseFloat(totalEarning.toFixed(2)),
-      totalPaymentPaid:      parseFloat(totalPaymentPaid.toFixed(2)),
-      totalRemainingPayment: parseFloat(totalRemainingPayment.toFixed(2)),
+      baseAmount:            parseFloat(totalBaseAmount.toFixed(2)),
+      openingDue:            parseFloat(totalOpeningDue.toFixed(2)),
+      totalAmount:           parseFloat(totalAmount.toFixed(2)),
+      totalPaid:             parseFloat(totalPaymentPaid.toFixed(2)),
+      remainingAmount:       parseFloat(totalRemainingPayment.toFixed(2)),
       totalCustomers:        customersInfo.length,
       paidCustomersCount,
       unpaidCustomersCount,
@@ -101,9 +105,11 @@ const _buildEmptyBillingOutput = (month, year) => ({
   month,
   year,
   summary: {
-    totalEarning: 0,
-    totalPaymentPaid: 0,
-    totalRemainingPayment: 0,
+    baseAmount: 0,
+    openingDue: 0,
+    totalAmount: 0,
+    totalPaid: 0,
+    remainingAmount: 0,
     totalCustomers: 0,
     paidCustomersCount: 0,
     unpaidCustomersCount: 0,
@@ -170,6 +176,8 @@ const recordPayment = async (data, userId) => {
     customerId:    data.customerId,
     month:         data.month,
     year:          data.year,
+    baseAmount:    calc.baseAmount,
+    openingDue:    calc.openingDue,
     totalAmount:   calc.totalAmount,
     totalPaid:     calc.paymentPaid,
     remainingAmount: calc.remainingPayment,

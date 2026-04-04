@@ -187,6 +187,7 @@ exports.Prisma.CustomerScalarFieldEnum = {
   ratePerLiter: 'ratePerLiter',
   morningQuantity: 'morningQuantity',
   eveningQuantity: 'eveningQuantity',
+  remainingAmount: 'remainingAmount',
   registrationDate: 'registrationDate',
   isActive: 'isActive',
   createdBy: 'createdBy',

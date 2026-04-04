@@ -102,6 +102,7 @@ model Customer {
   ratePerLiter     Decimal  @db.Decimal(10, 2)
   morningQuantity  Decimal  @default(0) @db.Decimal(10, 2)
   eveningQuantity  Decimal  @default(0) @db.Decimal(10, 2)
+  remainingAmount  Decimal  @default(0) @db.Decimal(10, 2)
   registrationDate DateTime @default(now())
   isActive         Boolean  @default(true)
   createdBy        String?  @db.VarChar(36)

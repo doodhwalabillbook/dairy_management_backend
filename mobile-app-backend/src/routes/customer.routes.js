@@ -73,6 +73,11 @@ router.use(authMiddleware);
  *                 type: string
  *                 format: date
  *                 example: "2026-03-22"
+ *               remainingAmount:
+ *                 type: number
+ *                 format: float
+ *                 default: 0
+ *                 example: 1000
  *     responses:
  *       201:
  *         description: Customer successfully created
@@ -232,6 +237,9 @@ router.get('/:id', controller.getCustomerById);
  *               registrationDate:
  *                 type: string
  *                 format: date
+ *               remainingAmount:
+ *                 type: number
+ *                 format: float
  *               vendorId:
  *                 type: string
  *                 format: uuid

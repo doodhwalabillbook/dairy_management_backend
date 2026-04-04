@@ -5915,12 +5915,14 @@ export namespace Prisma {
     ratePerLiter: Decimal | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
+    remainingAmount: Decimal | null
   }
 
   export type CustomerSumAggregateOutputType = {
     ratePerLiter: Decimal | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
+    remainingAmount: Decimal | null
   }
 
   export type CustomerMinAggregateOutputType = {
@@ -5933,6 +5935,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
+    remainingAmount: Decimal | null
     registrationDate: Date | null
     isActive: boolean | null
     createdBy: string | null
@@ -5951,6 +5954,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | null
     morningQuantity: Decimal | null
     eveningQuantity: Decimal | null
+    remainingAmount: Decimal | null
     registrationDate: Date | null
     isActive: boolean | null
     createdBy: string | null
@@ -5969,6 +5973,7 @@ export namespace Prisma {
     ratePerLiter: number
     morningQuantity: number
     eveningQuantity: number
+    remainingAmount: number
     registrationDate: number
     isActive: number
     createdBy: number
@@ -5983,12 +5988,14 @@ export namespace Prisma {
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
+    remainingAmount?: true
   }
 
   export type CustomerSumAggregateInputType = {
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
+    remainingAmount?: true
   }
 
   export type CustomerMinAggregateInputType = {
@@ -6001,6 +6008,7 @@ export namespace Prisma {
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
+    remainingAmount?: true
     registrationDate?: true
     isActive?: true
     createdBy?: true
@@ -6019,6 +6027,7 @@ export namespace Prisma {
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
+    remainingAmount?: true
     registrationDate?: true
     isActive?: true
     createdBy?: true
@@ -6037,6 +6046,7 @@ export namespace Prisma {
     ratePerLiter?: true
     morningQuantity?: true
     eveningQuantity?: true
+    remainingAmount?: true
     registrationDate?: true
     isActive?: true
     createdBy?: true
@@ -6142,6 +6152,7 @@ export namespace Prisma {
     ratePerLiter: Decimal
     morningQuantity: Decimal
     eveningQuantity: Decimal
+    remainingAmount: Decimal
     registrationDate: Date
     isActive: boolean
     createdBy: string | null
@@ -6179,6 +6190,7 @@ export namespace Prisma {
     ratePerLiter?: boolean
     morningQuantity?: boolean
     eveningQuantity?: boolean
+    remainingAmount?: boolean
     registrationDate?: boolean
     isActive?: boolean
     createdBy?: boolean
@@ -6204,6 +6216,7 @@ export namespace Prisma {
     ratePerLiter?: boolean
     morningQuantity?: boolean
     eveningQuantity?: boolean
+    remainingAmount?: boolean
     registrationDate?: boolean
     isActive?: boolean
     createdBy?: boolean
@@ -6212,7 +6225,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "areaId" | "name" | "phone" | "address" | "ratePerLiter" | "morningQuantity" | "eveningQuantity" | "registrationDate" | "isActive" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "areaId" | "name" | "phone" | "address" | "ratePerLiter" | "morningQuantity" | "eveningQuantity" | "remainingAmount" | "registrationDate" | "isActive" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
   export type CustomerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorDefaultArgs<ExtArgs>
     area?: boolean | AreaDefaultArgs<ExtArgs>
@@ -6239,6 +6252,7 @@ export namespace Prisma {
       ratePerLiter: Prisma.Decimal
       morningQuantity: Prisma.Decimal
       eveningQuantity: Prisma.Decimal
+      remainingAmount: Prisma.Decimal
       registrationDate: Date
       isActive: boolean
       createdBy: string | null
@@ -6627,6 +6641,7 @@ export namespace Prisma {
     readonly ratePerLiter: FieldRef<"Customer", 'Decimal'>
     readonly morningQuantity: FieldRef<"Customer", 'Decimal'>
     readonly eveningQuantity: FieldRef<"Customer", 'Decimal'>
+    readonly remainingAmount: FieldRef<"Customer", 'Decimal'>
     readonly registrationDate: FieldRef<"Customer", 'DateTime'>
     readonly isActive: FieldRef<"Customer", 'Boolean'>
     readonly createdBy: FieldRef<"Customer", 'String'>
@@ -11151,6 +11166,7 @@ export namespace Prisma {
     ratePerLiter: 'ratePerLiter',
     morningQuantity: 'morningQuantity',
     eveningQuantity: 'eveningQuantity',
+    remainingAmount: 'remainingAmount',
     registrationDate: 'registrationDate',
     isActive: 'isActive',
     createdBy: 'createdBy',
@@ -11787,6 +11803,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
     createdBy?: StringNullableFilter<"Customer"> | string | null
@@ -11809,6 +11826,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -11835,6 +11853,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
     createdBy?: StringNullableFilter<"Customer"> | string | null
@@ -11857,6 +11876,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -11883,6 +11903,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
     isActive?: BoolWithAggregatesFilter<"Customer"> | boolean
     createdBy?: StringNullableWithAggregatesFilter<"Customer"> | string | null
@@ -12623,6 +12644,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -12645,6 +12667,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -12663,6 +12686,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12685,6 +12709,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12705,6 +12730,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -12721,6 +12747,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12739,6 +12766,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13531,6 +13559,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
@@ -13543,6 +13572,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    remainingAmount?: SortOrder
   }
 
   export type CustomerMaxOrderByAggregateInput = {
@@ -13555,6 +13585,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
@@ -13573,6 +13604,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
@@ -13585,6 +13617,7 @@ export namespace Prisma {
     ratePerLiter?: SortOrder
     morningQuantity?: SortOrder
     eveningQuantity?: SortOrder
+    remainingAmount?: SortOrder
   }
 
   export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -14869,6 +14902,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -14889,6 +14923,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -15046,6 +15081,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
     createdBy?: StringNullableFilter<"Customer"> | string | null
@@ -15095,6 +15131,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -15115,6 +15152,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -15496,6 +15534,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -15517,6 +15556,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -15605,6 +15645,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15626,6 +15667,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15643,6 +15685,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -15664,6 +15707,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -15697,6 +15741,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15718,6 +15763,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15925,6 +15971,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -15954,6 +16001,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15974,6 +16022,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15993,6 +16042,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16049,6 +16099,7 @@ export namespace Prisma {
     ratePerLiter: Decimal | DecimalJsLike | number | string
     morningQuantity?: Decimal | DecimalJsLike | number | string
     eveningQuantity?: Decimal | DecimalJsLike | number | string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
     registrationDate?: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16065,6 +16116,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16085,6 +16137,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16104,6 +16157,7 @@ export namespace Prisma {
     ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null

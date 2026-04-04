@@ -108,7 +108,10 @@ const calculateCustomerMonthlyTotals = ({ customer, month, year, deliveries = []
   }
 
   // Multiply using baseline Customer constraints 
-  const totalAmount = parseFloat((totalMilkDelivered * ratePerLiter).toFixed(2));
+  const baseAmount = parseFloat((totalMilkDelivered * ratePerLiter).toFixed(2));
+  
+  const openingDue = parseFloat((customer.remainingAmount || 0).toString());
+  const totalAmount = parseFloat((baseAmount + openingDue).toFixed(2));
 
   // Loop native Payment aggregation structurally mapping properly
   const totalPaid = payments.reduce((sum, p) => sum + parseFloat(p.amountPaid.toString()), 0);
@@ -131,6 +134,8 @@ const calculateCustomerMonthlyTotals = ({ customer, month, year, deliveries = []
     totalMorningMilk: parseFloat(totalMorningMilk.toFixed(2)),
     totalEveningMilk: parseFloat(totalEveningMilk.toFixed(2)),
     totalMilkDelivered: parseFloat(totalMilkDelivered.toFixed(2)),
+    baseAmount,
+    openingDue,
     totalAmount,
     paymentPaid: parseFloat(totalPaid.toFixed(2)),
     remainingPayment,

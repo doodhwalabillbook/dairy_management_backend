@@ -69,6 +69,7 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
   let monthlyTotalEvening = 0;
   let monthlyTotalMilk = 0;
   let monthlyTotalEarning = 0;
+  let monthlyTotalOpeningDue = 0;
   let monthlyTotalPaid = 0;
   let monthlyRemaining = 0;
 
@@ -86,7 +87,8 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
     monthlyTotalMorning += monthlyCalc.totalMorningMilk;
     monthlyTotalEvening += monthlyCalc.totalEveningMilk;
     monthlyTotalMilk += monthlyCalc.totalMilkDelivered;
-    monthlyTotalEarning += monthlyCalc.totalAmount;
+    monthlyTotalEarning += monthlyCalc.baseAmount; // Isolate native earnings without previous debts
+    monthlyTotalOpeningDue += monthlyCalc.openingDue;
     monthlyTotalPaid += monthlyCalc.paymentPaid;
     monthlyRemaining += monthlyCalc.remainingPayment;
 
@@ -125,6 +127,7 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
       totalEveningMilkDelivered: parseFloat(monthlyTotalEvening.toFixed(2)),
       totalMilkDelivered: parseFloat(monthlyTotalMilk.toFixed(2)),
       totalEarning: parseFloat(monthlyTotalEarning.toFixed(2)),
+      totalOpeningDue: parseFloat(monthlyTotalOpeningDue.toFixed(2)),
       totalPaymentReceived: parseFloat(monthlyTotalPaid.toFixed(2)),
       totalPendingAmount: parseFloat(monthlyRemaining.toFixed(2)),
     }
@@ -147,6 +150,7 @@ const _buildEmptyDashboard = (targetDateStr, targetMonth, targetYear) => ({
     totalEveningMilkDelivered: 0,
     totalMilkDelivered: 0,
     totalEarning: 0,
+    totalOpeningDue: 0,
     totalPaymentReceived: 0,
     totalPendingAmount: 0,
   }
