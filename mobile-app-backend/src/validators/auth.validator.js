@@ -16,46 +16,23 @@ const adminProvisionSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
 });
 
-const vendorRegistrationSchema = z
-  .object({
-    name: z.string().min(3, 'Name must be at least 3 characters'),
-    address: z.string().min(1, 'Address is required'),
-    mobileNumber: z
-      .string()
-      .regex(/^[0-9]{10}$/, 'Mobile number must be a valid 10-digit number'),
-    registrationDate: z
-      .string()
-      .refine((val) => !isNaN(Date.parse(val)), { message: 'registrationDate must be a valid date' }),
-    billingStartDate: z
-      .string()
-      .refine((val) => !isNaN(Date.parse(val)), { message: 'billingStartDate must be a valid date' }),
-    pin: z
-      .string()
-      .regex(/^[0-9]{4,6}$/, 'PIN must be numeric and 4–6 digits'),
-  })
-  .refine(
-    (data) => new Date(data.billingStartDate) >= new Date(data.registrationDate),
-    { message: 'billingStartDate must be on or after registrationDate', path: ['billingStartDate'] }
-  );
+const vendorRegistrationSchema = z.object({
+  name: z.string().min(3, 'Name must be at least 3 characters'),
+  address: z.string().min(5, 'Address must be at least 5 characters'),
+  mobileNumber: z
+    .string()
+    .regex(/^[0-9]{10}$/, 'Mobile number must be a valid 10-digit number'),
+  pin: z
+    .string()
+    .regex(/^[0-9]{4,6}$/, 'PIN must be numeric and 4–6 digits'),
+});
 
-const vendorUpdateSchema = z
-  .object({
-    name: z.string().min(3).optional(),
-    address: z.string().min(1).optional(),
-    mobileNumber: z.string().regex(/^[0-9]{10}$/, 'Mobile number must be a valid 10-digit number').optional(),
-    registrationDate: z.string().refine((val) => !isNaN(Date.parse(val)), { message: 'Invalid date' }).optional(),
-    billingStartDate: z.string().refine((val) => !isNaN(Date.parse(val)), { message: 'Invalid date' }).optional(),
-    pin: z.string().regex(/^[0-9]{4,6}$/, 'PIN must be numeric and 4–6 digits').optional(),
-  })
-  .refine(
-    (data) => {
-      if (data.billingStartDate && data.registrationDate) {
-        return new Date(data.billingStartDate) >= new Date(data.registrationDate);
-      }
-      return true;
-    },
-    { message: 'billingStartDate must be on or after registrationDate', path: ['billingStartDate'] }
-  );
+const vendorUpdateSchema = z.object({
+  name: z.string().min(3).optional(),
+  address: z.string().min(5, 'Address must be at least 5 characters').optional(),
+  mobileNumber: z.string().regex(/^[0-9]{10}$/, 'Mobile number must be a valid 10-digit number').optional(),
+  pin: z.string().regex(/^[0-9]{4,6}$/, 'PIN must be numeric and 4–6 digits').optional(),
+});
 
 const vendorStatusSchema = z.object({
   status: z.enum(['ACTIVE', 'INACTIVE'], { required_error: 'Status must be ACTIVE or INACTIVE' })

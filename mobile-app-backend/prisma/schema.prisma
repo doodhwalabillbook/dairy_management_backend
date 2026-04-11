@@ -1,5 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Dairy Management Backend — Prisma Schema
+// Redesigned: CustomerMilkConfig versioning (effectiveFrom pattern)
 
 generator client {
   provider = "prisma-client-js"
@@ -9,6 +9,8 @@ generator client {
 datasource db {
   provider = "mysql"
 }
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
 
 enum Role {
   VENDOR
@@ -26,6 +28,8 @@ enum PaymentMode {
   CARD
 }
 
+// ─── Auth ────────────────────────────────────────────────────────────────────
+
 model User {
   id        String   @id @default(uuid()) @db.VarChar(36)
   mobile    String   @unique @db.VarChar(15)
@@ -35,8 +39,11 @@ model User {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  vendor    Vendor?
+
+  vendor Vendor?
 }
+
+// ─── Company ─────────────────────────────────────────────────────────────────
 
 model Company {
   id        String   @id @default(uuid()) @db.VarChar(36)
@@ -50,34 +57,37 @@ model Company {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  vendors   Vendor[]
+
+  vendors Vendor[]
 }
 
+// ─── Vendor ──────────────────────────────────────────────────────────────────
+
 model Vendor {
-  id               String       @id @default(uuid()) @db.VarChar(36)
-  companyId        String       @db.VarChar(36)
-  userId           String?      @unique @db.VarChar(36)
-  name             String
-  phone            String?
-  mobileNumber     String?      @unique @db.VarChar(15)
-  email            String?
-  area             String?
-  address          String?
-  registrationDate DateTime?    @db.Date
-  billingStartDate DateTime?    @db.Date
-  status           VendorStatus @default(ACTIVE)
-  isActive         Boolean      @default(true)
-  createdBy        String?      @db.VarChar(36)
-  updatedBy        String?      @db.VarChar(36)
-  joinedAt         DateTime     @default(now())
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  id           String       @id @default(uuid()) @db.VarChar(36)
+  companyId    String       @db.VarChar(36)
+  userId       String?      @unique @db.VarChar(36)
+  name         String
+  phone        String?
+  mobileNumber String?      @unique @db.VarChar(15)
+  email        String?
+  area         String?
+  address      String?
+  status       VendorStatus @default(ACTIVE)
+  isActive     Boolean      @default(true)
+  createdBy    String?      @db.VarChar(36)
+  updatedBy    String?      @db.VarChar(36)
+  joinedAt     DateTime     @default(now())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   company        Company        @relation(fields: [companyId], references: [id])
   user           User?          @relation(fields: [userId], references: [id])
   customers      Customer[]
   milkDeliveries MilkDelivery[]
 }
+
+// ─── Area ────────────────────────────────────────────────────────────────────
 
 model Area {
   id          String   @id @default(uuid()) @db.VarChar(36)
@@ -92,32 +102,52 @@ model Area {
   customers Customer[]
 }
 
+// ─── Customer (identity only — no config fields) ─────────────────────────────
+
 model Customer {
   id               String   @id @default(uuid()) @db.VarChar(36)
   vendorId         String   @db.VarChar(36)
   areaId           String   @db.VarChar(36)
   name             String
-  phone            String   @unique @db.VarChar(15)
+  phone            String   @db.VarChar(15)
   address          String
-  ratePerLiter     Decimal  @db.Decimal(10, 2)
-  morningQuantity  Decimal  @default(0) @db.Decimal(10, 2)
-  eveningQuantity  Decimal  @default(0) @db.Decimal(10, 2)
   remainingAmount  Decimal  @default(0) @db.Decimal(10, 2)
-  registrationDate DateTime @default(now())
+  registrationDate DateTime @db.Date
   isActive         Boolean  @default(true)
   createdBy        String?  @db.VarChar(36)
   updatedBy        String?  @db.VarChar(36)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
-  vendor         Vendor         @relation(fields: [vendorId], references: [id])
-  area           Area           @relation(fields: [areaId], references: [id])
+  vendor         Vendor               @relation(fields: [vendorId], references: [id])
+  area           Area                 @relation(fields: [areaId], references: [id])
+  milkConfigs    CustomerMilkConfig[]
   milkDeliveries MilkDelivery[]
   payments       Payment[]
 
   @@index([vendorId])
   @@index([areaId])
+  @@index([phone, vendorId])
 }
+
+// ─── CustomerMilkConfig (versioned config — effectiveFrom pattern) ────────────
+
+model CustomerMilkConfig {
+  id              String   @id @default(uuid()) @db.VarChar(36)
+  customerId      String   @db.VarChar(36)
+  effectiveFrom   DateTime @db.Date
+  morningQuantity Decimal  @db.Decimal(10, 2)
+  eveningQuantity Decimal  @db.Decimal(10, 2)
+  ratePerLiter    Decimal  @db.Decimal(10, 2)
+  createdAt       DateTime @default(now())
+
+  customer Customer @relation(fields: [customerId], references: [id])
+
+  @@unique([customerId, effectiveFrom])
+  @@index([customerId, effectiveFrom])
+}
+
+// ─── MilkDelivery (daily override / exception) ───────────────────────────────
 
 model MilkDelivery {
   id              String   @id @default(uuid()) @db.VarChar(36)
@@ -136,8 +166,11 @@ model MilkDelivery {
   customer Customer @relation(fields: [customerId], references: [id])
 
   @@unique([customerId, date])
-  @@index([vendorId])
+  @@index([customerId, date])
+  @@index([vendorId, date])
 }
+
+// ─── Payment ─────────────────────────────────────────────────────────────────
 
 model Payment {
   id          String      @id @default(uuid()) @db.VarChar(36)
@@ -148,21 +181,26 @@ model Payment {
   year        Int
   paymentMode PaymentMode @default(CASH)
   notes       String?
-  createdBy   String      @db.VarChar(36)
-  updatedBy   String      @db.VarChar(36)
+  createdBy   String?     @db.VarChar(36)
+  updatedBy   String?     @db.VarChar(36)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
   customer Customer @relation(fields: [customerId], references: [id])
+
+  @@index([customerId, month, year])
 }
 
+// ─── Product Catalog (unchanged) ─────────────────────────────────────────────
+
 model ProductCategory {
-  id          String    @id @default(uuid()) @db.VarChar(36)
-  name        String    @unique @db.VarChar(255)
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  name        String   @unique @db.VarChar(255)
   description String?
-  isActive    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  products    Product[]
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  products Product[]
 }
 
 model Product {

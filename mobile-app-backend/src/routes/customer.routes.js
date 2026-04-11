@@ -234,7 +234,7 @@ router.get('/:id', controller.getCustomerById);
  *                 type: number
  *               eveningQuantity:
  *                 type: number
- *               registrationDate:
+ *               effectiveFrom:
  *                 type: string
  *                 format: date
  *               remainingAmount:

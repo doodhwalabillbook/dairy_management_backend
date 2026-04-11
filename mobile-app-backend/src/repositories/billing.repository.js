@@ -1,136 +1,123 @@
+'use strict';
+
 const prisma = require('../config/prisma');
-const { Prisma } = require('../generated/prisma');
+
+// ─── Config Repository ───────────────────────────────────────────────────────
 
 /**
- * Fetch per-customer aggregated billing data for a given month and year.
+ * Fetch ALL CustomerMilkConfig rows for the given customer IDs where
+ * effectiveFrom <= endDate. This is used by the billing engine to build
+ * config ranges for each customer without per-customer DB round-trips.
  *
- * Uses a single raw SQL query with GROUP BY + SUM to avoid N+1 queries.
- * The query:
- *   - LEFT JOINs MilkDelivery filtered to the requested month/year
- *   - LEFT JOINs Payment filtered to the requested month/year
- *   - Returns one row per active customer with all aggregated values
- *
- * @param {number} month  - 1..12
- * @param {number} year   - e.g. 2026
- * @param {string|null} vendorId - optional vendor filter
- * @returns {Array} Raw aggregated rows
+ * @param {string[]} customerIds
+ * @param {Date}     endDate     - Upper bound (usually last day of billing period)
+ * @returns {Array<CustomerMilkConfig>}
  */
-const getAggregatedBillingData = async (month, year) => {
-  /**
-   * We use Prisma.$queryRaw for this aggregation because Prisma's fluent API
-   * doesn't support conditional LEFT JOIN aggregations in a single query.
-   *
-   * Prisma.sql tagged template handles parameterization safely.
-   */
-  const rows = await prisma.$queryRaw`
-    SELECT
-      c.id                                                          AS customerId,
-      c.name                                                        AS name,
-      c.address                                                     AS address,
-      CAST(c.ratePerLiter AS DECIMAL(10,2))                        AS ratePerLiter,
-
-      /* Count days where any milk was delivered */
-      COUNT(
-        DISTINCT CASE
-          WHEN (md.morningQuantity + md.eveningQuantity) > 0
-          THEN md.date
-          ELSE NULL
-        END
-      )                                                             AS totalDaysMilkTaken,
-
-      /* Total litres delivered in the month */
-      COALESCE(
-        SUM(md.morningQuantity + md.eveningQuantity), 0
-      )                                                             AS totalMilkDelivered,
-
-      /* Total payments received in the month */
-      COALESCE(SUM(DISTINCT p.amountPaid_grouped), 0)              AS paymentPaid
-
-    FROM Customer c
-
-    /* Only active customers */
-    WHERE c.isActive = TRUE
-
-    /* LEFT JOIN milk deliveries for the requested month/year */
-    LEFT JOIN MilkDelivery md
-      ON md.customerId = c.id
-      AND MONTH(md.date) = ${month}
-      AND YEAR(md.date)  = ${year}
-
-    /* Aggregate payments in a subquery to avoid cross-join duplication */
-    LEFT JOIN (
-      SELECT customerId, SUM(amountPaid) AS amountPaid_grouped
-      FROM Payment
-      WHERE MONTH(paymentDate) = ${month}
-        AND YEAR(paymentDate)  = ${year}
-      GROUP BY customerId
-    ) p ON p.customerId = c.id
-
-    GROUP BY c.id, c.name, c.address, c.ratePerLiter
-    ORDER BY c.name ASC
-  `;
-
-  return rows;
+const getConfigsForCustomers = async (customerIds, endDate) => {
+  if (!customerIds.length) return [];
+  return prisma.customerMilkConfig.findMany({
+    where: {
+      customerId:    { in: customerIds },
+      effectiveFrom: { lte: endDate },
+    },
+    orderBy: [
+      { customerId:    'asc' },
+      { effectiveFrom: 'asc' },
+    ],
+  });
 };
 
 /**
- * Fetch aggregated billing data filtered by vendorId.
- * Same query as above but adds a WHERE clause on vendorId.
+ * Fetch ALL config rows for a single customer (no date filter).
+ * Used by milk-delivery service for per-customer monthly view.
+ *
+ * @param {string} customerId
+ * @returns {Array<CustomerMilkConfig>}
  */
-const getAggregatedBillingDataByVendor = async (month, year, vendorId) => {
-  const rows = await prisma.$queryRaw`
-    SELECT
-      c.id                                                          AS customerId,
-      c.name                                                        AS name,
-      c.address                                                     AS address,
-      CAST(c.ratePerLiter AS DECIMAL(10,2))                        AS ratePerLiter,
-
-      COUNT(
-        DISTINCT CASE
-          WHEN (md.morningQuantity + md.eveningQuantity) > 0
-          THEN md.date
-          ELSE NULL
-        END
-      )                                                             AS totalDaysMilkTaken,
-
-      COALESCE(
-        SUM(md.morningQuantity + md.eveningQuantity), 0
-      )                                                             AS totalMilkDelivered,
-
-      COALESCE(SUM(DISTINCT p.amountPaid_grouped), 0)              AS paymentPaid
-
-    FROM Customer c
-
-    WHERE c.isActive = TRUE
-      AND c.vendorId = ${vendorId}
-
-    LEFT JOIN MilkDelivery md
-      ON md.customerId = c.id
-      AND MONTH(md.date) = ${month}
-      AND YEAR(md.date)  = ${year}
-
-    LEFT JOIN (
-      SELECT customerId, SUM(amountPaid) AS amountPaid_grouped
-      FROM Payment
-      WHERE MONTH(paymentDate) = ${month}
-        AND YEAR(paymentDate)  = ${year}
-      GROUP BY customerId
-    ) p ON p.customerId = c.id
-
-    GROUP BY c.id, c.name, c.address, c.ratePerLiter
-    ORDER BY c.name ASC
-  `;
-
-  return rows;
+const getConfigsForCustomer = async (customerId) => {
+  return prisma.customerMilkConfig.findMany({
+    where: { customerId },
+    orderBy: { effectiveFrom: 'asc' },
+  });
 };
 
-module.exports = { getAggregatedBillingData, getAggregatedBillingDataByVendor };
+/**
+ * Upsert a CustomerMilkConfig row.
+ * Uses the unique constraint (customerId, effectiveFrom) as the upsert key
+ * so the same effectiveFrom on update is idempotent (useful for re-runs).
+ *
+ * @param {Object} data - { customerId, effectiveFrom, morningQuantity, eveningQuantity, ratePerLiter }
+ * @returns {CustomerMilkConfig}
+ */
+const upsertMilkConfig = async (data) => {
+  return prisma.customerMilkConfig.upsert({
+    where: {
+      customerId_effectiveFrom: {
+        customerId:    data.customerId,
+        effectiveFrom: data.effectiveFrom,
+      },
+    },
+    update: {
+      morningQuantity: data.morningQuantity,
+      eveningQuantity: data.eveningQuantity,
+      ratePerLiter:    data.ratePerLiter,
+    },
+    create: {
+      customerId:      data.customerId,
+      effectiveFrom:   data.effectiveFrom,
+      morningQuantity: data.morningQuantity,
+      eveningQuantity: data.eveningQuantity,
+      ratePerLiter:    data.ratePerLiter,
+    },
+  });
+};
 
-// ─── Payment Repository Methods ───────────────────────────────────────────────
+// ─── Billing / Payment Repository ────────────────────────────────────────────
+
+/**
+ * Bulk fetch deliveries for multiple customers in a date range.
+ * Single query — no N+1.
+ *
+ * @param {string[]} customerIds
+ * @param {Date}     startDate
+ * @param {Date}     endDate
+ * @returns {Array<MilkDelivery>}
+ */
+const getDeliveriesForCustomers = async (customerIds, startDate, endDate) => {
+  if (!customerIds.length) return [];
+  return prisma.milkDelivery.findMany({
+    where: {
+      customerId: { in: customerIds },
+      date: { gte: startDate, lte: endDate },
+    },
+    orderBy: { date: 'asc' },
+  });
+};
+
+/**
+ * Bulk fetch payments for multiple customers in a specific month/year.
+ *
+ * @param {string[]} customerIds
+ * @param {number}   month
+ * @param {number}   year
+ * @returns {Array<Payment>}
+ */
+const getPaymentsForCustomers = async (customerIds, month, year) => {
+  if (!customerIds.length) return [];
+  return prisma.payment.findMany({
+    where: {
+      customerId: { in: customerIds },
+      month,
+      year,
+    },
+  });
+};
 
 /**
  * Insert a new payment record.
- * @param {Object} data - Validated payment fields + createdBy/updatedBy
+ *
+ * @param {Object} data - Validated payment fields
+ * @returns {Payment}
  */
 const createPayment = async (data) =>
   prisma.payment.create({
@@ -139,67 +126,44 @@ const createPayment = async (data) =>
   });
 
 /**
- * Compute the total milk billing amount for a customer in a specific month/year.
- * Returns totalMilkDelivered, ratePerLiter, and the running totalPaid.
- * Uses a single raw SQL query to avoid multiple round-trips.
- */
-const getCustomerMonthBillingTotals = async (customerId, month, year) => {
-  const rows = await prisma.$queryRaw`
-    SELECT
-      CAST(c.ratePerLiter AS DECIMAL(10,2))                     AS ratePerLiter,
-      COALESCE(SUM(md.morningQuantity + md.eveningQuantity), 0) AS totalMilkDelivered,
-      COALESCE(p.totalPaid, 0)                                  AS totalPaid
-    FROM Customer c
-
-    LEFT JOIN MilkDelivery md
-      ON md.customerId = c.id
-      AND MONTH(md.date) = ${month}
-      AND YEAR(md.date)  = ${year}
-
-    LEFT JOIN (
-      SELECT customerId, SUM(amountPaid) AS totalPaid
-      FROM Payment
-      WHERE customerId    = ${customerId}
-        AND month         = ${month}
-        AND year          = ${year}
-      GROUP BY customerId
-    ) p ON p.customerId = c.id
-
-    WHERE c.id = ${customerId}
-    GROUP BY c.id, c.ratePerLiter, p.totalPaid
-  `;
-
-  return rows[0] || null;
-};
-
-/**
  * Fetch payment history for a customer, optionally filtered by month/year.
+ *
+ * @param {string} customerId
+ * @param {Object} opts - { month?, year? }
+ * @returns {Array<Payment>}
  */
 const findPaymentHistory = async (customerId, { month, year } = {}) => {
   const where = { customerId };
   if (month !== undefined) where.month = month;
-  if (year !== undefined) where.year = year;
+  if (year  !== undefined) where.year  = year;
 
   return prisma.payment.findMany({
     where,
     orderBy: { paymentDate: 'desc' },
     select: {
-      id: true,
-      amountPaid: true,
+      id:          true,
+      amountPaid:  true,
       paymentDate: true,
-      month: true,
-      year: true,
+      month:       true,
+      year:        true,
       paymentMode: true,
-      notes: true,
-      createdAt: true,
+      notes:       true,
+      createdAt:   true,
     },
   });
 };
 
+// ─── Exports ─────────────────────────────────────────────────────────────────
+
 module.exports = {
-  getAggregatedBillingData,
-  getAggregatedBillingDataByVendor,
+  // Config
+  getConfigsForCustomers,
+  getConfigsForCustomer,
+  upsertMilkConfig,
+  // Delivery / Payment bulk
+  getDeliveriesForCustomers,
+  getPaymentsForCustomers,
+  // Payment CRUD
   createPayment,
-  getCustomerMonthBillingTotals,
   findPaymentHistory,
 };

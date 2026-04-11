@@ -1,27 +1,55 @@
+'use strict';
+
 const prisma = require('../config/prisma');
 
+// ─── Customer CRUD ───────────────────────────────────────────────────────────
+
 /**
- * Create a new customer record.
- * @param {Object} data - Customer data including vendorId, createdBy, updatedBy, etc.
+ * Atomically create a Customer + its first CustomerMilkConfig.
+ * Wrapped in a Prisma transaction so both rows succeed or both roll back.
+ *
+ * @param {Object} customerData - Customer fields (no rate/qty)
+ * @param {Object} configData   - { effectiveFrom, morningQuantity, eveningQuantity, ratePerLiter }
+ * @returns {Customer} - The created customer with vendor/area relations
  */
-const createCustomer = async (data) =>
-  prisma.customer.create({
-    data,
-    include: { vendor: { select: { id: true, name: true } }, area: { select: { id: true, name: true } } },
+const createCustomerWithConfig = async (customerData, configData) => {
+  return prisma.$transaction(async (tx) => {
+    // 1. Create the customer record
+    const customer = await tx.customer.create({
+      data: customerData,
+      include: {
+        vendor: { select: { id: true, name: true } },
+        area:   { select: { id: true, name: true } },
+      },
+    });
+
+    // 2. Seed the first config version
+    await tx.customerMilkConfig.create({
+      data: {
+        customerId:      customer.id,
+        effectiveFrom:   configData.effectiveFrom,
+        morningQuantity: configData.morningQuantity,
+        eveningQuantity: configData.eveningQuantity,
+        ratePerLiter:    configData.ratePerLiter,
+      },
+    });
+
+    return customer;
   });
+};
 
 /**
  * Get paginated list of customers with optional filters.
- * @param {Object} options - { page, limit, isActive, vendorId }
+ *
+ * @param {Object} opts - { page, limit, isActive?, vendorId?, areaId? }
+ * @returns {{ total, page, limit, data }}
  */
 const findAllCustomers = async ({ page = 1, limit = 10, isActive, vendorId, areaId }) => {
-  const skip = (page - 1) * limit;
-
-  // Build dynamic where clause
+  const skip  = (page - 1) * limit;
   const where = {};
-  if (isActive !== undefined) where.isActive = isActive;
-  if (vendorId) where.vendorId = vendorId;
-  if (areaId) where.areaId = areaId;
+  if (isActive !== undefined) where.isActive  = isActive;
+  if (vendorId)               where.vendorId  = vendorId;
+  if (areaId)                 where.areaId    = areaId;
 
   const [total, data] = await Promise.all([
     prisma.customer.count({ where }),
@@ -30,7 +58,14 @@ const findAllCustomers = async ({ page = 1, limit = 10, isActive, vendorId, area
       skip,
       take: limit,
       orderBy: { createdAt: 'desc' },
-      include: { vendor: { select: { id: true, name: true } }, area: { select: { id: true, name: true } } },
+      include: {
+        vendor:      { select: { id: true, name: true } },
+        area:        { select: { id: true, name: true } },
+        milkConfigs: {
+          orderBy: { effectiveFrom: 'desc' },
+          take: 1, // latest active config for display
+        },
+      },
     }),
   ]);
 
@@ -38,53 +73,75 @@ const findAllCustomers = async ({ page = 1, limit = 10, isActive, vendorId, area
 };
 
 /**
- * Find a single customer by primary key.
- * @param {string} id - UUID of the customer
+ * Find a single customer by primary key, including their latest config.
+ *
+ * @param {string} id
+ * @returns {Customer | null}
  */
 const findCustomerById = async (id) =>
   prisma.customer.findUnique({
     where: { id },
-    include: { vendor: { select: { id: true, name: true, phone: true } }, area: { select: { id: true, name: true } } },
+    include: {
+      vendor:      { select: { id: true, name: true, phone: true } },
+      area:        { select: { id: true, name: true } },
+      milkConfigs: { orderBy: { effectiveFrom: 'desc' } }, // all versions, latest first
+    },
   });
 
 /**
- * Update an existing customer.
- * @param {string} id - UUID of the customer
- * @param {Object} data - Fields to update
+ * Update a customer's identity fields only (name, phone, address, etc.).
+ * Config updates are handled separately via upsertMilkConfig.
+ *
+ * @param {string} id
+ * @param {Object} data - Fields to update (no rate/qty)
+ * @returns {Customer}
  */
 const updateCustomer = async (id, data) =>
   prisma.customer.update({
     where: { id },
     data,
-    include: { vendor: { select: { id: true, name: true } }, area: { select: { id: true, name: true } } },
+    include: {
+      vendor:      { select: { id: true, name: true } },
+      area:        { select: { id: true, name: true } },
+      milkConfigs: { orderBy: { effectiveFrom: 'desc' }, take: 1 },
+    },
   });
 
 /**
- * Soft delete: set isActive = false instead of removing the record.
- * @param {string} id - UUID of the customer
- * @param {string} updatedBy - ID of the user performing the delete
+ * Soft delete: set isActive = false.
+ *
+ * @param {string} id
+ * @param {string} updatedBy
+ * @returns {Customer}
  */
 const softDeleteCustomer = async (id, updatedBy) =>
   prisma.customer.update({
     where: { id },
-    data: { isActive: false, updatedBy },
+    data:  { isActive: false, updatedBy },
   });
 
 /**
- * Check whether a phone number already exists (with optional exclusion for updates).
- * @param {string} phone - Phone number to check
- * @param {string|null} excludeId - Customer ID to exclude from the check
+ * Check if a phone number already exists for the same vendor.
+ * (Phone is now unique per vendor, not globally.)
+ *
+ * @param {string} phone
+ * @param {string} vendorId
+ * @param {string|null} excludeId - Exclude this customer ID (for updates)
+ * @returns {Customer | null}
  */
-const customerPhoneExists = async (phone, excludeId = null) =>
+const customerPhoneExists = async (phone, vendorId, excludeId = null) =>
   prisma.customer.findFirst({
     where: {
       phone,
+      vendorId,
       ...(excludeId ? { NOT: { id: excludeId } } : {}),
     },
   });
 
+// ─── Exports ─────────────────────────────────────────────────────────────────
+
 module.exports = {
-  createCustomer,
+  createCustomerWithConfig,
   findAllCustomers,
   findCustomerById,
   updateCustomer,

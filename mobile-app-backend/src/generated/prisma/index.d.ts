@@ -39,6 +39,11 @@ export type Area = $Result.DefaultSelection<Prisma.$AreaPayload>
  */
 export type Customer = $Result.DefaultSelection<Prisma.$CustomerPayload>
 /**
+ * Model CustomerMilkConfig
+ * 
+ */
+export type CustomerMilkConfig = $Result.DefaultSelection<Prisma.$CustomerMilkConfigPayload>
+/**
  * Model MilkDelivery
  * 
  */
@@ -271,6 +276,16 @@ export class PrismaClient<
     * ```
     */
   get customer(): Prisma.CustomerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customerMilkConfig`: Exposes CRUD operations for the **CustomerMilkConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomerMilkConfigs
+    * const customerMilkConfigs = await prisma.customerMilkConfig.findMany()
+    * ```
+    */
+  get customerMilkConfig(): Prisma.CustomerMilkConfigDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.milkDelivery`: Exposes CRUD operations for the **MilkDelivery** model.
@@ -750,6 +765,7 @@ export namespace Prisma {
     Vendor: 'Vendor',
     Area: 'Area',
     Customer: 'Customer',
+    CustomerMilkConfig: 'CustomerMilkConfig',
     MilkDelivery: 'MilkDelivery',
     Payment: 'Payment',
     ProductCategory: 'ProductCategory',
@@ -769,7 +785,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "company" | "vendor" | "area" | "customer" | "milkDelivery" | "payment" | "productCategory" | "product"
+      modelProps: "user" | "company" | "vendor" | "area" | "customer" | "customerMilkConfig" | "milkDelivery" | "payment" | "productCategory" | "product"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1100,6 +1116,72 @@ export namespace Prisma {
           count: {
             args: Prisma.CustomerCountArgs<ExtArgs>
             result: $Utils.Optional<CustomerCountAggregateOutputType> | number
+          }
+        }
+      }
+      CustomerMilkConfig: {
+        payload: Prisma.$CustomerMilkConfigPayload<ExtArgs>
+        fields: Prisma.CustomerMilkConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomerMilkConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerMilkConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomerMilkConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerMilkConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomerMilkConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerMilkConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomerMilkConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerMilkConfigPayload>
+          }
+          findMany: {
+            args: Prisma.CustomerMilkConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerMilkConfigPayload>[]
+          }
+          create: {
+            args: Prisma.CustomerMilkConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerMilkConfigPayload>
+          }
+          createMany: {
+            args: Prisma.CustomerMilkConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.CustomerMilkConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerMilkConfigPayload>
+          }
+          update: {
+            args: Prisma.CustomerMilkConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerMilkConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomerMilkConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomerMilkConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CustomerMilkConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerMilkConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomerMilkConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomerMilkConfig>
+          }
+          groupBy: {
+            args: Prisma.CustomerMilkConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomerMilkConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomerMilkConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomerMilkConfigCountAggregateOutputType> | number
           }
         }
       }
@@ -1480,6 +1562,7 @@ export namespace Prisma {
     vendor?: VendorOmit
     area?: AreaOmit
     customer?: CustomerOmit
+    customerMilkConfig?: CustomerMilkConfigOmit
     milkDelivery?: MilkDeliveryOmit
     payment?: PaymentOmit
     productCategory?: ProductCategoryOmit
@@ -1666,11 +1749,13 @@ export namespace Prisma {
    */
 
   export type CustomerCountOutputType = {
+    milkConfigs: number
     milkDeliveries: number
     payments: number
   }
 
   export type CustomerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    milkConfigs?: boolean | CustomerCountOutputTypeCountMilkConfigsArgs
     milkDeliveries?: boolean | CustomerCountOutputTypeCountMilkDeliveriesArgs
     payments?: boolean | CustomerCountOutputTypeCountPaymentsArgs
   }
@@ -1684,6 +1769,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the CustomerCountOutputType
      */
     select?: CustomerCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CustomerCountOutputType without action
+   */
+  export type CustomerCountOutputTypeCountMilkConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomerMilkConfigWhereInput
   }
 
   /**
@@ -3768,8 +3860,6 @@ export namespace Prisma {
     email: string | null
     area: string | null
     address: string | null
-    registrationDate: Date | null
-    billingStartDate: Date | null
     status: $Enums.VendorStatus | null
     isActive: boolean | null
     createdBy: string | null
@@ -3789,8 +3879,6 @@ export namespace Prisma {
     email: string | null
     area: string | null
     address: string | null
-    registrationDate: Date | null
-    billingStartDate: Date | null
     status: $Enums.VendorStatus | null
     isActive: boolean | null
     createdBy: string | null
@@ -3810,8 +3898,6 @@ export namespace Prisma {
     email: number
     area: number
     address: number
-    registrationDate: number
-    billingStartDate: number
     status: number
     isActive: number
     createdBy: number
@@ -3833,8 +3919,6 @@ export namespace Prisma {
     email?: true
     area?: true
     address?: true
-    registrationDate?: true
-    billingStartDate?: true
     status?: true
     isActive?: true
     createdBy?: true
@@ -3854,8 +3938,6 @@ export namespace Prisma {
     email?: true
     area?: true
     address?: true
-    registrationDate?: true
-    billingStartDate?: true
     status?: true
     isActive?: true
     createdBy?: true
@@ -3875,8 +3957,6 @@ export namespace Prisma {
     email?: true
     area?: true
     address?: true
-    registrationDate?: true
-    billingStartDate?: true
     status?: true
     isActive?: true
     createdBy?: true
@@ -3969,8 +4049,6 @@ export namespace Prisma {
     email: string | null
     area: string | null
     address: string | null
-    registrationDate: Date | null
-    billingStartDate: Date | null
     status: $Enums.VendorStatus
     isActive: boolean
     createdBy: string | null
@@ -4007,8 +4085,6 @@ export namespace Prisma {
     email?: boolean
     area?: boolean
     address?: boolean
-    registrationDate?: boolean
-    billingStartDate?: boolean
     status?: boolean
     isActive?: boolean
     createdBy?: boolean
@@ -4035,8 +4111,6 @@ export namespace Prisma {
     email?: boolean
     area?: boolean
     address?: boolean
-    registrationDate?: boolean
-    billingStartDate?: boolean
     status?: boolean
     isActive?: boolean
     createdBy?: boolean
@@ -4046,7 +4120,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type VendorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "userId" | "name" | "phone" | "mobileNumber" | "email" | "area" | "address" | "registrationDate" | "billingStartDate" | "status" | "isActive" | "createdBy" | "updatedBy" | "joinedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["vendor"]>
+  export type VendorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "userId" | "name" | "phone" | "mobileNumber" | "email" | "area" | "address" | "status" | "isActive" | "createdBy" | "updatedBy" | "joinedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["vendor"]>
   export type VendorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     user?: boolean | Vendor$userArgs<ExtArgs>
@@ -4073,8 +4147,6 @@ export namespace Prisma {
       email: string | null
       area: string | null
       address: string | null
-      registrationDate: Date | null
-      billingStartDate: Date | null
       status: $Enums.VendorStatus
       isActive: boolean
       createdBy: string | null
@@ -4464,8 +4536,6 @@ export namespace Prisma {
     readonly email: FieldRef<"Vendor", 'String'>
     readonly area: FieldRef<"Vendor", 'String'>
     readonly address: FieldRef<"Vendor", 'String'>
-    readonly registrationDate: FieldRef<"Vendor", 'DateTime'>
-    readonly billingStartDate: FieldRef<"Vendor", 'DateTime'>
     readonly status: FieldRef<"Vendor", 'VendorStatus'>
     readonly isActive: FieldRef<"Vendor", 'Boolean'>
     readonly createdBy: FieldRef<"Vendor", 'String'>
@@ -5912,16 +5982,10 @@ export namespace Prisma {
   }
 
   export type CustomerAvgAggregateOutputType = {
-    ratePerLiter: Decimal | null
-    morningQuantity: Decimal | null
-    eveningQuantity: Decimal | null
     remainingAmount: Decimal | null
   }
 
   export type CustomerSumAggregateOutputType = {
-    ratePerLiter: Decimal | null
-    morningQuantity: Decimal | null
-    eveningQuantity: Decimal | null
     remainingAmount: Decimal | null
   }
 
@@ -5932,9 +5996,6 @@ export namespace Prisma {
     name: string | null
     phone: string | null
     address: string | null
-    ratePerLiter: Decimal | null
-    morningQuantity: Decimal | null
-    eveningQuantity: Decimal | null
     remainingAmount: Decimal | null
     registrationDate: Date | null
     isActive: boolean | null
@@ -5951,9 +6012,6 @@ export namespace Prisma {
     name: string | null
     phone: string | null
     address: string | null
-    ratePerLiter: Decimal | null
-    morningQuantity: Decimal | null
-    eveningQuantity: Decimal | null
     remainingAmount: Decimal | null
     registrationDate: Date | null
     isActive: boolean | null
@@ -5970,9 +6028,6 @@ export namespace Prisma {
     name: number
     phone: number
     address: number
-    ratePerLiter: number
-    morningQuantity: number
-    eveningQuantity: number
     remainingAmount: number
     registrationDate: number
     isActive: number
@@ -5985,16 +6040,10 @@ export namespace Prisma {
 
 
   export type CustomerAvgAggregateInputType = {
-    ratePerLiter?: true
-    morningQuantity?: true
-    eveningQuantity?: true
     remainingAmount?: true
   }
 
   export type CustomerSumAggregateInputType = {
-    ratePerLiter?: true
-    morningQuantity?: true
-    eveningQuantity?: true
     remainingAmount?: true
   }
 
@@ -6005,9 +6054,6 @@ export namespace Prisma {
     name?: true
     phone?: true
     address?: true
-    ratePerLiter?: true
-    morningQuantity?: true
-    eveningQuantity?: true
     remainingAmount?: true
     registrationDate?: true
     isActive?: true
@@ -6024,9 +6070,6 @@ export namespace Prisma {
     name?: true
     phone?: true
     address?: true
-    ratePerLiter?: true
-    morningQuantity?: true
-    eveningQuantity?: true
     remainingAmount?: true
     registrationDate?: true
     isActive?: true
@@ -6043,9 +6086,6 @@ export namespace Prisma {
     name?: true
     phone?: true
     address?: true
-    ratePerLiter?: true
-    morningQuantity?: true
-    eveningQuantity?: true
     remainingAmount?: true
     registrationDate?: true
     isActive?: true
@@ -6149,9 +6189,6 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal
-    morningQuantity: Decimal
-    eveningQuantity: Decimal
     remainingAmount: Decimal
     registrationDate: Date
     isActive: boolean
@@ -6187,9 +6224,6 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     address?: boolean
-    ratePerLiter?: boolean
-    morningQuantity?: boolean
-    eveningQuantity?: boolean
     remainingAmount?: boolean
     registrationDate?: boolean
     isActive?: boolean
@@ -6199,6 +6233,7 @@ export namespace Prisma {
     updatedAt?: boolean
     vendor?: boolean | VendorDefaultArgs<ExtArgs>
     area?: boolean | AreaDefaultArgs<ExtArgs>
+    milkConfigs?: boolean | Customer$milkConfigsArgs<ExtArgs>
     milkDeliveries?: boolean | Customer$milkDeliveriesArgs<ExtArgs>
     payments?: boolean | Customer$paymentsArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
@@ -6213,9 +6248,6 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     address?: boolean
-    ratePerLiter?: boolean
-    morningQuantity?: boolean
-    eveningQuantity?: boolean
     remainingAmount?: boolean
     registrationDate?: boolean
     isActive?: boolean
@@ -6225,10 +6257,11 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "areaId" | "name" | "phone" | "address" | "ratePerLiter" | "morningQuantity" | "eveningQuantity" | "remainingAmount" | "registrationDate" | "isActive" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "areaId" | "name" | "phone" | "address" | "remainingAmount" | "registrationDate" | "isActive" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
   export type CustomerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorDefaultArgs<ExtArgs>
     area?: boolean | AreaDefaultArgs<ExtArgs>
+    milkConfigs?: boolean | Customer$milkConfigsArgs<ExtArgs>
     milkDeliveries?: boolean | Customer$milkDeliveriesArgs<ExtArgs>
     payments?: boolean | Customer$paymentsArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
@@ -6239,6 +6272,7 @@ export namespace Prisma {
     objects: {
       vendor: Prisma.$VendorPayload<ExtArgs>
       area: Prisma.$AreaPayload<ExtArgs>
+      milkConfigs: Prisma.$CustomerMilkConfigPayload<ExtArgs>[]
       milkDeliveries: Prisma.$MilkDeliveryPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
@@ -6249,9 +6283,6 @@ export namespace Prisma {
       name: string
       phone: string
       address: string
-      ratePerLiter: Prisma.Decimal
-      morningQuantity: Prisma.Decimal
-      eveningQuantity: Prisma.Decimal
       remainingAmount: Prisma.Decimal
       registrationDate: Date
       isActive: boolean
@@ -6601,6 +6632,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     vendor<T extends VendorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorDefaultArgs<ExtArgs>>): Prisma__VendorClient<$Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     area<T extends AreaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AreaDefaultArgs<ExtArgs>>): Prisma__AreaClient<$Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    milkConfigs<T extends Customer$milkConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$milkConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     milkDeliveries<T extends Customer$milkDeliveriesArgs<ExtArgs> = {}>(args?: Subset<T, Customer$milkDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MilkDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Customer$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -6638,9 +6670,6 @@ export namespace Prisma {
     readonly name: FieldRef<"Customer", 'String'>
     readonly phone: FieldRef<"Customer", 'String'>
     readonly address: FieldRef<"Customer", 'String'>
-    readonly ratePerLiter: FieldRef<"Customer", 'Decimal'>
-    readonly morningQuantity: FieldRef<"Customer", 'Decimal'>
-    readonly eveningQuantity: FieldRef<"Customer", 'Decimal'>
     readonly remainingAmount: FieldRef<"Customer", 'Decimal'>
     readonly registrationDate: FieldRef<"Customer", 'DateTime'>
     readonly isActive: FieldRef<"Customer", 'Boolean'>
@@ -6996,6 +7025,30 @@ export namespace Prisma {
   }
 
   /**
+   * Customer.milkConfigs
+   */
+  export type Customer$milkConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    where?: CustomerMilkConfigWhereInput
+    orderBy?: CustomerMilkConfigOrderByWithRelationInput | CustomerMilkConfigOrderByWithRelationInput[]
+    cursor?: CustomerMilkConfigWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomerMilkConfigScalarFieldEnum | CustomerMilkConfigScalarFieldEnum[]
+  }
+
+  /**
    * Customer.milkDeliveries
    */
   export type Customer$milkDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7059,6 +7112,1004 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CustomerInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CustomerMilkConfig
+   */
+
+  export type AggregateCustomerMilkConfig = {
+    _count: CustomerMilkConfigCountAggregateOutputType | null
+    _avg: CustomerMilkConfigAvgAggregateOutputType | null
+    _sum: CustomerMilkConfigSumAggregateOutputType | null
+    _min: CustomerMilkConfigMinAggregateOutputType | null
+    _max: CustomerMilkConfigMaxAggregateOutputType | null
+  }
+
+  export type CustomerMilkConfigAvgAggregateOutputType = {
+    morningQuantity: Decimal | null
+    eveningQuantity: Decimal | null
+    ratePerLiter: Decimal | null
+  }
+
+  export type CustomerMilkConfigSumAggregateOutputType = {
+    morningQuantity: Decimal | null
+    eveningQuantity: Decimal | null
+    ratePerLiter: Decimal | null
+  }
+
+  export type CustomerMilkConfigMinAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    effectiveFrom: Date | null
+    morningQuantity: Decimal | null
+    eveningQuantity: Decimal | null
+    ratePerLiter: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type CustomerMilkConfigMaxAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    effectiveFrom: Date | null
+    morningQuantity: Decimal | null
+    eveningQuantity: Decimal | null
+    ratePerLiter: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type CustomerMilkConfigCountAggregateOutputType = {
+    id: number
+    customerId: number
+    effectiveFrom: number
+    morningQuantity: number
+    eveningQuantity: number
+    ratePerLiter: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CustomerMilkConfigAvgAggregateInputType = {
+    morningQuantity?: true
+    eveningQuantity?: true
+    ratePerLiter?: true
+  }
+
+  export type CustomerMilkConfigSumAggregateInputType = {
+    morningQuantity?: true
+    eveningQuantity?: true
+    ratePerLiter?: true
+  }
+
+  export type CustomerMilkConfigMinAggregateInputType = {
+    id?: true
+    customerId?: true
+    effectiveFrom?: true
+    morningQuantity?: true
+    eveningQuantity?: true
+    ratePerLiter?: true
+    createdAt?: true
+  }
+
+  export type CustomerMilkConfigMaxAggregateInputType = {
+    id?: true
+    customerId?: true
+    effectiveFrom?: true
+    morningQuantity?: true
+    eveningQuantity?: true
+    ratePerLiter?: true
+    createdAt?: true
+  }
+
+  export type CustomerMilkConfigCountAggregateInputType = {
+    id?: true
+    customerId?: true
+    effectiveFrom?: true
+    morningQuantity?: true
+    eveningQuantity?: true
+    ratePerLiter?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CustomerMilkConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomerMilkConfig to aggregate.
+     */
+    where?: CustomerMilkConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomerMilkConfigs to fetch.
+     */
+    orderBy?: CustomerMilkConfigOrderByWithRelationInput | CustomerMilkConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomerMilkConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomerMilkConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomerMilkConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomerMilkConfigs
+    **/
+    _count?: true | CustomerMilkConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CustomerMilkConfigAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CustomerMilkConfigSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomerMilkConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomerMilkConfigMaxAggregateInputType
+  }
+
+  export type GetCustomerMilkConfigAggregateType<T extends CustomerMilkConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomerMilkConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomerMilkConfig[P]>
+      : GetScalarType<T[P], AggregateCustomerMilkConfig[P]>
+  }
+
+
+
+
+  export type CustomerMilkConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomerMilkConfigWhereInput
+    orderBy?: CustomerMilkConfigOrderByWithAggregationInput | CustomerMilkConfigOrderByWithAggregationInput[]
+    by: CustomerMilkConfigScalarFieldEnum[] | CustomerMilkConfigScalarFieldEnum
+    having?: CustomerMilkConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomerMilkConfigCountAggregateInputType | true
+    _avg?: CustomerMilkConfigAvgAggregateInputType
+    _sum?: CustomerMilkConfigSumAggregateInputType
+    _min?: CustomerMilkConfigMinAggregateInputType
+    _max?: CustomerMilkConfigMaxAggregateInputType
+  }
+
+  export type CustomerMilkConfigGroupByOutputType = {
+    id: string
+    customerId: string
+    effectiveFrom: Date
+    morningQuantity: Decimal
+    eveningQuantity: Decimal
+    ratePerLiter: Decimal
+    createdAt: Date
+    _count: CustomerMilkConfigCountAggregateOutputType | null
+    _avg: CustomerMilkConfigAvgAggregateOutputType | null
+    _sum: CustomerMilkConfigSumAggregateOutputType | null
+    _min: CustomerMilkConfigMinAggregateOutputType | null
+    _max: CustomerMilkConfigMaxAggregateOutputType | null
+  }
+
+  type GetCustomerMilkConfigGroupByPayload<T extends CustomerMilkConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomerMilkConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomerMilkConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomerMilkConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomerMilkConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomerMilkConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    effectiveFrom?: boolean
+    morningQuantity?: boolean
+    eveningQuantity?: boolean
+    ratePerLiter?: boolean
+    createdAt?: boolean
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customerMilkConfig"]>
+
+
+
+  export type CustomerMilkConfigSelectScalar = {
+    id?: boolean
+    customerId?: boolean
+    effectiveFrom?: boolean
+    morningQuantity?: boolean
+    eveningQuantity?: boolean
+    ratePerLiter?: boolean
+    createdAt?: boolean
+  }
+
+  export type CustomerMilkConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "effectiveFrom" | "morningQuantity" | "eveningQuantity" | "ratePerLiter" | "createdAt", ExtArgs["result"]["customerMilkConfig"]>
+  export type CustomerMilkConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+  }
+
+  export type $CustomerMilkConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomerMilkConfig"
+    objects: {
+      customer: Prisma.$CustomerPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      customerId: string
+      effectiveFrom: Date
+      morningQuantity: Prisma.Decimal
+      eveningQuantity: Prisma.Decimal
+      ratePerLiter: Prisma.Decimal
+      createdAt: Date
+    }, ExtArgs["result"]["customerMilkConfig"]>
+    composites: {}
+  }
+
+  type CustomerMilkConfigGetPayload<S extends boolean | null | undefined | CustomerMilkConfigDefaultArgs> = $Result.GetResult<Prisma.$CustomerMilkConfigPayload, S>
+
+  type CustomerMilkConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomerMilkConfigFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomerMilkConfigCountAggregateInputType | true
+    }
+
+  export interface CustomerMilkConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomerMilkConfig'], meta: { name: 'CustomerMilkConfig' } }
+    /**
+     * Find zero or one CustomerMilkConfig that matches the filter.
+     * @param {CustomerMilkConfigFindUniqueArgs} args - Arguments to find a CustomerMilkConfig
+     * @example
+     * // Get one CustomerMilkConfig
+     * const customerMilkConfig = await prisma.customerMilkConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomerMilkConfigFindUniqueArgs>(args: SelectSubset<T, CustomerMilkConfigFindUniqueArgs<ExtArgs>>): Prisma__CustomerMilkConfigClient<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomerMilkConfig that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomerMilkConfigFindUniqueOrThrowArgs} args - Arguments to find a CustomerMilkConfig
+     * @example
+     * // Get one CustomerMilkConfig
+     * const customerMilkConfig = await prisma.customerMilkConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomerMilkConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomerMilkConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomerMilkConfigClient<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomerMilkConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerMilkConfigFindFirstArgs} args - Arguments to find a CustomerMilkConfig
+     * @example
+     * // Get one CustomerMilkConfig
+     * const customerMilkConfig = await prisma.customerMilkConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomerMilkConfigFindFirstArgs>(args?: SelectSubset<T, CustomerMilkConfigFindFirstArgs<ExtArgs>>): Prisma__CustomerMilkConfigClient<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomerMilkConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerMilkConfigFindFirstOrThrowArgs} args - Arguments to find a CustomerMilkConfig
+     * @example
+     * // Get one CustomerMilkConfig
+     * const customerMilkConfig = await prisma.customerMilkConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomerMilkConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomerMilkConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomerMilkConfigClient<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomerMilkConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerMilkConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomerMilkConfigs
+     * const customerMilkConfigs = await prisma.customerMilkConfig.findMany()
+     * 
+     * // Get first 10 CustomerMilkConfigs
+     * const customerMilkConfigs = await prisma.customerMilkConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customerMilkConfigWithIdOnly = await prisma.customerMilkConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomerMilkConfigFindManyArgs>(args?: SelectSubset<T, CustomerMilkConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomerMilkConfig.
+     * @param {CustomerMilkConfigCreateArgs} args - Arguments to create a CustomerMilkConfig.
+     * @example
+     * // Create one CustomerMilkConfig
+     * const CustomerMilkConfig = await prisma.customerMilkConfig.create({
+     *   data: {
+     *     // ... data to create a CustomerMilkConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomerMilkConfigCreateArgs>(args: SelectSubset<T, CustomerMilkConfigCreateArgs<ExtArgs>>): Prisma__CustomerMilkConfigClient<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomerMilkConfigs.
+     * @param {CustomerMilkConfigCreateManyArgs} args - Arguments to create many CustomerMilkConfigs.
+     * @example
+     * // Create many CustomerMilkConfigs
+     * const customerMilkConfig = await prisma.customerMilkConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomerMilkConfigCreateManyArgs>(args?: SelectSubset<T, CustomerMilkConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a CustomerMilkConfig.
+     * @param {CustomerMilkConfigDeleteArgs} args - Arguments to delete one CustomerMilkConfig.
+     * @example
+     * // Delete one CustomerMilkConfig
+     * const CustomerMilkConfig = await prisma.customerMilkConfig.delete({
+     *   where: {
+     *     // ... filter to delete one CustomerMilkConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomerMilkConfigDeleteArgs>(args: SelectSubset<T, CustomerMilkConfigDeleteArgs<ExtArgs>>): Prisma__CustomerMilkConfigClient<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomerMilkConfig.
+     * @param {CustomerMilkConfigUpdateArgs} args - Arguments to update one CustomerMilkConfig.
+     * @example
+     * // Update one CustomerMilkConfig
+     * const customerMilkConfig = await prisma.customerMilkConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomerMilkConfigUpdateArgs>(args: SelectSubset<T, CustomerMilkConfigUpdateArgs<ExtArgs>>): Prisma__CustomerMilkConfigClient<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomerMilkConfigs.
+     * @param {CustomerMilkConfigDeleteManyArgs} args - Arguments to filter CustomerMilkConfigs to delete.
+     * @example
+     * // Delete a few CustomerMilkConfigs
+     * const { count } = await prisma.customerMilkConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomerMilkConfigDeleteManyArgs>(args?: SelectSubset<T, CustomerMilkConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomerMilkConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerMilkConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomerMilkConfigs
+     * const customerMilkConfig = await prisma.customerMilkConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomerMilkConfigUpdateManyArgs>(args: SelectSubset<T, CustomerMilkConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CustomerMilkConfig.
+     * @param {CustomerMilkConfigUpsertArgs} args - Arguments to update or create a CustomerMilkConfig.
+     * @example
+     * // Update or create a CustomerMilkConfig
+     * const customerMilkConfig = await prisma.customerMilkConfig.upsert({
+     *   create: {
+     *     // ... data to create a CustomerMilkConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomerMilkConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomerMilkConfigUpsertArgs>(args: SelectSubset<T, CustomerMilkConfigUpsertArgs<ExtArgs>>): Prisma__CustomerMilkConfigClient<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomerMilkConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerMilkConfigCountArgs} args - Arguments to filter CustomerMilkConfigs to count.
+     * @example
+     * // Count the number of CustomerMilkConfigs
+     * const count = await prisma.customerMilkConfig.count({
+     *   where: {
+     *     // ... the filter for the CustomerMilkConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomerMilkConfigCountArgs>(
+      args?: Subset<T, CustomerMilkConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomerMilkConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomerMilkConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerMilkConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomerMilkConfigAggregateArgs>(args: Subset<T, CustomerMilkConfigAggregateArgs>): Prisma.PrismaPromise<GetCustomerMilkConfigAggregateType<T>>
+
+    /**
+     * Group by CustomerMilkConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerMilkConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomerMilkConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomerMilkConfigGroupByArgs['orderBy'] }
+        : { orderBy?: CustomerMilkConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomerMilkConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomerMilkConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomerMilkConfig model
+   */
+  readonly fields: CustomerMilkConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomerMilkConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomerMilkConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomerMilkConfig model
+   */
+  interface CustomerMilkConfigFieldRefs {
+    readonly id: FieldRef<"CustomerMilkConfig", 'String'>
+    readonly customerId: FieldRef<"CustomerMilkConfig", 'String'>
+    readonly effectiveFrom: FieldRef<"CustomerMilkConfig", 'DateTime'>
+    readonly morningQuantity: FieldRef<"CustomerMilkConfig", 'Decimal'>
+    readonly eveningQuantity: FieldRef<"CustomerMilkConfig", 'Decimal'>
+    readonly ratePerLiter: FieldRef<"CustomerMilkConfig", 'Decimal'>
+    readonly createdAt: FieldRef<"CustomerMilkConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomerMilkConfig findUnique
+   */
+  export type CustomerMilkConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerMilkConfig to fetch.
+     */
+    where: CustomerMilkConfigWhereUniqueInput
+  }
+
+  /**
+   * CustomerMilkConfig findUniqueOrThrow
+   */
+  export type CustomerMilkConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerMilkConfig to fetch.
+     */
+    where: CustomerMilkConfigWhereUniqueInput
+  }
+
+  /**
+   * CustomerMilkConfig findFirst
+   */
+  export type CustomerMilkConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerMilkConfig to fetch.
+     */
+    where?: CustomerMilkConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomerMilkConfigs to fetch.
+     */
+    orderBy?: CustomerMilkConfigOrderByWithRelationInput | CustomerMilkConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomerMilkConfigs.
+     */
+    cursor?: CustomerMilkConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomerMilkConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomerMilkConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomerMilkConfigs.
+     */
+    distinct?: CustomerMilkConfigScalarFieldEnum | CustomerMilkConfigScalarFieldEnum[]
+  }
+
+  /**
+   * CustomerMilkConfig findFirstOrThrow
+   */
+  export type CustomerMilkConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerMilkConfig to fetch.
+     */
+    where?: CustomerMilkConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomerMilkConfigs to fetch.
+     */
+    orderBy?: CustomerMilkConfigOrderByWithRelationInput | CustomerMilkConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomerMilkConfigs.
+     */
+    cursor?: CustomerMilkConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomerMilkConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomerMilkConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomerMilkConfigs.
+     */
+    distinct?: CustomerMilkConfigScalarFieldEnum | CustomerMilkConfigScalarFieldEnum[]
+  }
+
+  /**
+   * CustomerMilkConfig findMany
+   */
+  export type CustomerMilkConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerMilkConfigs to fetch.
+     */
+    where?: CustomerMilkConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomerMilkConfigs to fetch.
+     */
+    orderBy?: CustomerMilkConfigOrderByWithRelationInput | CustomerMilkConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomerMilkConfigs.
+     */
+    cursor?: CustomerMilkConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomerMilkConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomerMilkConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomerMilkConfigs.
+     */
+    distinct?: CustomerMilkConfigScalarFieldEnum | CustomerMilkConfigScalarFieldEnum[]
+  }
+
+  /**
+   * CustomerMilkConfig create
+   */
+  export type CustomerMilkConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomerMilkConfig.
+     */
+    data: XOR<CustomerMilkConfigCreateInput, CustomerMilkConfigUncheckedCreateInput>
+  }
+
+  /**
+   * CustomerMilkConfig createMany
+   */
+  export type CustomerMilkConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomerMilkConfigs.
+     */
+    data: CustomerMilkConfigCreateManyInput | CustomerMilkConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomerMilkConfig update
+   */
+  export type CustomerMilkConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomerMilkConfig.
+     */
+    data: XOR<CustomerMilkConfigUpdateInput, CustomerMilkConfigUncheckedUpdateInput>
+    /**
+     * Choose, which CustomerMilkConfig to update.
+     */
+    where: CustomerMilkConfigWhereUniqueInput
+  }
+
+  /**
+   * CustomerMilkConfig updateMany
+   */
+  export type CustomerMilkConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomerMilkConfigs.
+     */
+    data: XOR<CustomerMilkConfigUpdateManyMutationInput, CustomerMilkConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomerMilkConfigs to update
+     */
+    where?: CustomerMilkConfigWhereInput
+    /**
+     * Limit how many CustomerMilkConfigs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomerMilkConfig upsert
+   */
+  export type CustomerMilkConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomerMilkConfig to update in case it exists.
+     */
+    where: CustomerMilkConfigWhereUniqueInput
+    /**
+     * In case the CustomerMilkConfig found by the `where` argument doesn't exist, create a new CustomerMilkConfig with this data.
+     */
+    create: XOR<CustomerMilkConfigCreateInput, CustomerMilkConfigUncheckedCreateInput>
+    /**
+     * In case the CustomerMilkConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomerMilkConfigUpdateInput, CustomerMilkConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomerMilkConfig delete
+   */
+  export type CustomerMilkConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
+    /**
+     * Filter which CustomerMilkConfig to delete.
+     */
+    where: CustomerMilkConfigWhereUniqueInput
+  }
+
+  /**
+   * CustomerMilkConfig deleteMany
+   */
+  export type CustomerMilkConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomerMilkConfigs to delete
+     */
+    where?: CustomerMilkConfigWhereInput
+    /**
+     * Limit how many CustomerMilkConfigs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomerMilkConfig without action
+   */
+  export type CustomerMilkConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerMilkConfig
+     */
+    select?: CustomerMilkConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerMilkConfig
+     */
+    omit?: CustomerMilkConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerMilkConfigInclude<ExtArgs> | null
   }
 
 
@@ -8328,8 +9379,8 @@ export namespace Prisma {
     year: number
     paymentMode: $Enums.PaymentMode
     notes: string | null
-    createdBy: string
-    updatedBy: string
+    createdBy: string | null
+    updatedBy: string | null
     createdAt: Date
     updatedAt: Date
     _count: PaymentCountAggregateOutputType | null
@@ -8405,8 +9456,8 @@ export namespace Prisma {
       year: number
       paymentMode: $Enums.PaymentMode
       notes: string | null
-      createdBy: string
-      updatedBy: string
+      createdBy: string | null
+      updatedBy: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["payment"]>
@@ -11128,8 +12179,6 @@ export namespace Prisma {
     email: 'email',
     area: 'area',
     address: 'address',
-    registrationDate: 'registrationDate',
-    billingStartDate: 'billingStartDate',
     status: 'status',
     isActive: 'isActive',
     createdBy: 'createdBy',
@@ -11163,9 +12212,6 @@ export namespace Prisma {
     name: 'name',
     phone: 'phone',
     address: 'address',
-    ratePerLiter: 'ratePerLiter',
-    morningQuantity: 'morningQuantity',
-    eveningQuantity: 'eveningQuantity',
     remainingAmount: 'remainingAmount',
     registrationDate: 'registrationDate',
     isActive: 'isActive',
@@ -11176,6 +12222,19 @@ export namespace Prisma {
   };
 
   export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+  export const CustomerMilkConfigScalarFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    effectiveFrom: 'effectiveFrom',
+    morningQuantity: 'morningQuantity',
+    eveningQuantity: 'eveningQuantity',
+    ratePerLiter: 'ratePerLiter',
+    createdAt: 'createdAt'
+  };
+
+  export type CustomerMilkConfigScalarFieldEnum = (typeof CustomerMilkConfigScalarFieldEnum)[keyof typeof CustomerMilkConfigScalarFieldEnum]
 
 
   export const MilkDeliveryScalarFieldEnum: {
@@ -11318,6 +12377,14 @@ export namespace Prisma {
   };
 
   export type CustomerOrderByRelevanceFieldEnum = (typeof CustomerOrderByRelevanceFieldEnum)[keyof typeof CustomerOrderByRelevanceFieldEnum]
+
+
+  export const CustomerMilkConfigOrderByRelevanceFieldEnum: {
+    id: 'id',
+    customerId: 'customerId'
+  };
+
+  export type CustomerMilkConfigOrderByRelevanceFieldEnum = (typeof CustomerMilkConfigOrderByRelevanceFieldEnum)[keyof typeof CustomerMilkConfigOrderByRelevanceFieldEnum]
 
 
   export const MilkDeliveryOrderByRelevanceFieldEnum: {
@@ -11602,8 +12669,6 @@ export namespace Prisma {
     email?: StringNullableFilter<"Vendor"> | string | null
     area?: StringNullableFilter<"Vendor"> | string | null
     address?: StringNullableFilter<"Vendor"> | string | null
-    registrationDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
-    billingStartDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
     status?: EnumVendorStatusFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolFilter<"Vendor"> | boolean
     createdBy?: StringNullableFilter<"Vendor"> | string | null
@@ -11627,8 +12692,6 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
-    registrationDate?: SortOrderInput | SortOrder
-    billingStartDate?: SortOrderInput | SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -11656,8 +12719,6 @@ export namespace Prisma {
     email?: StringNullableFilter<"Vendor"> | string | null
     area?: StringNullableFilter<"Vendor"> | string | null
     address?: StringNullableFilter<"Vendor"> | string | null
-    registrationDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
-    billingStartDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
     status?: EnumVendorStatusFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolFilter<"Vendor"> | boolean
     createdBy?: StringNullableFilter<"Vendor"> | string | null
@@ -11681,8 +12742,6 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
-    registrationDate?: SortOrderInput | SortOrder
-    billingStartDate?: SortOrderInput | SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -11708,8 +12767,6 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
     area?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
     address?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
-    registrationDate?: DateTimeNullableWithAggregatesFilter<"Vendor"> | Date | string | null
-    billingStartDate?: DateTimeNullableWithAggregatesFilter<"Vendor"> | Date | string | null
     status?: EnumVendorStatusWithAggregatesFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolWithAggregatesFilter<"Vendor"> | boolean
     createdBy?: StringNullableWithAggregatesFilter<"Vendor"> | string | null
@@ -11800,9 +12857,6 @@ export namespace Prisma {
     name?: StringFilter<"Customer"> | string
     phone?: StringFilter<"Customer"> | string
     address?: StringFilter<"Customer"> | string
-    ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
@@ -11812,6 +12866,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
     vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
     area?: XOR<AreaScalarRelationFilter, AreaWhereInput>
+    milkConfigs?: CustomerMilkConfigListRelationFilter
     milkDeliveries?: MilkDeliveryListRelationFilter
     payments?: PaymentListRelationFilter
   }
@@ -11823,9 +12878,6 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    ratePerLiter?: SortOrder
-    morningQuantity?: SortOrder
-    eveningQuantity?: SortOrder
     remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
@@ -11835,6 +12887,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     vendor?: VendorOrderByWithRelationInput
     area?: AreaOrderByWithRelationInput
+    milkConfigs?: CustomerMilkConfigOrderByRelationAggregateInput
     milkDeliveries?: MilkDeliveryOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     _relevance?: CustomerOrderByRelevanceInput
@@ -11842,17 +12895,14 @@ export namespace Prisma {
 
   export type CustomerWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    phone?: string
     AND?: CustomerWhereInput | CustomerWhereInput[]
     OR?: CustomerWhereInput[]
     NOT?: CustomerWhereInput | CustomerWhereInput[]
     vendorId?: StringFilter<"Customer"> | string
     areaId?: StringFilter<"Customer"> | string
     name?: StringFilter<"Customer"> | string
+    phone?: StringFilter<"Customer"> | string
     address?: StringFilter<"Customer"> | string
-    ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
@@ -11862,9 +12912,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
     vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
     area?: XOR<AreaScalarRelationFilter, AreaWhereInput>
+    milkConfigs?: CustomerMilkConfigListRelationFilter
     milkDeliveries?: MilkDeliveryListRelationFilter
     payments?: PaymentListRelationFilter
-  }, "id" | "phone">
+  }, "id">
 
   export type CustomerOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11873,9 +12924,6 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    ratePerLiter?: SortOrder
-    morningQuantity?: SortOrder
-    eveningQuantity?: SortOrder
     remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
@@ -11900,9 +12948,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Customer"> | string
     phone?: StringWithAggregatesFilter<"Customer"> | string
     address?: StringWithAggregatesFilter<"Customer"> | string
-    ratePerLiter?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
     isActive?: BoolWithAggregatesFilter<"Customer"> | boolean
@@ -11910,6 +12955,75 @@ export namespace Prisma {
     updatedBy?: StringNullableWithAggregatesFilter<"Customer"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
+  }
+
+  export type CustomerMilkConfigWhereInput = {
+    AND?: CustomerMilkConfigWhereInput | CustomerMilkConfigWhereInput[]
+    OR?: CustomerMilkConfigWhereInput[]
+    NOT?: CustomerMilkConfigWhereInput | CustomerMilkConfigWhereInput[]
+    id?: StringFilter<"CustomerMilkConfig"> | string
+    customerId?: StringFilter<"CustomerMilkConfig"> | string
+    effectiveFrom?: DateTimeFilter<"CustomerMilkConfig"> | Date | string
+    morningQuantity?: DecimalFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"CustomerMilkConfig"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+  }
+
+  export type CustomerMilkConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    effectiveFrom?: SortOrder
+    morningQuantity?: SortOrder
+    eveningQuantity?: SortOrder
+    ratePerLiter?: SortOrder
+    createdAt?: SortOrder
+    customer?: CustomerOrderByWithRelationInput
+    _relevance?: CustomerMilkConfigOrderByRelevanceInput
+  }
+
+  export type CustomerMilkConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    customerId_effectiveFrom?: CustomerMilkConfigCustomerIdEffectiveFromCompoundUniqueInput
+    AND?: CustomerMilkConfigWhereInput | CustomerMilkConfigWhereInput[]
+    OR?: CustomerMilkConfigWhereInput[]
+    NOT?: CustomerMilkConfigWhereInput | CustomerMilkConfigWhereInput[]
+    customerId?: StringFilter<"CustomerMilkConfig"> | string
+    effectiveFrom?: DateTimeFilter<"CustomerMilkConfig"> | Date | string
+    morningQuantity?: DecimalFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"CustomerMilkConfig"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+  }, "id" | "customerId_effectiveFrom">
+
+  export type CustomerMilkConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    effectiveFrom?: SortOrder
+    morningQuantity?: SortOrder
+    eveningQuantity?: SortOrder
+    ratePerLiter?: SortOrder
+    createdAt?: SortOrder
+    _count?: CustomerMilkConfigCountOrderByAggregateInput
+    _avg?: CustomerMilkConfigAvgOrderByAggregateInput
+    _max?: CustomerMilkConfigMaxOrderByAggregateInput
+    _min?: CustomerMilkConfigMinOrderByAggregateInput
+    _sum?: CustomerMilkConfigSumOrderByAggregateInput
+  }
+
+  export type CustomerMilkConfigScalarWhereWithAggregatesInput = {
+    AND?: CustomerMilkConfigScalarWhereWithAggregatesInput | CustomerMilkConfigScalarWhereWithAggregatesInput[]
+    OR?: CustomerMilkConfigScalarWhereWithAggregatesInput[]
+    NOT?: CustomerMilkConfigScalarWhereWithAggregatesInput | CustomerMilkConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CustomerMilkConfig"> | string
+    customerId?: StringWithAggregatesFilter<"CustomerMilkConfig"> | string
+    effectiveFrom?: DateTimeWithAggregatesFilter<"CustomerMilkConfig"> | Date | string
+    morningQuantity?: DecimalWithAggregatesFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalWithAggregatesFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalWithAggregatesFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter<"CustomerMilkConfig"> | Date | string
   }
 
   export type MilkDeliveryWhereInput = {
@@ -12016,8 +13130,8 @@ export namespace Prisma {
     year?: IntFilter<"Payment"> | number
     paymentMode?: EnumPaymentModeFilter<"Payment"> | $Enums.PaymentMode
     notes?: StringNullableFilter<"Payment"> | string | null
-    createdBy?: StringFilter<"Payment"> | string
-    updatedBy?: StringFilter<"Payment"> | string
+    createdBy?: StringNullableFilter<"Payment"> | string | null
+    updatedBy?: StringNullableFilter<"Payment"> | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
@@ -12032,8 +13146,8 @@ export namespace Prisma {
     year?: SortOrder
     paymentMode?: SortOrder
     notes?: SortOrderInput | SortOrder
-    createdBy?: SortOrder
-    updatedBy?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customer?: CustomerOrderByWithRelationInput
@@ -12052,8 +13166,8 @@ export namespace Prisma {
     year?: IntFilter<"Payment"> | number
     paymentMode?: EnumPaymentModeFilter<"Payment"> | $Enums.PaymentMode
     notes?: StringNullableFilter<"Payment"> | string | null
-    createdBy?: StringFilter<"Payment"> | string
-    updatedBy?: StringFilter<"Payment"> | string
+    createdBy?: StringNullableFilter<"Payment"> | string | null
+    updatedBy?: StringNullableFilter<"Payment"> | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
@@ -12068,8 +13182,8 @@ export namespace Prisma {
     year?: SortOrder
     paymentMode?: SortOrder
     notes?: SortOrderInput | SortOrder
-    createdBy?: SortOrder
-    updatedBy?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PaymentCountOrderByAggregateInput
@@ -12091,8 +13205,8 @@ export namespace Prisma {
     year?: IntWithAggregatesFilter<"Payment"> | number
     paymentMode?: EnumPaymentModeWithAggregatesFilter<"Payment"> | $Enums.PaymentMode
     notes?: StringNullableWithAggregatesFilter<"Payment"> | string | null
-    createdBy?: StringWithAggregatesFilter<"Payment"> | string
-    updatedBy?: StringWithAggregatesFilter<"Payment"> | string
+    createdBy?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    updatedBy?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
   }
@@ -12410,8 +13524,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -12435,8 +13547,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -12456,8 +13566,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12481,8 +13589,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12504,8 +13610,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -12523,8 +13627,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12544,8 +13646,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12641,11 +13741,8 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -12653,6 +13750,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     vendor: VendorCreateNestedOneWithoutCustomersInput
     area: AreaCreateNestedOneWithoutCustomersInput
+    milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
   }
@@ -12664,16 +13762,14 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
   }
@@ -12683,9 +13779,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -12695,6 +13788,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
     area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
+    milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
   }
@@ -12706,9 +13800,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -12716,6 +13807,7 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
   }
@@ -12727,11 +13819,8 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -12744,9 +13833,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -12763,9 +13849,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -12773,6 +13856,75 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerMilkConfigCreateInput = {
+    id?: string
+    effectiveFrom: Date | string
+    morningQuantity: Decimal | DecimalJsLike | number | string
+    eveningQuantity: Decimal | DecimalJsLike | number | string
+    ratePerLiter: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutMilkConfigsInput
+  }
+
+  export type CustomerMilkConfigUncheckedCreateInput = {
+    id?: string
+    customerId: string
+    effectiveFrom: Date | string
+    morningQuantity: Decimal | DecimalJsLike | number | string
+    eveningQuantity: Decimal | DecimalJsLike | number | string
+    ratePerLiter: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type CustomerMilkConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutMilkConfigsNestedInput
+  }
+
+  export type CustomerMilkConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerMilkConfigCreateManyInput = {
+    id?: string
+    customerId: string
+    effectiveFrom: Date | string
+    morningQuantity: Decimal | DecimalJsLike | number | string
+    eveningQuantity: Decimal | DecimalJsLike | number | string
+    ratePerLiter: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type CustomerMilkConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerMilkConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MilkDeliveryCreateInput = {
@@ -12879,8 +14031,8 @@ export namespace Prisma {
     year: number
     paymentMode?: $Enums.PaymentMode
     notes?: string | null
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutPaymentsInput
@@ -12895,8 +14047,8 @@ export namespace Prisma {
     year: number
     paymentMode?: $Enums.PaymentMode
     notes?: string | null
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12909,8 +14061,8 @@ export namespace Prisma {
     year?: IntFieldUpdateOperationsInput | number
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutPaymentsNestedInput
@@ -12925,8 +14077,8 @@ export namespace Prisma {
     year?: IntFieldUpdateOperationsInput | number
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12940,8 +14092,8 @@ export namespace Prisma {
     year: number
     paymentMode?: $Enums.PaymentMode
     notes?: string | null
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12954,8 +14106,8 @@ export namespace Prisma {
     year?: IntFieldUpdateOperationsInput | number
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12969,8 +14121,8 @@ export namespace Prisma {
     year?: IntFieldUpdateOperationsInput | number
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13332,17 +14484,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type EnumVendorStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.VendorStatus | EnumVendorStatusFieldRefInput<$PrismaModel>
     in?: $Enums.VendorStatus[]
@@ -13396,8 +14537,6 @@ export namespace Prisma {
     email?: SortOrder
     area?: SortOrder
     address?: SortOrder
-    registrationDate?: SortOrder
-    billingStartDate?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
@@ -13417,8 +14556,6 @@ export namespace Prisma {
     email?: SortOrder
     area?: SortOrder
     address?: SortOrder
-    registrationDate?: SortOrder
-    billingStartDate?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
@@ -13438,8 +14575,6 @@ export namespace Prisma {
     email?: SortOrder
     area?: SortOrder
     address?: SortOrder
-    registrationDate?: SortOrder
-    billingStartDate?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
@@ -13447,20 +14582,6 @@ export namespace Prisma {
     joinedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumVendorStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -13533,10 +14654,20 @@ export namespace Prisma {
     isNot?: AreaWhereInput
   }
 
+  export type CustomerMilkConfigListRelationFilter = {
+    every?: CustomerMilkConfigWhereInput
+    some?: CustomerMilkConfigWhereInput
+    none?: CustomerMilkConfigWhereInput
+  }
+
   export type PaymentListRelationFilter = {
     every?: PaymentWhereInput
     some?: PaymentWhereInput
     none?: PaymentWhereInput
+  }
+
+  export type CustomerMilkConfigOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PaymentOrderByRelationAggregateInput = {
@@ -13556,9 +14687,6 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    ratePerLiter?: SortOrder
-    morningQuantity?: SortOrder
-    eveningQuantity?: SortOrder
     remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
@@ -13569,9 +14697,6 @@ export namespace Prisma {
   }
 
   export type CustomerAvgOrderByAggregateInput = {
-    ratePerLiter?: SortOrder
-    morningQuantity?: SortOrder
-    eveningQuantity?: SortOrder
     remainingAmount?: SortOrder
   }
 
@@ -13582,9 +14707,6 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    ratePerLiter?: SortOrder
-    morningQuantity?: SortOrder
-    eveningQuantity?: SortOrder
     remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
@@ -13601,9 +14723,6 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    ratePerLiter?: SortOrder
-    morningQuantity?: SortOrder
-    eveningQuantity?: SortOrder
     remainingAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
@@ -13614,9 +14733,6 @@ export namespace Prisma {
   }
 
   export type CustomerSumOrderByAggregateInput = {
-    ratePerLiter?: SortOrder
-    morningQuantity?: SortOrder
-    eveningQuantity?: SortOrder
     remainingAmount?: SortOrder
   }
 
@@ -13639,6 +14755,59 @@ export namespace Prisma {
   export type CustomerScalarRelationFilter = {
     is?: CustomerWhereInput
     isNot?: CustomerWhereInput
+  }
+
+  export type CustomerMilkConfigOrderByRelevanceInput = {
+    fields: CustomerMilkConfigOrderByRelevanceFieldEnum | CustomerMilkConfigOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type CustomerMilkConfigCustomerIdEffectiveFromCompoundUniqueInput = {
+    customerId: string
+    effectiveFrom: Date | string
+  }
+
+  export type CustomerMilkConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    effectiveFrom?: SortOrder
+    morningQuantity?: SortOrder
+    eveningQuantity?: SortOrder
+    ratePerLiter?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CustomerMilkConfigAvgOrderByAggregateInput = {
+    morningQuantity?: SortOrder
+    eveningQuantity?: SortOrder
+    ratePerLiter?: SortOrder
+  }
+
+  export type CustomerMilkConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    effectiveFrom?: SortOrder
+    morningQuantity?: SortOrder
+    eveningQuantity?: SortOrder
+    ratePerLiter?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CustomerMilkConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    effectiveFrom?: SortOrder
+    morningQuantity?: SortOrder
+    eveningQuantity?: SortOrder
+    ratePerLiter?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CustomerMilkConfigSumOrderByAggregateInput = {
+    morningQuantity?: SortOrder
+    eveningQuantity?: SortOrder
+    ratePerLiter?: SortOrder
   }
 
   export type MilkDeliveryOrderByRelevanceInput = {
@@ -14026,10 +15195,6 @@ export namespace Prisma {
     connect?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
   export type EnumVendorStatusFieldUpdateOperationsInput = {
     set?: $Enums.VendorStatus
   }
@@ -14162,6 +15327,13 @@ export namespace Prisma {
     connect?: AreaWhereUniqueInput
   }
 
+  export type CustomerMilkConfigCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<CustomerMilkConfigCreateWithoutCustomerInput, CustomerMilkConfigUncheckedCreateWithoutCustomerInput> | CustomerMilkConfigCreateWithoutCustomerInput[] | CustomerMilkConfigUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: CustomerMilkConfigCreateOrConnectWithoutCustomerInput | CustomerMilkConfigCreateOrConnectWithoutCustomerInput[]
+    createMany?: CustomerMilkConfigCreateManyCustomerInputEnvelope
+    connect?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
+  }
+
   export type MilkDeliveryCreateNestedManyWithoutCustomerInput = {
     create?: XOR<MilkDeliveryCreateWithoutCustomerInput, MilkDeliveryUncheckedCreateWithoutCustomerInput> | MilkDeliveryCreateWithoutCustomerInput[] | MilkDeliveryUncheckedCreateWithoutCustomerInput[]
     connectOrCreate?: MilkDeliveryCreateOrConnectWithoutCustomerInput | MilkDeliveryCreateOrConnectWithoutCustomerInput[]
@@ -14174,6 +15346,13 @@ export namespace Prisma {
     connectOrCreate?: PaymentCreateOrConnectWithoutCustomerInput | PaymentCreateOrConnectWithoutCustomerInput[]
     createMany?: PaymentCreateManyCustomerInputEnvelope
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<CustomerMilkConfigCreateWithoutCustomerInput, CustomerMilkConfigUncheckedCreateWithoutCustomerInput> | CustomerMilkConfigCreateWithoutCustomerInput[] | CustomerMilkConfigUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: CustomerMilkConfigCreateOrConnectWithoutCustomerInput | CustomerMilkConfigCreateOrConnectWithoutCustomerInput[]
+    createMany?: CustomerMilkConfigCreateManyCustomerInputEnvelope
+    connect?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
   }
 
   export type MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput = {
@@ -14214,6 +15393,20 @@ export namespace Prisma {
     update?: XOR<XOR<AreaUpdateToOneWithWhereWithoutCustomersInput, AreaUpdateWithoutCustomersInput>, AreaUncheckedUpdateWithoutCustomersInput>
   }
 
+  export type CustomerMilkConfigUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<CustomerMilkConfigCreateWithoutCustomerInput, CustomerMilkConfigUncheckedCreateWithoutCustomerInput> | CustomerMilkConfigCreateWithoutCustomerInput[] | CustomerMilkConfigUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: CustomerMilkConfigCreateOrConnectWithoutCustomerInput | CustomerMilkConfigCreateOrConnectWithoutCustomerInput[]
+    upsert?: CustomerMilkConfigUpsertWithWhereUniqueWithoutCustomerInput | CustomerMilkConfigUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: CustomerMilkConfigCreateManyCustomerInputEnvelope
+    set?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
+    disconnect?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
+    delete?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
+    connect?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
+    update?: CustomerMilkConfigUpdateWithWhereUniqueWithoutCustomerInput | CustomerMilkConfigUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: CustomerMilkConfigUpdateManyWithWhereWithoutCustomerInput | CustomerMilkConfigUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: CustomerMilkConfigScalarWhereInput | CustomerMilkConfigScalarWhereInput[]
+  }
+
   export type MilkDeliveryUpdateManyWithoutCustomerNestedInput = {
     create?: XOR<MilkDeliveryCreateWithoutCustomerInput, MilkDeliveryUncheckedCreateWithoutCustomerInput> | MilkDeliveryCreateWithoutCustomerInput[] | MilkDeliveryUncheckedCreateWithoutCustomerInput[]
     connectOrCreate?: MilkDeliveryCreateOrConnectWithoutCustomerInput | MilkDeliveryCreateOrConnectWithoutCustomerInput[]
@@ -14242,6 +15435,20 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<CustomerMilkConfigCreateWithoutCustomerInput, CustomerMilkConfigUncheckedCreateWithoutCustomerInput> | CustomerMilkConfigCreateWithoutCustomerInput[] | CustomerMilkConfigUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: CustomerMilkConfigCreateOrConnectWithoutCustomerInput | CustomerMilkConfigCreateOrConnectWithoutCustomerInput[]
+    upsert?: CustomerMilkConfigUpsertWithWhereUniqueWithoutCustomerInput | CustomerMilkConfigUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: CustomerMilkConfigCreateManyCustomerInputEnvelope
+    set?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
+    disconnect?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
+    delete?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
+    connect?: CustomerMilkConfigWhereUniqueInput | CustomerMilkConfigWhereUniqueInput[]
+    update?: CustomerMilkConfigUpdateWithWhereUniqueWithoutCustomerInput | CustomerMilkConfigUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: CustomerMilkConfigUpdateManyWithWhereWithoutCustomerInput | CustomerMilkConfigUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: CustomerMilkConfigScalarWhereInput | CustomerMilkConfigScalarWhereInput[]
+  }
+
   export type MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput = {
     create?: XOR<MilkDeliveryCreateWithoutCustomerInput, MilkDeliveryUncheckedCreateWithoutCustomerInput> | MilkDeliveryCreateWithoutCustomerInput[] | MilkDeliveryUncheckedCreateWithoutCustomerInput[]
     connectOrCreate?: MilkDeliveryCreateOrConnectWithoutCustomerInput | MilkDeliveryCreateOrConnectWithoutCustomerInput[]
@@ -14268,6 +15475,20 @@ export namespace Prisma {
     update?: PaymentUpdateWithWhereUniqueWithoutCustomerInput | PaymentUpdateWithWhereUniqueWithoutCustomerInput[]
     updateMany?: PaymentUpdateManyWithWhereWithoutCustomerInput | PaymentUpdateManyWithWhereWithoutCustomerInput[]
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type CustomerCreateNestedOneWithoutMilkConfigsInput = {
+    create?: XOR<CustomerCreateWithoutMilkConfigsInput, CustomerUncheckedCreateWithoutMilkConfigsInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutMilkConfigsInput
+    connect?: CustomerWhereUniqueInput
+  }
+
+  export type CustomerUpdateOneRequiredWithoutMilkConfigsNestedInput = {
+    create?: XOR<CustomerCreateWithoutMilkConfigsInput, CustomerUncheckedCreateWithoutMilkConfigsInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutMilkConfigsInput
+    upsert?: CustomerUpsertWithoutMilkConfigsInput
+    connect?: CustomerWhereUniqueInput
+    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutMilkConfigsInput, CustomerUpdateWithoutMilkConfigsInput>, CustomerUncheckedUpdateWithoutMilkConfigsInput>
   }
 
   export type VendorCreateNestedOneWithoutMilkDeliveriesInput = {
@@ -14523,36 +15744,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumVendorStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.VendorStatus | EnumVendorStatusFieldRefInput<$PrismaModel>
     in?: $Enums.VendorStatus[]
     notIn?: $Enums.VendorStatus[]
     not?: NestedEnumVendorStatusFilter<$PrismaModel> | $Enums.VendorStatus
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumVendorStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -14644,8 +15840,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -14667,8 +15861,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -14704,8 +15896,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14727,8 +15917,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14748,8 +15936,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -14771,8 +15957,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -14823,8 +16007,6 @@ export namespace Prisma {
     email?: StringNullableFilter<"Vendor"> | string | null
     area?: StringNullableFilter<"Vendor"> | string | null
     address?: StringNullableFilter<"Vendor"> | string | null
-    registrationDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
-    billingStartDate?: DateTimeNullableFilter<"Vendor"> | Date | string | null
     status?: EnumVendorStatusFilter<"Vendor"> | $Enums.VendorStatus
     isActive?: BoolFilter<"Vendor"> | boolean
     createdBy?: StringNullableFilter<"Vendor"> | string | null
@@ -14899,17 +16081,15 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     area: AreaCreateNestedOneWithoutCustomersInput
+    milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
   }
@@ -14920,16 +16100,14 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
   }
@@ -15078,9 +16256,6 @@ export namespace Prisma {
     name?: StringFilter<"Customer"> | string
     phone?: StringFilter<"Customer"> | string
     address?: StringFilter<"Customer"> | string
-    ratePerLiter?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
@@ -15128,17 +16303,15 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vendor: VendorCreateNestedOneWithoutCustomersInput
+    milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
   }
@@ -15149,16 +16322,14 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
   }
@@ -15197,8 +16368,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -15221,8 +16390,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -15263,6 +16430,34 @@ export namespace Prisma {
   export type AreaCreateOrConnectWithoutCustomersInput = {
     where: AreaWhereUniqueInput
     create: XOR<AreaCreateWithoutCustomersInput, AreaUncheckedCreateWithoutCustomersInput>
+  }
+
+  export type CustomerMilkConfigCreateWithoutCustomerInput = {
+    id?: string
+    effectiveFrom: Date | string
+    morningQuantity: Decimal | DecimalJsLike | number | string
+    eveningQuantity: Decimal | DecimalJsLike | number | string
+    ratePerLiter: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type CustomerMilkConfigUncheckedCreateWithoutCustomerInput = {
+    id?: string
+    effectiveFrom: Date | string
+    morningQuantity: Decimal | DecimalJsLike | number | string
+    eveningQuantity: Decimal | DecimalJsLike | number | string
+    ratePerLiter: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type CustomerMilkConfigCreateOrConnectWithoutCustomerInput = {
+    where: CustomerMilkConfigWhereUniqueInput
+    create: XOR<CustomerMilkConfigCreateWithoutCustomerInput, CustomerMilkConfigUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type CustomerMilkConfigCreateManyCustomerInputEnvelope = {
+    data: CustomerMilkConfigCreateManyCustomerInput | CustomerMilkConfigCreateManyCustomerInput[]
+    skipDuplicates?: boolean
   }
 
   export type MilkDeliveryCreateWithoutCustomerInput = {
@@ -15309,8 +16504,8 @@ export namespace Prisma {
     year: number
     paymentMode?: $Enums.PaymentMode
     notes?: string | null
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15323,8 +16518,8 @@ export namespace Prisma {
     year: number
     paymentMode?: $Enums.PaymentMode
     notes?: string | null
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15358,8 +16553,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15382,8 +16575,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15425,6 +16616,35 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerMilkConfigUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: CustomerMilkConfigWhereUniqueInput
+    update: XOR<CustomerMilkConfigUpdateWithoutCustomerInput, CustomerMilkConfigUncheckedUpdateWithoutCustomerInput>
+    create: XOR<CustomerMilkConfigCreateWithoutCustomerInput, CustomerMilkConfigUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type CustomerMilkConfigUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: CustomerMilkConfigWhereUniqueInput
+    data: XOR<CustomerMilkConfigUpdateWithoutCustomerInput, CustomerMilkConfigUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type CustomerMilkConfigUpdateManyWithWhereWithoutCustomerInput = {
+    where: CustomerMilkConfigScalarWhereInput
+    data: XOR<CustomerMilkConfigUpdateManyMutationInput, CustomerMilkConfigUncheckedUpdateManyWithoutCustomerInput>
+  }
+
+  export type CustomerMilkConfigScalarWhereInput = {
+    AND?: CustomerMilkConfigScalarWhereInput | CustomerMilkConfigScalarWhereInput[]
+    OR?: CustomerMilkConfigScalarWhereInput[]
+    NOT?: CustomerMilkConfigScalarWhereInput | CustomerMilkConfigScalarWhereInput[]
+    id?: StringFilter<"CustomerMilkConfig"> | string
+    customerId?: StringFilter<"CustomerMilkConfig"> | string
+    effectiveFrom?: DateTimeFilter<"CustomerMilkConfig"> | Date | string
+    morningQuantity?: DecimalFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFilter<"CustomerMilkConfig"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"CustomerMilkConfig"> | Date | string
   }
 
   export type MilkDeliveryUpsertWithWhereUniqueWithoutCustomerInput = {
@@ -15471,10 +16691,98 @@ export namespace Prisma {
     year?: IntFilter<"Payment"> | number
     paymentMode?: EnumPaymentModeFilter<"Payment"> | $Enums.PaymentMode
     notes?: StringNullableFilter<"Payment"> | string | null
-    createdBy?: StringFilter<"Payment"> | string
-    updatedBy?: StringFilter<"Payment"> | string
+    createdBy?: StringNullableFilter<"Payment"> | string | null
+    updatedBy?: StringNullableFilter<"Payment"> | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
+  }
+
+  export type CustomerCreateWithoutMilkConfigsInput = {
+    id?: string
+    name: string
+    phone: string
+    address: string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
+    registrationDate: Date | string
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendor: VendorCreateNestedOneWithoutCustomersInput
+    area: AreaCreateNestedOneWithoutCustomersInput
+    milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
+    payments?: PaymentCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerUncheckedCreateWithoutMilkConfigsInput = {
+    id?: string
+    vendorId: string
+    areaId: string
+    name: string
+    phone: string
+    address: string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
+    registrationDate: Date | string
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerCreateOrConnectWithoutMilkConfigsInput = {
+    where: CustomerWhereUniqueInput
+    create: XOR<CustomerCreateWithoutMilkConfigsInput, CustomerUncheckedCreateWithoutMilkConfigsInput>
+  }
+
+  export type CustomerUpsertWithoutMilkConfigsInput = {
+    update: XOR<CustomerUpdateWithoutMilkConfigsInput, CustomerUncheckedUpdateWithoutMilkConfigsInput>
+    create: XOR<CustomerCreateWithoutMilkConfigsInput, CustomerUncheckedCreateWithoutMilkConfigsInput>
+    where?: CustomerWhereInput
+  }
+
+  export type CustomerUpdateToOneWithWhereWithoutMilkConfigsInput = {
+    where?: CustomerWhereInput
+    data: XOR<CustomerUpdateWithoutMilkConfigsInput, CustomerUncheckedUpdateWithoutMilkConfigsInput>
+  }
+
+  export type CustomerUpdateWithoutMilkConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
+    area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
+    milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
+    payments?: PaymentUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateWithoutMilkConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    areaId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type VendorCreateWithoutMilkDeliveriesInput = {
@@ -15485,8 +16793,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -15509,8 +16815,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -15531,11 +16835,8 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -15543,6 +16844,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     vendor: VendorCreateNestedOneWithoutCustomersInput
     area: AreaCreateNestedOneWithoutCustomersInput
+    milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
   }
 
@@ -15553,16 +16855,14 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
   }
 
@@ -15590,8 +16890,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15614,8 +16912,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15642,9 +16938,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -15654,6 +16947,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
     area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
+    milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
   }
 
@@ -15664,9 +16958,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -15674,6 +16965,7 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
@@ -15682,11 +16974,8 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -15694,6 +16983,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     vendor: VendorCreateNestedOneWithoutCustomersInput
     area: AreaCreateNestedOneWithoutCustomersInput
+    milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
   }
 
@@ -15704,16 +16994,14 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
   }
 
@@ -15738,9 +17026,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -15750,6 +17035,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
     area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
+    milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
   }
 
@@ -15760,9 +17046,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -15770,6 +17053,7 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
@@ -15887,8 +17171,6 @@ export namespace Prisma {
     email?: string | null
     area?: string | null
     address?: string | null
-    registrationDate?: Date | string | null
-    billingStartDate?: Date | string | null
     status?: $Enums.VendorStatus
     isActive?: boolean
     createdBy?: string | null
@@ -15906,8 +17188,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15929,8 +17209,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15951,8 +17229,6 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
-    registrationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    billingStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15968,11 +17244,8 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -15998,9 +17271,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16009,6 +17279,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
+    milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
   }
@@ -16019,9 +17290,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16029,6 +17297,7 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
   }
@@ -16039,9 +17308,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16096,11 +17362,8 @@ export namespace Prisma {
     name: string
     phone: string
     address: string
-    ratePerLiter: Decimal | DecimalJsLike | number | string
-    morningQuantity?: Decimal | DecimalJsLike | number | string
-    eveningQuantity?: Decimal | DecimalJsLike | number | string
     remainingAmount?: Decimal | DecimalJsLike | number | string
-    registrationDate?: Date | string
+    registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
     updatedBy?: string | null
@@ -16113,9 +17376,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16124,6 +17384,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
+    milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
   }
@@ -16134,9 +17395,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16144,6 +17402,7 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
   }
@@ -16154,9 +17413,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16164,6 +17420,15 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerMilkConfigCreateManyCustomerInput = {
+    id?: string
+    effectiveFrom: Date | string
+    morningQuantity: Decimal | DecimalJsLike | number | string
+    eveningQuantity: Decimal | DecimalJsLike | number | string
+    ratePerLiter: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
   }
 
   export type MilkDeliveryCreateManyCustomerInput = {
@@ -16187,10 +17452,37 @@ export namespace Prisma {
     year: number
     paymentMode?: $Enums.PaymentMode
     notes?: string | null
-    createdBy: string
-    updatedBy: string
+    createdBy?: string | null
+    updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type CustomerMilkConfigUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerMilkConfigUncheckedUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerMilkConfigUncheckedUpdateManyWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratePerLiter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MilkDeliveryUpdateWithoutCustomerInput = {
@@ -16240,8 +17532,8 @@ export namespace Prisma {
     year?: IntFieldUpdateOperationsInput | number
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16254,8 +17546,8 @@ export namespace Prisma {
     year?: IntFieldUpdateOperationsInput | number
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16268,8 +17560,8 @@ export namespace Prisma {
     year?: IntFieldUpdateOperationsInput | number
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdBy?: StringFieldUpdateOperationsInput | string
-    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

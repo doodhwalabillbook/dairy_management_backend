@@ -155,8 +155,6 @@ exports.Prisma.VendorScalarFieldEnum = {
   email: 'email',
   area: 'area',
   address: 'address',
-  registrationDate: 'registrationDate',
-  billingStartDate: 'billingStartDate',
   status: 'status',
   isActive: 'isActive',
   createdBy: 'createdBy',
@@ -184,9 +182,6 @@ exports.Prisma.CustomerScalarFieldEnum = {
   name: 'name',
   phone: 'phone',
   address: 'address',
-  ratePerLiter: 'ratePerLiter',
-  morningQuantity: 'morningQuantity',
-  eveningQuantity: 'eveningQuantity',
   remainingAmount: 'remainingAmount',
   registrationDate: 'registrationDate',
   isActive: 'isActive',
@@ -194,6 +189,16 @@ exports.Prisma.CustomerScalarFieldEnum = {
   updatedBy: 'updatedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CustomerMilkConfigScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  effectiveFrom: 'effectiveFrom',
+  morningQuantity: 'morningQuantity',
+  eveningQuantity: 'eveningQuantity',
+  ratePerLiter: 'ratePerLiter',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.MilkDeliveryScalarFieldEnum = {
@@ -305,6 +310,11 @@ exports.Prisma.CustomerOrderByRelevanceFieldEnum = {
   updatedBy: 'updatedBy'
 };
 
+exports.Prisma.CustomerMilkConfigOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerId: 'customerId'
+};
+
 exports.Prisma.MilkDeliveryOrderByRelevanceFieldEnum = {
   id: 'id',
   vendorId: 'vendorId',
@@ -355,6 +365,7 @@ exports.Prisma.ModelName = {
   Vendor: 'Vendor',
   Area: 'Area',
   Customer: 'Customer',
+  CustomerMilkConfig: 'CustomerMilkConfig',
   MilkDelivery: 'MilkDelivery',
   Payment: 'Payment',
   ProductCategory: 'ProductCategory',

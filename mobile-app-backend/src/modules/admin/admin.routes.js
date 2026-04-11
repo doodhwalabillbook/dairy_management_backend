@@ -101,12 +101,6 @@ router.get('/vendors/:id', controller.getVendor);
  *                 type: string
  *               mobileNumber:
  *                 type: string
- *               registrationDate:
- *                 type: string
- *                 format: date
- *               billingStartDate:
- *                 type: string
- *                 format: date
  *               pin:
  *                 type: string
  *                 description: Only provide if changing the PIN
@@ -192,8 +186,6 @@ router.patch('/vendors/:id/status', validateRequest(vendorStatusSchema), control
  *               - name
  *               - address
  *               - mobileNumber
- *               - registrationDate
- *               - billingStartDate
  *               - pin
  *             properties:
  *               name:
@@ -203,12 +195,6 @@ router.patch('/vendors/:id/status', validateRequest(vendorStatusSchema), control
  *               mobileNumber:
  *                 type: string
  *                 description: 10-digit mobile number
- *               registrationDate:
- *                 type: string
- *                 format: date
- *               billingStartDate:
- *                 type: string
- *                 format: date
  *               pin:
  *                 type: string
  *                 description: 4 to 6 digit numeric PIN

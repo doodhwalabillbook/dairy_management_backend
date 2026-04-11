@@ -10,7 +10,7 @@ const generatePin = () => Math.floor(1000 + Math.random() * 9000).toString();
  * Creates both a User (for auth) and a Vendor record atomically.
  */
 const registerVendor = async (payload) => {
-  const { name, address, mobileNumber, registrationDate, billingStartDate, pin } = payload;
+  const { name, address, mobileNumber, pin } = payload;
 
   // Check mobileNumber uniqueness on Vendor table
   const existingVendor = await vendorRepository.findVendorByMobile(mobileNumber);
@@ -32,7 +32,7 @@ const registerVendor = async (payload) => {
 
   const { user, vendor } = await vendorRepository.createVendorWithUser(
     { mobile: mobileNumber, name, pinHash },
-    { name, address, mobileNumber, registrationDate, billingStartDate }
+    { name, address, mobileNumber }
   );
 
   return {
@@ -40,8 +40,6 @@ const registerVendor = async (payload) => {
     name: vendor.name,
     address: vendor.address,
     mobileNumber: vendor.mobileNumber,
-    registrationDate: vendor.registrationDate,
-    billingStartDate: vendor.billingStartDate,
     status: vendor.status,
     createdAt: vendor.createdAt,
   };

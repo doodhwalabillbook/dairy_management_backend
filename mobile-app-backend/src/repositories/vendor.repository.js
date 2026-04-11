@@ -62,8 +62,6 @@ const createVendorWithUser = async (userData, vendorData) => {
         name: vendorData.name,
         address: vendorData.address,
         mobileNumber: vendorData.mobileNumber,
-        registrationDate: new Date(vendorData.registrationDate),
-        billingStartDate: new Date(vendorData.billingStartDate),
         status: 'ACTIVE',
         ...(vendorData.companyId
           ? { companyId: vendorData.companyId }
@@ -100,8 +98,6 @@ const getVendorsList = async ({ page = 1, size = 10, search, status, mobileNumbe
         name: true,
         address: true,
         mobileNumber: true,
-        registrationDate: true,
-        billingStartDate: true,
         status: true,
         createdAt: true,
         _count: {
@@ -122,8 +118,6 @@ const getVendorDetailById = async (id) => prisma.vendor.findUnique({
     name: true,
     address: true,
     mobileNumber: true,
-    registrationDate: true,
-    billingStartDate: true,
     status: true,
     createdAt: true,
     updatedAt: true,
@@ -135,8 +129,6 @@ const getVendorDetailById = async (id) => prisma.vendor.findUnique({
 
 const updateVendorData = async (id, vendorData, pinHash) => {
   const data = { ...vendorData };
-  if (data.registrationDate) data.registrationDate = new Date(data.registrationDate);
-  if (data.billingStartDate) data.billingStartDate = new Date(data.billingStartDate);
 
   // If a new PIN hash is provided, update the User record as well via nested update.
   if (pinHash) {
@@ -155,8 +147,6 @@ const updateVendorData = async (id, vendorData, pinHash) => {
       name: true,
       address: true,
       mobileNumber: true,
-      registrationDate: true,
-      billingStartDate: true,
       status: true,
       createdAt: true,
       updatedAt: true,
