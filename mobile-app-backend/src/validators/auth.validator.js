@@ -18,7 +18,7 @@ const adminProvisionSchema = z.object({
 
 const vendorRegistrationSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters'),
-  address: z.string().min(5, 'Address must be at least 5 characters'),
+  address: z.string().min(3, 'Address must be at least 3 characters'),
   mobileNumber: z
     .string()
     .regex(/^[0-9]{10}$/, 'Mobile number must be a valid 10-digit number'),
@@ -29,7 +29,7 @@ const vendorRegistrationSchema = z.object({
 
 const vendorUpdateSchema = z.object({
   name: z.string().min(3).optional(),
-  address: z.string().min(5, 'Address must be at least 5 characters').optional(),
+  address: z.string().min(3, 'Address must be at least 3 characters').optional(),
   mobileNumber: z.string().regex(/^[0-9]{10}$/, 'Mobile number must be a valid 10-digit number').optional(),
   pin: z.string().regex(/^[0-9]{4,6}$/, 'PIN must be numeric and 4–6 digits').optional(),
 });

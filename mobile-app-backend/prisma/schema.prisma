@@ -112,6 +112,7 @@ model Customer {
   phone            String   @db.VarChar(15)
   address          String
   remainingAmount  Decimal  @default(0) @db.Decimal(10, 2)
+  advanceAmount    Decimal  @default(0) @db.Decimal(10, 2)
   registrationDate DateTime @db.Date
   isActive         Boolean  @default(true)
   createdBy        String?  @db.VarChar(36)
@@ -173,18 +174,20 @@ model MilkDelivery {
 // ─── Payment ─────────────────────────────────────────────────────────────────
 
 model Payment {
-  id          String      @id @default(uuid()) @db.VarChar(36)
-  customerId  String      @db.VarChar(36)
-  amountPaid  Decimal     @db.Decimal(10, 2)
-  paymentDate DateTime    @db.Date
-  month       Int
-  year        Int
-  paymentMode PaymentMode @default(CASH)
-  notes       String?
-  createdBy   String?     @db.VarChar(36)
-  updatedBy   String?     @db.VarChar(36)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id               String      @id @default(uuid()) @db.VarChar(36)
+  customerId       String      @db.VarChar(36)
+  amountPaid       Decimal     @db.Decimal(10, 2)
+  extraAmount      Decimal     @default(0) @db.Decimal(10, 2)
+  extraDescription String?
+  paymentDate      DateTime    @db.Date
+  month            Int
+  year             Int
+  paymentMode      PaymentMode @default(CASH)
+  notes            String?
+  createdBy        String?     @db.VarChar(36)
+  updatedBy        String?     @db.VarChar(36)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 
   customer Customer @relation(fields: [customerId], references: [id])
 

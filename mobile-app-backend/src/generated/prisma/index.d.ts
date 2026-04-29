@@ -5983,10 +5983,12 @@ export namespace Prisma {
 
   export type CustomerAvgAggregateOutputType = {
     remainingAmount: Decimal | null
+    advanceAmount: Decimal | null
   }
 
   export type CustomerSumAggregateOutputType = {
     remainingAmount: Decimal | null
+    advanceAmount: Decimal | null
   }
 
   export type CustomerMinAggregateOutputType = {
@@ -5997,6 +5999,7 @@ export namespace Prisma {
     phone: string | null
     address: string | null
     remainingAmount: Decimal | null
+    advanceAmount: Decimal | null
     registrationDate: Date | null
     isActive: boolean | null
     createdBy: string | null
@@ -6013,6 +6016,7 @@ export namespace Prisma {
     phone: string | null
     address: string | null
     remainingAmount: Decimal | null
+    advanceAmount: Decimal | null
     registrationDate: Date | null
     isActive: boolean | null
     createdBy: string | null
@@ -6029,6 +6033,7 @@ export namespace Prisma {
     phone: number
     address: number
     remainingAmount: number
+    advanceAmount: number
     registrationDate: number
     isActive: number
     createdBy: number
@@ -6041,10 +6046,12 @@ export namespace Prisma {
 
   export type CustomerAvgAggregateInputType = {
     remainingAmount?: true
+    advanceAmount?: true
   }
 
   export type CustomerSumAggregateInputType = {
     remainingAmount?: true
+    advanceAmount?: true
   }
 
   export type CustomerMinAggregateInputType = {
@@ -6055,6 +6062,7 @@ export namespace Prisma {
     phone?: true
     address?: true
     remainingAmount?: true
+    advanceAmount?: true
     registrationDate?: true
     isActive?: true
     createdBy?: true
@@ -6071,6 +6079,7 @@ export namespace Prisma {
     phone?: true
     address?: true
     remainingAmount?: true
+    advanceAmount?: true
     registrationDate?: true
     isActive?: true
     createdBy?: true
@@ -6087,6 +6096,7 @@ export namespace Prisma {
     phone?: true
     address?: true
     remainingAmount?: true
+    advanceAmount?: true
     registrationDate?: true
     isActive?: true
     createdBy?: true
@@ -6190,6 +6200,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount: Decimal
+    advanceAmount: Decimal
     registrationDate: Date
     isActive: boolean
     createdBy: string | null
@@ -6225,6 +6236,7 @@ export namespace Prisma {
     phone?: boolean
     address?: boolean
     remainingAmount?: boolean
+    advanceAmount?: boolean
     registrationDate?: boolean
     isActive?: boolean
     createdBy?: boolean
@@ -6249,6 +6261,7 @@ export namespace Prisma {
     phone?: boolean
     address?: boolean
     remainingAmount?: boolean
+    advanceAmount?: boolean
     registrationDate?: boolean
     isActive?: boolean
     createdBy?: boolean
@@ -6257,7 +6270,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "areaId" | "name" | "phone" | "address" | "remainingAmount" | "registrationDate" | "isActive" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "areaId" | "name" | "phone" | "address" | "remainingAmount" | "advanceAmount" | "registrationDate" | "isActive" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
   export type CustomerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorDefaultArgs<ExtArgs>
     area?: boolean | AreaDefaultArgs<ExtArgs>
@@ -6284,6 +6297,7 @@ export namespace Prisma {
       phone: string
       address: string
       remainingAmount: Prisma.Decimal
+      advanceAmount: Prisma.Decimal
       registrationDate: Date
       isActive: boolean
       createdBy: string | null
@@ -6671,6 +6685,7 @@ export namespace Prisma {
     readonly phone: FieldRef<"Customer", 'String'>
     readonly address: FieldRef<"Customer", 'String'>
     readonly remainingAmount: FieldRef<"Customer", 'Decimal'>
+    readonly advanceAmount: FieldRef<"Customer", 'Decimal'>
     readonly registrationDate: FieldRef<"Customer", 'DateTime'>
     readonly isActive: FieldRef<"Customer", 'Boolean'>
     readonly createdBy: FieldRef<"Customer", 'String'>
@@ -9169,12 +9184,14 @@ export namespace Prisma {
 
   export type PaymentAvgAggregateOutputType = {
     amountPaid: Decimal | null
+    extraAmount: Decimal | null
     month: number | null
     year: number | null
   }
 
   export type PaymentSumAggregateOutputType = {
     amountPaid: Decimal | null
+    extraAmount: Decimal | null
     month: number | null
     year: number | null
   }
@@ -9183,6 +9200,8 @@ export namespace Prisma {
     id: string | null
     customerId: string | null
     amountPaid: Decimal | null
+    extraAmount: Decimal | null
+    extraDescription: string | null
     paymentDate: Date | null
     month: number | null
     year: number | null
@@ -9198,6 +9217,8 @@ export namespace Prisma {
     id: string | null
     customerId: string | null
     amountPaid: Decimal | null
+    extraAmount: Decimal | null
+    extraDescription: string | null
     paymentDate: Date | null
     month: number | null
     year: number | null
@@ -9213,6 +9234,8 @@ export namespace Prisma {
     id: number
     customerId: number
     amountPaid: number
+    extraAmount: number
+    extraDescription: number
     paymentDate: number
     month: number
     year: number
@@ -9228,12 +9251,14 @@ export namespace Prisma {
 
   export type PaymentAvgAggregateInputType = {
     amountPaid?: true
+    extraAmount?: true
     month?: true
     year?: true
   }
 
   export type PaymentSumAggregateInputType = {
     amountPaid?: true
+    extraAmount?: true
     month?: true
     year?: true
   }
@@ -9242,6 +9267,8 @@ export namespace Prisma {
     id?: true
     customerId?: true
     amountPaid?: true
+    extraAmount?: true
+    extraDescription?: true
     paymentDate?: true
     month?: true
     year?: true
@@ -9257,6 +9284,8 @@ export namespace Prisma {
     id?: true
     customerId?: true
     amountPaid?: true
+    extraAmount?: true
+    extraDescription?: true
     paymentDate?: true
     month?: true
     year?: true
@@ -9272,6 +9301,8 @@ export namespace Prisma {
     id?: true
     customerId?: true
     amountPaid?: true
+    extraAmount?: true
+    extraDescription?: true
     paymentDate?: true
     month?: true
     year?: true
@@ -9374,6 +9405,8 @@ export namespace Prisma {
     id: string
     customerId: string
     amountPaid: Decimal
+    extraAmount: Decimal
+    extraDescription: string | null
     paymentDate: Date
     month: number
     year: number
@@ -9408,6 +9441,8 @@ export namespace Prisma {
     id?: boolean
     customerId?: boolean
     amountPaid?: boolean
+    extraAmount?: boolean
+    extraDescription?: boolean
     paymentDate?: boolean
     month?: boolean
     year?: boolean
@@ -9426,6 +9461,8 @@ export namespace Prisma {
     id?: boolean
     customerId?: boolean
     amountPaid?: boolean
+    extraAmount?: boolean
+    extraDescription?: boolean
     paymentDate?: boolean
     month?: boolean
     year?: boolean
@@ -9437,7 +9474,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "amountPaid" | "paymentDate" | "month" | "year" | "paymentMode" | "notes" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "amountPaid" | "extraAmount" | "extraDescription" | "paymentDate" | "month" | "year" | "paymentMode" | "notes" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
@@ -9451,6 +9488,8 @@ export namespace Prisma {
       id: string
       customerId: string
       amountPaid: Prisma.Decimal
+      extraAmount: Prisma.Decimal
+      extraDescription: string | null
       paymentDate: Date
       month: number
       year: number
@@ -9833,6 +9872,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Payment", 'String'>
     readonly customerId: FieldRef<"Payment", 'String'>
     readonly amountPaid: FieldRef<"Payment", 'Decimal'>
+    readonly extraAmount: FieldRef<"Payment", 'Decimal'>
+    readonly extraDescription: FieldRef<"Payment", 'String'>
     readonly paymentDate: FieldRef<"Payment", 'DateTime'>
     readonly month: FieldRef<"Payment", 'Int'>
     readonly year: FieldRef<"Payment", 'Int'>
@@ -12213,6 +12254,7 @@ export namespace Prisma {
     phone: 'phone',
     address: 'address',
     remainingAmount: 'remainingAmount',
+    advanceAmount: 'advanceAmount',
     registrationDate: 'registrationDate',
     isActive: 'isActive',
     createdBy: 'createdBy',
@@ -12258,6 +12300,8 @@ export namespace Prisma {
     id: 'id',
     customerId: 'customerId',
     amountPaid: 'amountPaid',
+    extraAmount: 'extraAmount',
+    extraDescription: 'extraDescription',
     paymentDate: 'paymentDate',
     month: 'month',
     year: 'year',
@@ -12401,6 +12445,7 @@ export namespace Prisma {
   export const PaymentOrderByRelevanceFieldEnum: {
     id: 'id',
     customerId: 'customerId',
+    extraDescription: 'extraDescription',
     notes: 'notes',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy'
@@ -12858,6 +12903,7 @@ export namespace Prisma {
     phone?: StringFilter<"Customer"> | string
     address?: StringFilter<"Customer"> | string
     remainingAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
     createdBy?: StringNullableFilter<"Customer"> | string | null
@@ -12879,6 +12925,7 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     remainingAmount?: SortOrder
+    advanceAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -12904,6 +12951,7 @@ export namespace Prisma {
     phone?: StringFilter<"Customer"> | string
     address?: StringFilter<"Customer"> | string
     remainingAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
     createdBy?: StringNullableFilter<"Customer"> | string | null
@@ -12925,6 +12973,7 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     remainingAmount?: SortOrder
+    advanceAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -12949,6 +12998,7 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter<"Customer"> | string
     address?: StringWithAggregatesFilter<"Customer"> | string
     remainingAmount?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalWithAggregatesFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
     isActive?: BoolWithAggregatesFilter<"Customer"> | boolean
     createdBy?: StringNullableWithAggregatesFilter<"Customer"> | string | null
@@ -13125,6 +13175,8 @@ export namespace Prisma {
     id?: StringFilter<"Payment"> | string
     customerId?: StringFilter<"Payment"> | string
     amountPaid?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    extraDescription?: StringNullableFilter<"Payment"> | string | null
     paymentDate?: DateTimeFilter<"Payment"> | Date | string
     month?: IntFilter<"Payment"> | number
     year?: IntFilter<"Payment"> | number
@@ -13141,6 +13193,8 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     amountPaid?: SortOrder
+    extraAmount?: SortOrder
+    extraDescription?: SortOrderInput | SortOrder
     paymentDate?: SortOrder
     month?: SortOrder
     year?: SortOrder
@@ -13161,6 +13215,8 @@ export namespace Prisma {
     NOT?: PaymentWhereInput | PaymentWhereInput[]
     customerId?: StringFilter<"Payment"> | string
     amountPaid?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    extraDescription?: StringNullableFilter<"Payment"> | string | null
     paymentDate?: DateTimeFilter<"Payment"> | Date | string
     month?: IntFilter<"Payment"> | number
     year?: IntFilter<"Payment"> | number
@@ -13177,6 +13233,8 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     amountPaid?: SortOrder
+    extraAmount?: SortOrder
+    extraDescription?: SortOrderInput | SortOrder
     paymentDate?: SortOrder
     month?: SortOrder
     year?: SortOrder
@@ -13200,6 +13258,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Payment"> | string
     customerId?: StringWithAggregatesFilter<"Payment"> | string
     amountPaid?: DecimalWithAggregatesFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalWithAggregatesFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    extraDescription?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     paymentDate?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
     month?: IntWithAggregatesFilter<"Payment"> | number
     year?: IntWithAggregatesFilter<"Payment"> | number
@@ -13742,6 +13802,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -13763,6 +13824,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -13780,6 +13842,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13801,6 +13864,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13820,6 +13884,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -13834,6 +13899,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13850,6 +13916,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14026,6 +14093,8 @@ export namespace Prisma {
   export type PaymentCreateInput = {
     id?: string
     amountPaid: Decimal | DecimalJsLike | number | string
+    extraAmount?: Decimal | DecimalJsLike | number | string
+    extraDescription?: string | null
     paymentDate: Date | string
     month: number
     year: number
@@ -14042,6 +14111,8 @@ export namespace Prisma {
     id?: string
     customerId: string
     amountPaid: Decimal | DecimalJsLike | number | string
+    extraAmount?: Decimal | DecimalJsLike | number | string
+    extraDescription?: string | null
     paymentDate: Date | string
     month: number
     year: number
@@ -14056,6 +14127,8 @@ export namespace Prisma {
   export type PaymentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     amountPaid?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraDescription?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
@@ -14072,6 +14145,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     customerId?: StringFieldUpdateOperationsInput | string
     amountPaid?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraDescription?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
@@ -14087,6 +14162,8 @@ export namespace Prisma {
     id?: string
     customerId: string
     amountPaid: Decimal | DecimalJsLike | number | string
+    extraAmount?: Decimal | DecimalJsLike | number | string
+    extraDescription?: string | null
     paymentDate: Date | string
     month: number
     year: number
@@ -14101,6 +14178,8 @@ export namespace Prisma {
   export type PaymentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     amountPaid?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraDescription?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
@@ -14116,6 +14195,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     customerId?: StringFieldUpdateOperationsInput | string
     amountPaid?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraDescription?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
@@ -14688,6 +14769,7 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     remainingAmount?: SortOrder
+    advanceAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
@@ -14698,6 +14780,7 @@ export namespace Prisma {
 
   export type CustomerAvgOrderByAggregateInput = {
     remainingAmount?: SortOrder
+    advanceAmount?: SortOrder
   }
 
   export type CustomerMaxOrderByAggregateInput = {
@@ -14708,6 +14791,7 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     remainingAmount?: SortOrder
+    advanceAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
@@ -14724,6 +14808,7 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     remainingAmount?: SortOrder
+    advanceAmount?: SortOrder
     registrationDate?: SortOrder
     isActive?: SortOrder
     createdBy?: SortOrder
@@ -14734,6 +14819,7 @@ export namespace Prisma {
 
   export type CustomerSumOrderByAggregateInput = {
     remainingAmount?: SortOrder
+    advanceAmount?: SortOrder
   }
 
   export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -14901,6 +14987,8 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     amountPaid?: SortOrder
+    extraAmount?: SortOrder
+    extraDescription?: SortOrder
     paymentDate?: SortOrder
     month?: SortOrder
     year?: SortOrder
@@ -14914,6 +15002,7 @@ export namespace Prisma {
 
   export type PaymentAvgOrderByAggregateInput = {
     amountPaid?: SortOrder
+    extraAmount?: SortOrder
     month?: SortOrder
     year?: SortOrder
   }
@@ -14922,6 +15011,8 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     amountPaid?: SortOrder
+    extraAmount?: SortOrder
+    extraDescription?: SortOrder
     paymentDate?: SortOrder
     month?: SortOrder
     year?: SortOrder
@@ -14937,6 +15028,8 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     amountPaid?: SortOrder
+    extraAmount?: SortOrder
+    extraDescription?: SortOrder
     paymentDate?: SortOrder
     month?: SortOrder
     year?: SortOrder
@@ -14950,6 +15043,7 @@ export namespace Prisma {
 
   export type PaymentSumOrderByAggregateInput = {
     amountPaid?: SortOrder
+    extraAmount?: SortOrder
     month?: SortOrder
     year?: SortOrder
   }
@@ -16082,6 +16176,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16101,6 +16196,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16257,6 +16353,7 @@ export namespace Prisma {
     phone?: StringFilter<"Customer"> | string
     address?: StringFilter<"Customer"> | string
     remainingAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFilter<"Customer"> | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFilter<"Customer"> | Date | string
     isActive?: BoolFilter<"Customer"> | boolean
     createdBy?: StringNullableFilter<"Customer"> | string | null
@@ -16304,6 +16401,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16323,6 +16421,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16499,6 +16598,8 @@ export namespace Prisma {
   export type PaymentCreateWithoutCustomerInput = {
     id?: string
     amountPaid: Decimal | DecimalJsLike | number | string
+    extraAmount?: Decimal | DecimalJsLike | number | string
+    extraDescription?: string | null
     paymentDate: Date | string
     month: number
     year: number
@@ -16513,6 +16614,8 @@ export namespace Prisma {
   export type PaymentUncheckedCreateWithoutCustomerInput = {
     id?: string
     amountPaid: Decimal | DecimalJsLike | number | string
+    extraAmount?: Decimal | DecimalJsLike | number | string
+    extraDescription?: string | null
     paymentDate: Date | string
     month: number
     year: number
@@ -16686,6 +16789,8 @@ export namespace Prisma {
     id?: StringFilter<"Payment"> | string
     customerId?: StringFilter<"Payment"> | string
     amountPaid?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    extraDescription?: StringNullableFilter<"Payment"> | string | null
     paymentDate?: DateTimeFilter<"Payment"> | Date | string
     month?: IntFilter<"Payment"> | number
     year?: IntFilter<"Payment"> | number
@@ -16703,6 +16808,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16723,6 +16829,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16755,6 +16862,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16775,6 +16883,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16836,6 +16945,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16856,6 +16966,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16939,6 +17050,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16959,6 +17071,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16975,6 +17088,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -16995,6 +17109,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -17027,6 +17142,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17047,6 +17163,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17245,6 +17362,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -17272,6 +17390,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17291,6 +17410,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17309,6 +17429,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17363,6 +17484,7 @@ export namespace Prisma {
     phone: string
     address: string
     remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
     registrationDate: Date | string
     isActive?: boolean
     createdBy?: string | null
@@ -17377,6 +17499,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17396,6 +17519,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17414,6 +17538,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17447,6 +17572,8 @@ export namespace Prisma {
   export type PaymentCreateManyCustomerInput = {
     id?: string
     amountPaid: Decimal | DecimalJsLike | number | string
+    extraAmount?: Decimal | DecimalJsLike | number | string
+    extraDescription?: string | null
     paymentDate: Date | string
     month: number
     year: number
@@ -17527,6 +17654,8 @@ export namespace Prisma {
   export type PaymentUpdateWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
     amountPaid?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraDescription?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
@@ -17541,6 +17670,8 @@ export namespace Prisma {
   export type PaymentUncheckedUpdateWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
     amountPaid?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraDescription?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
@@ -17555,6 +17686,8 @@ export namespace Prisma {
   export type PaymentUncheckedUpdateManyWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
     amountPaid?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    extraDescription?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number

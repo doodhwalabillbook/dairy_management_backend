@@ -39,6 +39,9 @@ const createCustomerSchema = z.object({
 
   // Opening due (carried-forward balance)
   remainingAmount: z.number().min(0).default(0),
+  
+  // Advance amount given at the time of registration
+  advanceAmount: z.number().min(0).default(0),
 });
 
 // ─── Update Customer ──────────────────────────────────────────────────────────
@@ -59,6 +62,7 @@ const updateCustomerSchema = z
     address: z.string().min(1).optional(),
     areaId:  z.string().uuid('areaId must be a valid UUID').optional(),
     remainingAmount: z.number().min(0).optional(),
+    advanceAmount: z.number().min(0).optional(),
 
     // Config update fields (must come together with effectiveFrom)
     morningQuantity: z

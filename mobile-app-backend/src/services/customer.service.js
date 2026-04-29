@@ -50,6 +50,7 @@ const createCustomer = async (data, userId) => {
     phone:            data.phone,
     address:          data.address,
     remainingAmount:  data.remainingAmount ?? 0,
+    advanceAmount:    data.advanceAmount ?? 0,
     registrationDate: new Date(data.registrationDate + 'T00:00:00Z'),
     isActive:         true,
     createdBy:        userId,
@@ -65,7 +66,27 @@ const createCustomer = async (data, userId) => {
   };
 
   // 6. Atomic create (Customer + CustomerMilkConfig in one transaction)
-  return customerRepo.createCustomerWithConfig(customerData, configData);
+  const newCustomer = await customerRepo.createCustomerWithConfig(customerData, configData);
+
+  // 7. Auto Payment entry for advance
+  if (data.advanceAmount && data.advanceAmount > 0) {
+    const paymentDateObj = new Date(data.registrationDate + 'T00:00:00Z');
+    await billingRepo.createPayment({
+      customerId:       newCustomer.id,
+      amountPaid:       data.advanceAmount,
+      extraAmount:      0,
+      extraDescription: 'Initial advance',
+      paymentDate:      paymentDateObj,
+      month:            paymentDateObj.getUTCMonth() + 1,
+      year:             paymentDateObj.getUTCFullYear(),
+      paymentMode:      'CASH',
+      notes:            'Advance amount at customer creation',
+      createdBy:        userId || null,
+      updatedBy:        userId || null,
+    });
+  }
+
+  return newCustomer;
 };
 
 // ─── Get All Customers ────────────────────────────────────────────────────────

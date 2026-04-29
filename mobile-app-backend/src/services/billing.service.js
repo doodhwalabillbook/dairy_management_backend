@@ -119,15 +119,17 @@ const recordPayment = async (data, userId) => {
 
   // 2. Persist payment
   await billingRepo.createPayment({
-    customerId:  data.customerId,
-    amountPaid:  data.amountPaid,
-    paymentDate: new Date(data.paymentDate),
-    month:       data.month,
-    year:        data.year,
-    paymentMode: data.paymentMode ?? 'CASH',
-    notes:       data.notes ?? null,
-    createdBy:   userId || null,
-    updatedBy:   userId || null,
+    customerId:       data.customerId,
+    amountPaid:       data.amountPaid,
+    extraAmount:      data.extraAmount ?? 0,
+    extraDescription: data.extraDescription ?? null,
+    paymentDate:      new Date(data.paymentDate),
+    month:            data.month,
+    year:             data.year,
+    paymentMode:      data.paymentMode ?? 'CASH',
+    notes:            data.notes ?? null,
+    createdBy:        userId || null,
+    updatedBy:        userId || null,
   });
 
   // 3. Re-compute billing using correct date range (Layer 1 applied)
@@ -142,6 +144,7 @@ const recordPayment = async (data, userId) => {
       year:            data.year,
       baseAmount:      0,
       openingDue:      parseFloat((customer.remainingAmount || 0).toString()),
+      advanceAmount:   parseFloat((customer.advanceAmount || 0).toString()),
       totalAmount:     parseFloat((customer.remainingAmount || 0).toString()),
       totalPaid:       parseFloat(data.amountPaid.toString()),
       remainingAmount: 0,
@@ -164,12 +167,21 @@ const recordPayment = async (data, userId) => {
     payments,
   });
 
+  // 4. Update customer's advanceAmount in the database if overpaid
+  if (calc.advanceAmount !== undefined && calc.advanceAmount !== parseFloat(customer.advanceAmount?.toString() || '0')) {
+    await prisma.customer.update({
+      where: { id: data.customerId },
+      data: { advanceAmount: calc.advanceAmount }
+    });
+  }
+
   return {
     customerId:      data.customerId,
     month:           data.month,
     year:            data.year,
     baseAmount:      calc.baseAmount,
     openingDue:      calc.openingDue,
+    advanceAmount:   calc.advanceAmount,
     totalAmount:     calc.totalAmount,
     totalPaid:       calc.paymentPaid,
     remainingAmount: calc.remainingPayment,
@@ -219,6 +231,7 @@ const _groupById = (arr, key) => {
 const _aggregateSummary = (customersInfo) => ({
   baseAmount:            parseFloat(customersInfo.reduce((s, c) => s + c.baseAmount,       0).toFixed(2)),
   openingDue:            parseFloat(customersInfo.reduce((s, c) => s + c.openingDue,       0).toFixed(2)),
+  advanceAmount:         parseFloat(customersInfo.reduce((s, c) => s + (c.advanceAmount || 0), 0).toFixed(2)),
   totalAmount:           parseFloat(customersInfo.reduce((s, c) => s + c.totalAmount,      0).toFixed(2)),
   totalPaid:             parseFloat(customersInfo.reduce((s, c) => s + c.paymentPaid,      0).toFixed(2)),
   remainingAmount:       parseFloat(customersInfo.reduce((s, c) => s + c.remainingPayment, 0).toFixed(2)),
@@ -232,7 +245,7 @@ const _buildEmptyBillingOutput = (month, year) => ({
   month,
   year,
   summary: {
-    baseAmount: 0, openingDue: 0, totalAmount: 0, totalPaid: 0,
+    baseAmount: 0, openingDue: 0, advanceAmount: 0, totalAmount: 0, totalPaid: 0,
     remainingAmount: 0, totalCustomers: 0,
     paidCustomersCount: 0, unpaidCustomersCount: 0, partialCustomersCount: 0,
   },

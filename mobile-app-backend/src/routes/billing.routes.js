@@ -153,6 +153,12 @@ router.get('/', validateQuery(billingQuerySchema), controller.getBilling);
  *               amountPaid:
  *                 type: number
  *                 example: 2000
+ *               extraAmount:
+ *                 type: number
+ *                 example: 200
+ *               extraDescription:
+ *                 type: string
+ *                 example: "Cheese"
  *               paymentDate:
  *                 type: string
  *                 format: date
@@ -193,6 +199,12 @@ router.get('/', validateQuery(billingQuerySchema), controller.getBilling);
  *                       type: integer
  *                     year:
  *                       type: integer
+ *                     baseAmount:
+ *                       type: number
+ *                     openingDue:
+ *                       type: number
+ *                     advanceAmount:
+ *                       type: number
  *                     totalAmount:
  *                       type: number
  *                     totalPaid:

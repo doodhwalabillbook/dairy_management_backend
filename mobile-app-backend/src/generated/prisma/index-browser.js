@@ -183,6 +183,7 @@ exports.Prisma.CustomerScalarFieldEnum = {
   phone: 'phone',
   address: 'address',
   remainingAmount: 'remainingAmount',
+  advanceAmount: 'advanceAmount',
   registrationDate: 'registrationDate',
   isActive: 'isActive',
   createdBy: 'createdBy',
@@ -219,6 +220,8 @@ exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
   customerId: 'customerId',
   amountPaid: 'amountPaid',
+  extraAmount: 'extraAmount',
+  extraDescription: 'extraDescription',
   paymentDate: 'paymentDate',
   month: 'month',
   year: 'year',
@@ -326,6 +329,7 @@ exports.Prisma.MilkDeliveryOrderByRelevanceFieldEnum = {
 exports.Prisma.PaymentOrderByRelevanceFieldEnum = {
   id: 'id',
   customerId: 'customerId',
+  extraDescription: 'extraDescription',
   notes: 'notes',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy'

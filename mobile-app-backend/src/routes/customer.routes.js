@@ -78,6 +78,11 @@ router.use(authMiddleware);
  *                 format: float
  *                 default: 0
  *                 example: 1000
+ *               advanceAmount:
+ *                 type: number
+ *                 format: float
+ *                 default: 0
+ *                 example: 500
  *     responses:
  *       201:
  *         description: Customer successfully created

@@ -62,6 +62,11 @@ const createPaymentSchema = z.object({
       errorMap: () => ({ message: 'paymentMode must be CASH, UPI, or CARD' }),
     })
     .default('CASH'),
+  extraAmount: z
+    .number({ invalid_type_error: 'extraAmount must be a number' })
+    .min(0, 'extraAmount must be non-negative')
+    .default(0),
+  extraDescription: z.string().optional(),
   notes: z.string().optional(),
 });
 

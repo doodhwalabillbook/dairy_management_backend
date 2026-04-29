@@ -258,11 +258,19 @@ const calculateCustomerBilling = ({
   // ── Financial aggregation ─────────────────────────────────────────────────
   baseAmount        = parseFloat(baseAmount.toFixed(2));
   const openingDue  = parseFloat((customer.remainingAmount || 0).toString());
-  const totalAmount = parseFloat((baseAmount + openingDue).toFixed(2));
+  const advance     = parseFloat((customer.advanceAmount || 0).toString());
+  const totalAmount = parseFloat((baseAmount + openingDue - advance).toFixed(2));
   const totalPaid   = parseFloat(
     payments.reduce((sum, p) => sum + parseFloat(p.amountPaid.toString()), 0).toFixed(2)
   );
-  const remaining   = parseFloat(Math.max(0, totalAmount - totalPaid).toFixed(2));
+  
+  let remaining = parseFloat((totalAmount - totalPaid).toFixed(2));
+  let calculatedAdvance = 0;
+  
+  if (remaining < 0) {
+    calculatedAdvance = parseFloat(Math.abs(remaining).toFixed(2));
+    remaining = 0;
+  }
 
   // ── Payment status ─────────────────────────────────────────────────────────
   let paymentStatus;
@@ -282,6 +290,7 @@ const calculateCustomerBilling = ({
     totalMilkDelivered:  parseFloat(totalMilk.toFixed(2)),
     baseAmount,
     openingDue,
+    advanceAmount:       calculatedAdvance, // Dynamically computed carry-forward advance
     totalAmount,
     paymentPaid:         totalPaid,
     remainingPayment:    remaining,

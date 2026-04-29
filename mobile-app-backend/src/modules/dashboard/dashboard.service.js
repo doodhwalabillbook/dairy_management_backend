@@ -78,7 +78,7 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
 
   let monthMorning = 0, monthEvening  = 0, monthMilk   = 0;
   let monthEarning = 0, monthOpenDue  = 0;
-  let monthPaid    = 0, monthRemain   = 0;
+  let monthPaid    = 0, monthRemain   = 0, monthAdvance  = 0;
 
   // ── 5. Per-customer computation (pure in-memory, zero DB queries) ────────────
   for (const customer of customers) {
@@ -118,6 +118,7 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
       monthMilk    += calc.totalMilkDelivered;
       monthEarning += calc.baseAmount;
       monthOpenDue += calc.openingDue;
+      monthAdvance += calc.advanceAmount;
       monthPaid    += calc.paymentPaid;
       monthRemain  += calc.remainingPayment;
     }
@@ -157,6 +158,7 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
       totalMilkDelivered:        parseFloat(monthMilk.toFixed(2)),
       totalEarning:              parseFloat(monthEarning.toFixed(2)),
       totalOpeningDue:           parseFloat(monthOpenDue.toFixed(2)),
+      totalAdvanceAmount:        parseFloat(monthAdvance.toFixed(2)),
       totalPaymentReceived:      parseFloat(monthPaid.toFixed(2)),
       totalPendingAmount:        parseFloat(monthRemain.toFixed(2)),
     },
@@ -192,6 +194,7 @@ const _buildEmptyDashboard = (targetDateStr, targetMonth, targetYear) => ({
     totalMilkDelivered:        0,
     totalEarning:              0,
     totalOpeningDue:           0,
+    totalAdvanceAmount:        0,
     totalPaymentReceived:      0,
     totalPendingAmount:        0,
   },
