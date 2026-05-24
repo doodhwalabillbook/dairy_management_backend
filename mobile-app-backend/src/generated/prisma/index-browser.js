@@ -216,6 +216,23 @@ exports.Prisma.MilkDeliveryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ExtraProductDeliveryScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  vendorId: 'vendorId',
+  milkDeliveryId: 'milkDeliveryId',
+  date: 'date',
+  productName: 'productName',
+  quantity: 'quantity',
+  unit: 'unit',
+  price: 'price',
+  notes: 'notes',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
   customerId: 'customerId',
@@ -326,6 +343,18 @@ exports.Prisma.MilkDeliveryOrderByRelevanceFieldEnum = {
   updatedBy: 'updatedBy'
 };
 
+exports.Prisma.ExtraProductDeliveryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  vendorId: 'vendorId',
+  milkDeliveryId: 'milkDeliveryId',
+  productName: 'productName',
+  unit: 'unit',
+  notes: 'notes',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
+};
+
 exports.Prisma.PaymentOrderByRelevanceFieldEnum = {
   id: 'id',
   customerId: 'customerId',
@@ -371,6 +400,7 @@ exports.Prisma.ModelName = {
   Customer: 'Customer',
   CustomerMilkConfig: 'CustomerMilkConfig',
   MilkDelivery: 'MilkDelivery',
+  ExtraProductDelivery: 'ExtraProductDelivery',
   Payment: 'Payment',
   ProductCategory: 'ProductCategory',
   Product: 'Product'

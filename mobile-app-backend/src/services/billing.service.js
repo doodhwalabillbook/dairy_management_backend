@@ -52,17 +52,19 @@ const getBilling = async ({ month, year, filterType, vendorId }) => {
   const lastDayOfMonth = new Date(Date.UTC(year, month, 0));
   const globalEnd      = utcToday() < lastDayOfMonth ? utcToday() : lastDayOfMonth;
 
-  // ── 3. Bulk fetch (3 queries, no N+1) ──────────────────────────────────────
-  const [configs, deliveries, payments] = await Promise.all([
+  // ── 3. Bulk fetch (4 queries, no N+1) ──────────────────────────────────────
+  const [configs, deliveries, payments, extraProducts] = await Promise.all([
     billingRepo.getConfigsForCustomers(customerIds, lastDayOfMonth),
     billingRepo.getDeliveriesForCustomers(customerIds, globalStart, globalEnd),
     billingRepo.getPaymentsForCustomers(customerIds, month, year),
+    billingRepo.getExtraProductsForCustomers(customerIds, globalStart, globalEnd),
   ]);
 
   // ── 4. Group into per-customer maps { customerId → [...] } ──────────────────
-  const cfgMap = _groupById(configs,    'customerId');
-  const delMap = _groupById(deliveries, 'customerId');
-  const payMap = _groupById(payments,   'customerId');
+  const cfgMap   = _groupById(configs,       'customerId');
+  const delMap   = _groupById(deliveries,    'customerId');
+  const payMap   = _groupById(payments,      'customerId');
+  const extraMap = _groupById(extraProducts, 'customerId');
 
   // ── 5. Compute billing per customer (in-memory, zero DB queries) ─────────────
   const customersInfo = [];
@@ -77,11 +79,12 @@ const getBilling = async ({ month, year, filterType, vendorId }) => {
     customersInfo.push(
       calculateCustomerBilling({
         customer,
-        startDate:  range.startDate,   // correctly clamped to registrationDate
-        endDate:    range.endDate,
-        configs:    cfgMap[customer.id]  || [],
-        deliveries: delMap[customer.id]  || [],
-        payments:   payMap[customer.id]  || [],
+        startDate:     range.startDate,
+        endDate:       range.endDate,
+        configs:       cfgMap[customer.id]   || [],
+        deliveries:    delMap[customer.id]   || [],
+        payments:      payMap[customer.id]   || [],
+        extraProducts: extraMap[customer.id] || [],
       })
     );
   }
@@ -152,19 +155,21 @@ const recordPayment = async (data, userId) => {
     };
   }
 
-  const [configs, deliveries, payments] = await Promise.all([
+  const [configs, deliveries, payments, extraProducts] = await Promise.all([
     billingRepo.getConfigsForCustomers([data.customerId], lastDayOfMonth),
     billingRepo.getDeliveriesForCustomers([data.customerId], range.startDate, range.endDate),
     billingRepo.getPaymentsForCustomers([data.customerId], data.month, data.year),
+    billingRepo.getExtraProductsForCustomers([data.customerId], range.startDate, range.endDate),
   ]);
 
   const calc = calculateCustomerBilling({
     customer,
-    startDate:  range.startDate,
-    endDate:    range.endDate,
+    startDate:     range.startDate,
+    endDate:       range.endDate,
     configs,
     deliveries,
     payments,
+    extraProducts,
   });
 
   // 4. Update customer's advanceAmount in the database if overpaid
@@ -229,12 +234,13 @@ const _groupById = (arr, key) => {
 };
 
 const _aggregateSummary = (customersInfo) => ({
-  baseAmount:            parseFloat(customersInfo.reduce((s, c) => s + c.baseAmount,       0).toFixed(2)),
-  openingDue:            parseFloat(customersInfo.reduce((s, c) => s + c.openingDue,       0).toFixed(2)),
-  advanceAmount:         parseFloat(customersInfo.reduce((s, c) => s + (c.advanceAmount || 0), 0).toFixed(2)),
-  totalAmount:           parseFloat(customersInfo.reduce((s, c) => s + c.totalAmount,      0).toFixed(2)),
-  totalPaid:             parseFloat(customersInfo.reduce((s, c) => s + c.paymentPaid,      0).toFixed(2)),
-  remainingAmount:       parseFloat(customersInfo.reduce((s, c) => s + c.remainingPayment, 0).toFixed(2)),
+  baseAmount:            parseFloat(customersInfo.reduce((s, c) => s + c.baseAmount,              0).toFixed(2)),
+  extraProductAmount:    parseFloat(customersInfo.reduce((s, c) => s + (c.extraProductAmount || 0), 0).toFixed(2)),
+  openingDue:            parseFloat(customersInfo.reduce((s, c) => s + c.openingDue,              0).toFixed(2)),
+  advanceAmount:         parseFloat(customersInfo.reduce((s, c) => s + (c.advanceAmount || 0),     0).toFixed(2)),
+  totalAmount:           parseFloat(customersInfo.reduce((s, c) => s + c.totalAmount,             0).toFixed(2)),
+  totalPaid:             parseFloat(customersInfo.reduce((s, c) => s + c.paymentPaid,             0).toFixed(2)),
+  remainingAmount:       parseFloat(customersInfo.reduce((s, c) => s + c.remainingPayment,        0).toFixed(2)),
   totalCustomers:        customersInfo.length,
   paidCustomersCount:    customersInfo.filter((c) => c.paymentStatus === 'PAID').length,
   unpaidCustomersCount:  customersInfo.filter((c) => c.paymentStatus === 'UNPAID').length,

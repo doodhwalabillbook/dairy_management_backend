@@ -53,13 +53,14 @@ const getMonthlyBadiList = async (customerId, queryMonth, queryYear, vendorId) =
 
   const { startDate, endDate } = range;
 
-  // 3. Bulk fetch (3 queries, no N+1)
+  // 3. Bulk fetch (4 queries, no N+1)
   //    Config fetch uses lastDayOfMonth as bound so ALL relevant configs are included
   const lastDayOfMonth = new Date(Date.UTC(queryYear, queryMonth, 0));
-  const [configs, deliveries, payments] = await Promise.all([
+  const [configs, deliveries, payments, extraProducts] = await Promise.all([
     billingRepo.getConfigsForCustomers([customerId], lastDayOfMonth),
     billingRepo.getDeliveriesForCustomers([customerId], startDate, endDate),
     billingRepo.getPaymentsForCustomers([customerId], queryMonth, queryYear),
+    billingRepo.getExtraProductsForCustomers([customerId], startDate, endDate),
   ]);
 
   // 4. Delegate to shared billing engine (Layers 2 + 3)
@@ -70,6 +71,7 @@ const getMonthlyBadiList = async (customerId, queryMonth, queryYear, vendorId) =
     configs,
     deliveries,
     payments,
+    extraProducts,
   });
 
   // 5. Build current active config for display
@@ -99,6 +101,7 @@ const getMonthlyBadiList = async (customerId, queryMonth, queryYear, vendorId) =
       totalEveningMilk:    calc.totalEveningMilk,
       totalMilkDelivered:  calc.totalMilkDelivered,
       baseAmount:          calc.baseAmount,
+      extraProductAmount:  calc.extraProductAmount,
       openingDue:          calc.openingDue,
       advanceAmount:       calc.advanceAmount,
       totalAmount:         calc.totalAmount,
@@ -108,6 +111,7 @@ const getMonthlyBadiList = async (customerId, queryMonth, queryYear, vendorId) =
     },
     // dailyList is NEVER populated with dates before registrationDate
     dailyList: calc.dailyList,
+    extraProducts: calc.extraProducts || [],
   };
 };
 
@@ -177,6 +181,7 @@ const _buildEmptyResponse = (customer, month, year) => ({
     totalEveningMilk:    0,
     totalMilkDelivered:  0,
     baseAmount:          0,
+    extraProductAmount:  0,
     openingDue:          parseFloat((customer.remainingAmount || 0).toString()),
     advanceAmount:       parseFloat((customer.advanceAmount || 0).toString()),
     totalAmount:         parseFloat(((customer.remainingAmount || 0) - (customer.advanceAmount || 0)).toString()),
@@ -185,6 +190,7 @@ const _buildEmptyResponse = (customer, month, year) => ({
     paymentStatus:       'UNPAID',
   },
   dailyList: [],
+  extraProducts: [],
 });
 
 // ─── Exports ─────────────────────────────────────────────────────────────────

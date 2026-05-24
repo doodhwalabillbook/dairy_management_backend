@@ -153,6 +153,28 @@ const findPaymentHistory = async (customerId, { month, year } = {}) => {
   });
 };
 
+// ─── Extra Products Bulk Fetch ───────────────────────────────────────────────
+
+/**
+ * Bulk fetch extra product deliveries for multiple customers in a date range.
+ * Mirrors the pattern of getDeliveriesForCustomers — zero N+1.
+ *
+ * @param {string[]} customerIds
+ * @param {Date}     startDate
+ * @param {Date}     endDate
+ * @returns {Array<ExtraProductDelivery>}
+ */
+const getExtraProductsForCustomers = async (customerIds, startDate, endDate) => {
+  if (!customerIds.length) return [];
+  return prisma.extraProductDelivery.findMany({
+    where: {
+      customerId: { in: customerIds },
+      date: { gte: startDate, lte: endDate },
+    },
+    orderBy: { date: 'asc' },
+  });
+};
+
 // ─── Exports ─────────────────────────────────────────────────────────────────
 
 module.exports = {
@@ -163,6 +185,8 @@ module.exports = {
   // Delivery / Payment bulk
   getDeliveriesForCustomers,
   getPaymentsForCustomers,
+  // Extra Products bulk
+  getExtraProductsForCustomers,
   // Payment CRUD
   createPayment,
   findPaymentHistory,

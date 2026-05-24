@@ -143,8 +143,6 @@ const findConfigForDate = (configRanges, dateStr) => {
   return null;
 };
 
-// ─── Main Billing Function ────────────────────────────────────────────────────
-
 /**
  * Calculate full billing for a single customer over [startDate, endDate].
  *
@@ -156,22 +154,26 @@ const findConfigForDate = (configRanges, dateStr) => {
  *   Layer 2: find applicable config via effectiveFrom  (Layer 2 logic)
  *   Layer 3: apply MilkDelivery override if it exists  (Layer 3 logic)
  *
+ * Extra products are attached per-day and summed into extraProductAmount.
+ *
  * @param {Object} params
- * @param {Object}  params.customer    - { id, name, address, registrationDate, remainingAmount }
- * @param {Date}    params.startDate   - Effective start (already Layer-1 clamped by caller)
- * @param {Date}    params.endDate     - Effective end (UTC midnight)
- * @param {Array}   params.configs     - All CustomerMilkConfig rows for this customer
- * @param {Array}   params.deliveries  - All MilkDelivery rows for this customer in range
- * @param {Array}   params.payments    - All Payment rows for this customer in period
+ * @param {Object}  params.customer       - { id, name, address, registrationDate, remainingAmount }
+ * @param {Date}    params.startDate      - Effective start (already Layer-1 clamped by caller)
+ * @param {Date}    params.endDate        - Effective end (UTC midnight)
+ * @param {Array}   params.configs        - All CustomerMilkConfig rows for this customer
+ * @param {Array}   params.deliveries     - All MilkDelivery rows for this customer in range
+ * @param {Array}   params.payments       - All Payment rows for this customer in period
+ * @param {Array}   params.extraProducts  - All ExtraProductDelivery rows for this customer in range
  * @returns {Object} Full billing result
  */
 const calculateCustomerBilling = ({
   customer,
   startDate,
   endDate,
-  configs    = [],
-  deliveries = [],
-  payments   = [],
+  configs       = [],
+  deliveries    = [],
+  payments      = [],
+  extraProducts = [],
 }) => {
   // ── Layer 1 safety net (in case caller did not pre-clamp) ─────────────────
   const registrationDateStr = toDateStr(customer.registrationDate);
@@ -195,12 +197,32 @@ const calculateCustomerBilling = ({
     };
   }
 
+  // ── Extra Products: Build per-date map { 'YYYY-MM-DD' → [...items] } ───────
+  const extraProductsByDate = {};
+  const formattedExtraProducts = [];
+  for (const ep of extraProducts) {
+    const dateKey = toDateStr(ep.date);
+    const item = {
+      id:          ep.id,
+      date:        dateKey,
+      productName: ep.productName,
+      quantity:    parseFloat(ep.quantity.toString()),
+      unit:        ep.unit,
+      price:       parseFloat(ep.price.toString()),
+      notes:       ep.notes || null,
+    };
+    if (!extraProductsByDate[dateKey]) extraProductsByDate[dateKey] = [];
+    extraProductsByDate[dateKey].push(item);
+    formattedExtraProducts.push(item);
+  }
+
   // ── Day-by-day iteration (pure in-memory, zero DB queries) ──────────────────
   let totalMilk    = 0;
   let baseAmount   = 0;
   let totalMorning = 0;
   let totalEvening = 0;
   let totalDays    = 0;
+  let extraProductAmount = 0;
   const dailyList  = [];
 
   if (effectiveStartStr <= endStr && configRanges.length > 0) {
@@ -235,20 +257,30 @@ const calculateCustomerBilling = ({
       const dayTotal  = morning + evening;
       const dayAmount = parseFloat((dayTotal * rate).toFixed(4));
 
-      totalMorning += morning;
-      totalEvening += evening;
-      totalMilk    += dayTotal;
-      baseAmount   += dayAmount;
-      if (dayTotal > 0) totalDays++;
+      // ── Extra products for this day ──
+      const dayExtraProducts = extraProductsByDate[dateStr] || [];
+      const dayExtraAmount   = parseFloat(
+        dayExtraProducts.reduce((sum, p) => sum + p.price, 0).toFixed(2)
+      );
+
+      totalMorning       += morning;
+      totalEvening       += evening;
+      totalMilk          += dayTotal;
+      baseAmount         += dayAmount;
+      extraProductAmount += dayExtraAmount;
+      if (dayTotal > 0 || dayExtraProducts.length > 0) totalDays++;
 
       dailyList.push({
-        date:            dateStr,
-        morningQuantity: morning,
-        eveningQuantity: evening,
-        total:           dayTotal,
-        ratePerLiter:    rate,
-        amount:          dayAmount,
+        date:               dateStr,
+        morningQuantity:    morning,
+        eveningQuantity:    evening,
+        total:              dayTotal,
+        ratePerLiter:       rate,
+        amount:             dayAmount,
         isEdited,
+        extraProducts:      dayExtraProducts,
+        extraProductAmount: dayExtraAmount,
+        dayTotalAmount:     parseFloat((dayAmount + dayExtraAmount).toFixed(2)),
       });
 
       cursor.setUTCDate(cursor.getUTCDate() + 1);
@@ -256,11 +288,12 @@ const calculateCustomerBilling = ({
   }
 
   // ── Financial aggregation ─────────────────────────────────────────────────
-  baseAmount        = parseFloat(baseAmount.toFixed(2));
-  const openingDue  = parseFloat((customer.remainingAmount || 0).toString());
-  const advance     = parseFloat((customer.advanceAmount || 0).toString());
-  const totalAmount = parseFloat((baseAmount + openingDue - advance).toFixed(2));
-  const totalPaid   = parseFloat(
+  baseAmount         = parseFloat(baseAmount.toFixed(2));
+  extraProductAmount = parseFloat(extraProductAmount.toFixed(2));
+  const openingDue   = parseFloat((customer.remainingAmount || 0).toString());
+  const advance      = parseFloat((customer.advanceAmount || 0).toString());
+  const totalAmount  = parseFloat((baseAmount + extraProductAmount + openingDue - advance).toFixed(2));
+  const totalPaid    = parseFloat(
     payments.reduce((sum, p) => sum + parseFloat(p.amountPaid.toString()), 0).toFixed(2)
   );
   
@@ -289,13 +322,15 @@ const calculateCustomerBilling = ({
     totalEveningMilk:    parseFloat(totalEvening.toFixed(2)),
     totalMilkDelivered:  parseFloat(totalMilk.toFixed(2)),
     baseAmount,
+    extraProductAmount,
     openingDue,
-    advanceAmount:       calculatedAdvance, // Dynamically computed carry-forward advance
+    advanceAmount:       calculatedAdvance,
     totalAmount,
     paymentPaid:         totalPaid,
     remainingPayment:    remaining,
     paymentStatus,
     dailyList,
+    extraProducts:       formattedExtraProducts,
     dateRange: {
       startDate: effectiveStartStr <= endStr ? effectiveStartStr : null,
       endDate:   effectiveStartStr <= endStr ? endStr             : null,
@@ -310,23 +345,29 @@ const calculateCustomerBilling = ({
  * Applies all 3 layers for a single day.
  *
  * @param {Object} params
- * @param {Object}  params.customer       - Customer row (needs registrationDate)
- * @param {Array}   params.configRanges   - Pre-built via buildConfigRanges()
- * @param {Object}  params.deliveryMap    - Pre-built { 'YYYY-MM-DD': override }
- * @param {string}  params.targetDateStr  - 'YYYY-MM-DD'
- * @returns {{ morningQuantity, eveningQuantity, total, ratePerLiter, amount, isEdited }}
+ * @param {Object}  params.customer         - Customer row (needs registrationDate)
+ * @param {Array}   params.configRanges     - Pre-built via buildConfigRanges()
+ * @param {Object}  params.deliveryMap      - Pre-built { 'YYYY-MM-DD': override }
+ * @param {string}  params.targetDateStr    - 'YYYY-MM-DD'
+ * @param {Object}  [params.extraProductMap] - Pre-built { 'YYYY-MM-DD': [...items] }
+ * @returns {{ morningQuantity, eveningQuantity, total, ratePerLiter, amount, isEdited, extraProducts, extraProductAmount }}
  */
-const calculateDailyMilk = ({ customer, configRanges, deliveryMap, targetDateStr }) => {
+const calculateDailyMilk = ({ customer, configRanges, deliveryMap, targetDateStr, extraProductMap = {} }) => {
+  const emptyResult = {
+    morningQuantity: 0, eveningQuantity: 0, total: 0, ratePerLiter: 0,
+    amount: 0, isEdited: false, extraProducts: [], extraProductAmount: 0,
+  };
+
   // ── Layer 1: registration date boundary ──
   const registrationDateStr = toDateStr(customer.registrationDate);
   if (targetDateStr < registrationDateStr) {
-    return { morningQuantity: 0, eveningQuantity: 0, total: 0, ratePerLiter: 0, amount: 0, isEdited: false };
+    return emptyResult;
   }
 
   // ── Layer 2: config selection ──
   const cfg = findConfigForDate(configRanges, targetDateStr);
   if (!cfg) {
-    return { morningQuantity: 0, eveningQuantity: 0, total: 0, ratePerLiter: 0, amount: 0, isEdited: false };
+    return emptyResult;
   }
 
   // ── Layer 3: delivery override ──
@@ -345,6 +386,12 @@ const calculateDailyMilk = ({ customer, configRanges, deliveryMap, targetDateStr
   const total  = morning + evening;
   const amount = parseFloat((total * cfg.ratePerLiter).toFixed(2));
 
+  // ── Extra products for this day ──
+  const dayExtraProducts = extraProductMap[targetDateStr] || [];
+  const extraProductAmount = parseFloat(
+    dayExtraProducts.reduce((sum, p) => sum + p.price, 0).toFixed(2)
+  );
+
   return {
     morningQuantity: morning,
     eveningQuantity: evening,
@@ -352,6 +399,8 @@ const calculateDailyMilk = ({ customer, configRanges, deliveryMap, targetDateStr
     ratePerLiter:    cfg.ratePerLiter,
     amount,
     isEdited,
+    extraProducts:      dayExtraProducts,
+    extraProductAmount,
   };
 };
 

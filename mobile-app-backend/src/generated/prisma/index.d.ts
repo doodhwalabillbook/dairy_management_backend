@@ -49,6 +49,11 @@ export type CustomerMilkConfig = $Result.DefaultSelection<Prisma.$CustomerMilkCo
  */
 export type MilkDelivery = $Result.DefaultSelection<Prisma.$MilkDeliveryPayload>
 /**
+ * Model ExtraProductDelivery
+ * 
+ */
+export type ExtraProductDelivery = $Result.DefaultSelection<Prisma.$ExtraProductDeliveryPayload>
+/**
  * Model Payment
  * 
  */
@@ -296,6 +301,16 @@ export class PrismaClient<
     * ```
     */
   get milkDelivery(): Prisma.MilkDeliveryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.extraProductDelivery`: Exposes CRUD operations for the **ExtraProductDelivery** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExtraProductDeliveries
+    * const extraProductDeliveries = await prisma.extraProductDelivery.findMany()
+    * ```
+    */
+  get extraProductDelivery(): Prisma.ExtraProductDeliveryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.payment`: Exposes CRUD operations for the **Payment** model.
@@ -767,6 +782,7 @@ export namespace Prisma {
     Customer: 'Customer',
     CustomerMilkConfig: 'CustomerMilkConfig',
     MilkDelivery: 'MilkDelivery',
+    ExtraProductDelivery: 'ExtraProductDelivery',
     Payment: 'Payment',
     ProductCategory: 'ProductCategory',
     Product: 'Product'
@@ -785,7 +801,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "company" | "vendor" | "area" | "customer" | "customerMilkConfig" | "milkDelivery" | "payment" | "productCategory" | "product"
+      modelProps: "user" | "company" | "vendor" | "area" | "customer" | "customerMilkConfig" | "milkDelivery" | "extraProductDelivery" | "payment" | "productCategory" | "product"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1251,6 +1267,72 @@ export namespace Prisma {
           }
         }
       }
+      ExtraProductDelivery: {
+        payload: Prisma.$ExtraProductDeliveryPayload<ExtArgs>
+        fields: Prisma.ExtraProductDeliveryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExtraProductDeliveryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExtraProductDeliveryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExtraProductDeliveryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExtraProductDeliveryPayload>
+          }
+          findFirst: {
+            args: Prisma.ExtraProductDeliveryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExtraProductDeliveryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExtraProductDeliveryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExtraProductDeliveryPayload>
+          }
+          findMany: {
+            args: Prisma.ExtraProductDeliveryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExtraProductDeliveryPayload>[]
+          }
+          create: {
+            args: Prisma.ExtraProductDeliveryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExtraProductDeliveryPayload>
+          }
+          createMany: {
+            args: Prisma.ExtraProductDeliveryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.ExtraProductDeliveryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExtraProductDeliveryPayload>
+          }
+          update: {
+            args: Prisma.ExtraProductDeliveryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExtraProductDeliveryPayload>
+          }
+          deleteMany: {
+            args: Prisma.ExtraProductDeliveryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExtraProductDeliveryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ExtraProductDeliveryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExtraProductDeliveryPayload>
+          }
+          aggregate: {
+            args: Prisma.ExtraProductDeliveryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExtraProductDelivery>
+          }
+          groupBy: {
+            args: Prisma.ExtraProductDeliveryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExtraProductDeliveryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExtraProductDeliveryCountArgs<ExtArgs>
+            result: $Utils.Optional<ExtraProductDeliveryCountAggregateOutputType> | number
+          }
+        }
+      }
       Payment: {
         payload: Prisma.$PaymentPayload<ExtArgs>
         fields: Prisma.PaymentFieldRefs
@@ -1564,6 +1646,7 @@ export namespace Prisma {
     customer?: CustomerOmit
     customerMilkConfig?: CustomerMilkConfigOmit
     milkDelivery?: MilkDeliveryOmit
+    extraProductDelivery?: ExtraProductDeliveryOmit
     payment?: PaymentOmit
     productCategory?: ProductCategoryOmit
     product?: ProductOmit
@@ -1680,11 +1763,13 @@ export namespace Prisma {
   export type VendorCountOutputType = {
     customers: number
     milkDeliveries: number
+    extraProductDeliveries: number
   }
 
   export type VendorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customers?: boolean | VendorCountOutputTypeCountCustomersArgs
     milkDeliveries?: boolean | VendorCountOutputTypeCountMilkDeliveriesArgs
+    extraProductDeliveries?: boolean | VendorCountOutputTypeCountExtraProductDeliveriesArgs
   }
 
   // Custom InputTypes
@@ -1710,6 +1795,13 @@ export namespace Prisma {
    */
   export type VendorCountOutputTypeCountMilkDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MilkDeliveryWhereInput
+  }
+
+  /**
+   * VendorCountOutputType without action
+   */
+  export type VendorCountOutputTypeCountExtraProductDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExtraProductDeliveryWhereInput
   }
 
 
@@ -1752,12 +1844,14 @@ export namespace Prisma {
     milkConfigs: number
     milkDeliveries: number
     payments: number
+    extraProductDeliveries: number
   }
 
   export type CustomerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     milkConfigs?: boolean | CustomerCountOutputTypeCountMilkConfigsArgs
     milkDeliveries?: boolean | CustomerCountOutputTypeCountMilkDeliveriesArgs
     payments?: boolean | CustomerCountOutputTypeCountPaymentsArgs
+    extraProductDeliveries?: boolean | CustomerCountOutputTypeCountExtraProductDeliveriesArgs
   }
 
   // Custom InputTypes
@@ -1790,6 +1884,44 @@ export namespace Prisma {
    */
   export type CustomerCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
+  }
+
+  /**
+   * CustomerCountOutputType without action
+   */
+  export type CustomerCountOutputTypeCountExtraProductDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExtraProductDeliveryWhereInput
+  }
+
+
+  /**
+   * Count Type MilkDeliveryCountOutputType
+   */
+
+  export type MilkDeliveryCountOutputType = {
+    extraProducts: number
+  }
+
+  export type MilkDeliveryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    extraProducts?: boolean | MilkDeliveryCountOutputTypeCountExtraProductsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MilkDeliveryCountOutputType without action
+   */
+  export type MilkDeliveryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MilkDeliveryCountOutputType
+     */
+    select?: MilkDeliveryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MilkDeliveryCountOutputType without action
+   */
+  export type MilkDeliveryCountOutputTypeCountExtraProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExtraProductDeliveryWhereInput
   }
 
 
@@ -4096,6 +4228,7 @@ export namespace Prisma {
     user?: boolean | Vendor$userArgs<ExtArgs>
     customers?: boolean | Vendor$customersArgs<ExtArgs>
     milkDeliveries?: boolean | Vendor$milkDeliveriesArgs<ExtArgs>
+    extraProductDeliveries?: boolean | Vendor$extraProductDeliveriesArgs<ExtArgs>
     _count?: boolean | VendorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vendor"]>
 
@@ -4126,6 +4259,7 @@ export namespace Prisma {
     user?: boolean | Vendor$userArgs<ExtArgs>
     customers?: boolean | Vendor$customersArgs<ExtArgs>
     milkDeliveries?: boolean | Vendor$milkDeliveriesArgs<ExtArgs>
+    extraProductDeliveries?: boolean | Vendor$extraProductDeliveriesArgs<ExtArgs>
     _count?: boolean | VendorCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4136,6 +4270,7 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs> | null
       customers: Prisma.$CustomerPayload<ExtArgs>[]
       milkDeliveries: Prisma.$MilkDeliveryPayload<ExtArgs>[]
+      extraProductDeliveries: Prisma.$ExtraProductDeliveryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4498,6 +4633,7 @@ export namespace Prisma {
     user<T extends Vendor$userArgs<ExtArgs> = {}>(args?: Subset<T, Vendor$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     customers<T extends Vendor$customersArgs<ExtArgs> = {}>(args?: Subset<T, Vendor$customersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     milkDeliveries<T extends Vendor$milkDeliveriesArgs<ExtArgs> = {}>(args?: Subset<T, Vendor$milkDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MilkDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    extraProductDeliveries<T extends Vendor$extraProductDeliveriesArgs<ExtArgs> = {}>(args?: Subset<T, Vendor$extraProductDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4955,6 +5091,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MilkDeliveryScalarFieldEnum | MilkDeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * Vendor.extraProductDeliveries
+   */
+  export type Vendor$extraProductDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    where?: ExtraProductDeliveryWhereInput
+    orderBy?: ExtraProductDeliveryOrderByWithRelationInput | ExtraProductDeliveryOrderByWithRelationInput[]
+    cursor?: ExtraProductDeliveryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExtraProductDeliveryScalarFieldEnum | ExtraProductDeliveryScalarFieldEnum[]
   }
 
   /**
@@ -6248,6 +6408,7 @@ export namespace Prisma {
     milkConfigs?: boolean | Customer$milkConfigsArgs<ExtArgs>
     milkDeliveries?: boolean | Customer$milkDeliveriesArgs<ExtArgs>
     payments?: boolean | Customer$paymentsArgs<ExtArgs>
+    extraProductDeliveries?: boolean | Customer$extraProductDeliveriesArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["customer"]>
 
@@ -6277,6 +6438,7 @@ export namespace Prisma {
     milkConfigs?: boolean | Customer$milkConfigsArgs<ExtArgs>
     milkDeliveries?: boolean | Customer$milkDeliveriesArgs<ExtArgs>
     payments?: boolean | Customer$paymentsArgs<ExtArgs>
+    extraProductDeliveries?: boolean | Customer$extraProductDeliveriesArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6288,6 +6450,7 @@ export namespace Prisma {
       milkConfigs: Prisma.$CustomerMilkConfigPayload<ExtArgs>[]
       milkDeliveries: Prisma.$MilkDeliveryPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
+      extraProductDeliveries: Prisma.$ExtraProductDeliveryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6649,6 +6812,7 @@ export namespace Prisma {
     milkConfigs<T extends Customer$milkConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$milkConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerMilkConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     milkDeliveries<T extends Customer$milkDeliveriesArgs<ExtArgs> = {}>(args?: Subset<T, Customer$milkDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MilkDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Customer$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    extraProductDeliveries<T extends Customer$extraProductDeliveriesArgs<ExtArgs> = {}>(args?: Subset<T, Customer$extraProductDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7109,6 +7273,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Customer.extraProductDeliveries
+   */
+  export type Customer$extraProductDeliveriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    where?: ExtraProductDeliveryWhereInput
+    orderBy?: ExtraProductDeliveryOrderByWithRelationInput | ExtraProductDeliveryOrderByWithRelationInput[]
+    cursor?: ExtraProductDeliveryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExtraProductDeliveryScalarFieldEnum | ExtraProductDeliveryScalarFieldEnum[]
   }
 
   /**
@@ -8380,6 +8568,8 @@ export namespace Prisma {
     updatedAt?: boolean
     vendor?: boolean | VendorDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    extraProducts?: boolean | MilkDelivery$extraProductsArgs<ExtArgs>
+    _count?: boolean | MilkDeliveryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["milkDelivery"]>
 
 
@@ -8402,6 +8592,8 @@ export namespace Prisma {
   export type MilkDeliveryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    extraProducts?: boolean | MilkDelivery$extraProductsArgs<ExtArgs>
+    _count?: boolean | MilkDeliveryCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $MilkDeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8409,6 +8601,7 @@ export namespace Prisma {
     objects: {
       vendor: Prisma.$VendorPayload<ExtArgs>
       customer: Prisma.$CustomerPayload<ExtArgs>
+      extraProducts: Prisma.$ExtraProductDeliveryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8764,6 +8957,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     vendor<T extends VendorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorDefaultArgs<ExtArgs>>): Prisma__VendorClient<$Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    extraProducts<T extends MilkDelivery$extraProductsArgs<ExtArgs> = {}>(args?: Subset<T, MilkDelivery$extraProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9152,6 +9346,30 @@ export namespace Prisma {
   }
 
   /**
+   * MilkDelivery.extraProducts
+   */
+  export type MilkDelivery$extraProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    where?: ExtraProductDeliveryWhereInput
+    orderBy?: ExtraProductDeliveryOrderByWithRelationInput | ExtraProductDeliveryOrderByWithRelationInput[]
+    cursor?: ExtraProductDeliveryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExtraProductDeliveryScalarFieldEnum | ExtraProductDeliveryScalarFieldEnum[]
+  }
+
+  /**
    * MilkDelivery without action
    */
   export type MilkDeliveryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9167,6 +9385,1104 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: MilkDeliveryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ExtraProductDelivery
+   */
+
+  export type AggregateExtraProductDelivery = {
+    _count: ExtraProductDeliveryCountAggregateOutputType | null
+    _avg: ExtraProductDeliveryAvgAggregateOutputType | null
+    _sum: ExtraProductDeliverySumAggregateOutputType | null
+    _min: ExtraProductDeliveryMinAggregateOutputType | null
+    _max: ExtraProductDeliveryMaxAggregateOutputType | null
+  }
+
+  export type ExtraProductDeliveryAvgAggregateOutputType = {
+    quantity: Decimal | null
+    price: Decimal | null
+  }
+
+  export type ExtraProductDeliverySumAggregateOutputType = {
+    quantity: Decimal | null
+    price: Decimal | null
+  }
+
+  export type ExtraProductDeliveryMinAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    vendorId: string | null
+    milkDeliveryId: string | null
+    date: Date | null
+    productName: string | null
+    quantity: Decimal | null
+    unit: string | null
+    price: Decimal | null
+    notes: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ExtraProductDeliveryMaxAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    vendorId: string | null
+    milkDeliveryId: string | null
+    date: Date | null
+    productName: string | null
+    quantity: Decimal | null
+    unit: string | null
+    price: Decimal | null
+    notes: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ExtraProductDeliveryCountAggregateOutputType = {
+    id: number
+    customerId: number
+    vendorId: number
+    milkDeliveryId: number
+    date: number
+    productName: number
+    quantity: number
+    unit: number
+    price: number
+    notes: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ExtraProductDeliveryAvgAggregateInputType = {
+    quantity?: true
+    price?: true
+  }
+
+  export type ExtraProductDeliverySumAggregateInputType = {
+    quantity?: true
+    price?: true
+  }
+
+  export type ExtraProductDeliveryMinAggregateInputType = {
+    id?: true
+    customerId?: true
+    vendorId?: true
+    milkDeliveryId?: true
+    date?: true
+    productName?: true
+    quantity?: true
+    unit?: true
+    price?: true
+    notes?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ExtraProductDeliveryMaxAggregateInputType = {
+    id?: true
+    customerId?: true
+    vendorId?: true
+    milkDeliveryId?: true
+    date?: true
+    productName?: true
+    quantity?: true
+    unit?: true
+    price?: true
+    notes?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ExtraProductDeliveryCountAggregateInputType = {
+    id?: true
+    customerId?: true
+    vendorId?: true
+    milkDeliveryId?: true
+    date?: true
+    productName?: true
+    quantity?: true
+    unit?: true
+    price?: true
+    notes?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ExtraProductDeliveryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExtraProductDelivery to aggregate.
+     */
+    where?: ExtraProductDeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExtraProductDeliveries to fetch.
+     */
+    orderBy?: ExtraProductDeliveryOrderByWithRelationInput | ExtraProductDeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExtraProductDeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExtraProductDeliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExtraProductDeliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ExtraProductDeliveries
+    **/
+    _count?: true | ExtraProductDeliveryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ExtraProductDeliveryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ExtraProductDeliverySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExtraProductDeliveryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExtraProductDeliveryMaxAggregateInputType
+  }
+
+  export type GetExtraProductDeliveryAggregateType<T extends ExtraProductDeliveryAggregateArgs> = {
+        [P in keyof T & keyof AggregateExtraProductDelivery]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExtraProductDelivery[P]>
+      : GetScalarType<T[P], AggregateExtraProductDelivery[P]>
+  }
+
+
+
+
+  export type ExtraProductDeliveryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExtraProductDeliveryWhereInput
+    orderBy?: ExtraProductDeliveryOrderByWithAggregationInput | ExtraProductDeliveryOrderByWithAggregationInput[]
+    by: ExtraProductDeliveryScalarFieldEnum[] | ExtraProductDeliveryScalarFieldEnum
+    having?: ExtraProductDeliveryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExtraProductDeliveryCountAggregateInputType | true
+    _avg?: ExtraProductDeliveryAvgAggregateInputType
+    _sum?: ExtraProductDeliverySumAggregateInputType
+    _min?: ExtraProductDeliveryMinAggregateInputType
+    _max?: ExtraProductDeliveryMaxAggregateInputType
+  }
+
+  export type ExtraProductDeliveryGroupByOutputType = {
+    id: string
+    customerId: string
+    vendorId: string
+    milkDeliveryId: string | null
+    date: Date
+    productName: string
+    quantity: Decimal
+    unit: string
+    price: Decimal
+    notes: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ExtraProductDeliveryCountAggregateOutputType | null
+    _avg: ExtraProductDeliveryAvgAggregateOutputType | null
+    _sum: ExtraProductDeliverySumAggregateOutputType | null
+    _min: ExtraProductDeliveryMinAggregateOutputType | null
+    _max: ExtraProductDeliveryMaxAggregateOutputType | null
+  }
+
+  type GetExtraProductDeliveryGroupByPayload<T extends ExtraProductDeliveryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExtraProductDeliveryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExtraProductDeliveryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExtraProductDeliveryGroupByOutputType[P]>
+            : GetScalarType<T[P], ExtraProductDeliveryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExtraProductDeliverySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    vendorId?: boolean
+    milkDeliveryId?: boolean
+    date?: boolean
+    productName?: boolean
+    quantity?: boolean
+    unit?: boolean
+    price?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    vendor?: boolean | VendorDefaultArgs<ExtArgs>
+    milkDelivery?: boolean | ExtraProductDelivery$milkDeliveryArgs<ExtArgs>
+  }, ExtArgs["result"]["extraProductDelivery"]>
+
+
+
+  export type ExtraProductDeliverySelectScalar = {
+    id?: boolean
+    customerId?: boolean
+    vendorId?: boolean
+    milkDeliveryId?: boolean
+    date?: boolean
+    productName?: boolean
+    quantity?: boolean
+    unit?: boolean
+    price?: boolean
+    notes?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ExtraProductDeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "vendorId" | "milkDeliveryId" | "date" | "productName" | "quantity" | "unit" | "price" | "notes" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["extraProductDelivery"]>
+  export type ExtraProductDeliveryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    vendor?: boolean | VendorDefaultArgs<ExtArgs>
+    milkDelivery?: boolean | ExtraProductDelivery$milkDeliveryArgs<ExtArgs>
+  }
+
+  export type $ExtraProductDeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ExtraProductDelivery"
+    objects: {
+      customer: Prisma.$CustomerPayload<ExtArgs>
+      vendor: Prisma.$VendorPayload<ExtArgs>
+      milkDelivery: Prisma.$MilkDeliveryPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      customerId: string
+      vendorId: string
+      milkDeliveryId: string | null
+      date: Date
+      productName: string
+      quantity: Prisma.Decimal
+      unit: string
+      price: Prisma.Decimal
+      notes: string | null
+      createdBy: string | null
+      updatedBy: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["extraProductDelivery"]>
+    composites: {}
+  }
+
+  type ExtraProductDeliveryGetPayload<S extends boolean | null | undefined | ExtraProductDeliveryDefaultArgs> = $Result.GetResult<Prisma.$ExtraProductDeliveryPayload, S>
+
+  type ExtraProductDeliveryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExtraProductDeliveryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExtraProductDeliveryCountAggregateInputType | true
+    }
+
+  export interface ExtraProductDeliveryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ExtraProductDelivery'], meta: { name: 'ExtraProductDelivery' } }
+    /**
+     * Find zero or one ExtraProductDelivery that matches the filter.
+     * @param {ExtraProductDeliveryFindUniqueArgs} args - Arguments to find a ExtraProductDelivery
+     * @example
+     * // Get one ExtraProductDelivery
+     * const extraProductDelivery = await prisma.extraProductDelivery.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExtraProductDeliveryFindUniqueArgs>(args: SelectSubset<T, ExtraProductDeliveryFindUniqueArgs<ExtArgs>>): Prisma__ExtraProductDeliveryClient<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ExtraProductDelivery that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExtraProductDeliveryFindUniqueOrThrowArgs} args - Arguments to find a ExtraProductDelivery
+     * @example
+     * // Get one ExtraProductDelivery
+     * const extraProductDelivery = await prisma.extraProductDelivery.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExtraProductDeliveryFindUniqueOrThrowArgs>(args: SelectSubset<T, ExtraProductDeliveryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExtraProductDeliveryClient<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExtraProductDelivery that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExtraProductDeliveryFindFirstArgs} args - Arguments to find a ExtraProductDelivery
+     * @example
+     * // Get one ExtraProductDelivery
+     * const extraProductDelivery = await prisma.extraProductDelivery.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExtraProductDeliveryFindFirstArgs>(args?: SelectSubset<T, ExtraProductDeliveryFindFirstArgs<ExtArgs>>): Prisma__ExtraProductDeliveryClient<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExtraProductDelivery that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExtraProductDeliveryFindFirstOrThrowArgs} args - Arguments to find a ExtraProductDelivery
+     * @example
+     * // Get one ExtraProductDelivery
+     * const extraProductDelivery = await prisma.extraProductDelivery.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExtraProductDeliveryFindFirstOrThrowArgs>(args?: SelectSubset<T, ExtraProductDeliveryFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExtraProductDeliveryClient<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ExtraProductDeliveries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExtraProductDeliveryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ExtraProductDeliveries
+     * const extraProductDeliveries = await prisma.extraProductDelivery.findMany()
+     * 
+     * // Get first 10 ExtraProductDeliveries
+     * const extraProductDeliveries = await prisma.extraProductDelivery.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const extraProductDeliveryWithIdOnly = await prisma.extraProductDelivery.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExtraProductDeliveryFindManyArgs>(args?: SelectSubset<T, ExtraProductDeliveryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ExtraProductDelivery.
+     * @param {ExtraProductDeliveryCreateArgs} args - Arguments to create a ExtraProductDelivery.
+     * @example
+     * // Create one ExtraProductDelivery
+     * const ExtraProductDelivery = await prisma.extraProductDelivery.create({
+     *   data: {
+     *     // ... data to create a ExtraProductDelivery
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExtraProductDeliveryCreateArgs>(args: SelectSubset<T, ExtraProductDeliveryCreateArgs<ExtArgs>>): Prisma__ExtraProductDeliveryClient<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ExtraProductDeliveries.
+     * @param {ExtraProductDeliveryCreateManyArgs} args - Arguments to create many ExtraProductDeliveries.
+     * @example
+     * // Create many ExtraProductDeliveries
+     * const extraProductDelivery = await prisma.extraProductDelivery.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExtraProductDeliveryCreateManyArgs>(args?: SelectSubset<T, ExtraProductDeliveryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ExtraProductDelivery.
+     * @param {ExtraProductDeliveryDeleteArgs} args - Arguments to delete one ExtraProductDelivery.
+     * @example
+     * // Delete one ExtraProductDelivery
+     * const ExtraProductDelivery = await prisma.extraProductDelivery.delete({
+     *   where: {
+     *     // ... filter to delete one ExtraProductDelivery
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExtraProductDeliveryDeleteArgs>(args: SelectSubset<T, ExtraProductDeliveryDeleteArgs<ExtArgs>>): Prisma__ExtraProductDeliveryClient<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ExtraProductDelivery.
+     * @param {ExtraProductDeliveryUpdateArgs} args - Arguments to update one ExtraProductDelivery.
+     * @example
+     * // Update one ExtraProductDelivery
+     * const extraProductDelivery = await prisma.extraProductDelivery.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExtraProductDeliveryUpdateArgs>(args: SelectSubset<T, ExtraProductDeliveryUpdateArgs<ExtArgs>>): Prisma__ExtraProductDeliveryClient<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ExtraProductDeliveries.
+     * @param {ExtraProductDeliveryDeleteManyArgs} args - Arguments to filter ExtraProductDeliveries to delete.
+     * @example
+     * // Delete a few ExtraProductDeliveries
+     * const { count } = await prisma.extraProductDelivery.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExtraProductDeliveryDeleteManyArgs>(args?: SelectSubset<T, ExtraProductDeliveryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExtraProductDeliveries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExtraProductDeliveryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ExtraProductDeliveries
+     * const extraProductDelivery = await prisma.extraProductDelivery.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExtraProductDeliveryUpdateManyArgs>(args: SelectSubset<T, ExtraProductDeliveryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ExtraProductDelivery.
+     * @param {ExtraProductDeliveryUpsertArgs} args - Arguments to update or create a ExtraProductDelivery.
+     * @example
+     * // Update or create a ExtraProductDelivery
+     * const extraProductDelivery = await prisma.extraProductDelivery.upsert({
+     *   create: {
+     *     // ... data to create a ExtraProductDelivery
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ExtraProductDelivery we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExtraProductDeliveryUpsertArgs>(args: SelectSubset<T, ExtraProductDeliveryUpsertArgs<ExtArgs>>): Prisma__ExtraProductDeliveryClient<$Result.GetResult<Prisma.$ExtraProductDeliveryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ExtraProductDeliveries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExtraProductDeliveryCountArgs} args - Arguments to filter ExtraProductDeliveries to count.
+     * @example
+     * // Count the number of ExtraProductDeliveries
+     * const count = await prisma.extraProductDelivery.count({
+     *   where: {
+     *     // ... the filter for the ExtraProductDeliveries we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExtraProductDeliveryCountArgs>(
+      args?: Subset<T, ExtraProductDeliveryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExtraProductDeliveryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ExtraProductDelivery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExtraProductDeliveryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExtraProductDeliveryAggregateArgs>(args: Subset<T, ExtraProductDeliveryAggregateArgs>): Prisma.PrismaPromise<GetExtraProductDeliveryAggregateType<T>>
+
+    /**
+     * Group by ExtraProductDelivery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExtraProductDeliveryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExtraProductDeliveryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExtraProductDeliveryGroupByArgs['orderBy'] }
+        : { orderBy?: ExtraProductDeliveryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExtraProductDeliveryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExtraProductDeliveryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ExtraProductDelivery model
+   */
+  readonly fields: ExtraProductDeliveryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ExtraProductDelivery.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExtraProductDeliveryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    vendor<T extends VendorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorDefaultArgs<ExtArgs>>): Prisma__VendorClient<$Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    milkDelivery<T extends ExtraProductDelivery$milkDeliveryArgs<ExtArgs> = {}>(args?: Subset<T, ExtraProductDelivery$milkDeliveryArgs<ExtArgs>>): Prisma__MilkDeliveryClient<$Result.GetResult<Prisma.$MilkDeliveryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ExtraProductDelivery model
+   */
+  interface ExtraProductDeliveryFieldRefs {
+    readonly id: FieldRef<"ExtraProductDelivery", 'String'>
+    readonly customerId: FieldRef<"ExtraProductDelivery", 'String'>
+    readonly vendorId: FieldRef<"ExtraProductDelivery", 'String'>
+    readonly milkDeliveryId: FieldRef<"ExtraProductDelivery", 'String'>
+    readonly date: FieldRef<"ExtraProductDelivery", 'DateTime'>
+    readonly productName: FieldRef<"ExtraProductDelivery", 'String'>
+    readonly quantity: FieldRef<"ExtraProductDelivery", 'Decimal'>
+    readonly unit: FieldRef<"ExtraProductDelivery", 'String'>
+    readonly price: FieldRef<"ExtraProductDelivery", 'Decimal'>
+    readonly notes: FieldRef<"ExtraProductDelivery", 'String'>
+    readonly createdBy: FieldRef<"ExtraProductDelivery", 'String'>
+    readonly updatedBy: FieldRef<"ExtraProductDelivery", 'String'>
+    readonly createdAt: FieldRef<"ExtraProductDelivery", 'DateTime'>
+    readonly updatedAt: FieldRef<"ExtraProductDelivery", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ExtraProductDelivery findUnique
+   */
+  export type ExtraProductDeliveryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which ExtraProductDelivery to fetch.
+     */
+    where: ExtraProductDeliveryWhereUniqueInput
+  }
+
+  /**
+   * ExtraProductDelivery findUniqueOrThrow
+   */
+  export type ExtraProductDeliveryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which ExtraProductDelivery to fetch.
+     */
+    where: ExtraProductDeliveryWhereUniqueInput
+  }
+
+  /**
+   * ExtraProductDelivery findFirst
+   */
+  export type ExtraProductDeliveryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which ExtraProductDelivery to fetch.
+     */
+    where?: ExtraProductDeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExtraProductDeliveries to fetch.
+     */
+    orderBy?: ExtraProductDeliveryOrderByWithRelationInput | ExtraProductDeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExtraProductDeliveries.
+     */
+    cursor?: ExtraProductDeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExtraProductDeliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExtraProductDeliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExtraProductDeliveries.
+     */
+    distinct?: ExtraProductDeliveryScalarFieldEnum | ExtraProductDeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * ExtraProductDelivery findFirstOrThrow
+   */
+  export type ExtraProductDeliveryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which ExtraProductDelivery to fetch.
+     */
+    where?: ExtraProductDeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExtraProductDeliveries to fetch.
+     */
+    orderBy?: ExtraProductDeliveryOrderByWithRelationInput | ExtraProductDeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExtraProductDeliveries.
+     */
+    cursor?: ExtraProductDeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExtraProductDeliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExtraProductDeliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExtraProductDeliveries.
+     */
+    distinct?: ExtraProductDeliveryScalarFieldEnum | ExtraProductDeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * ExtraProductDelivery findMany
+   */
+  export type ExtraProductDeliveryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter, which ExtraProductDeliveries to fetch.
+     */
+    where?: ExtraProductDeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExtraProductDeliveries to fetch.
+     */
+    orderBy?: ExtraProductDeliveryOrderByWithRelationInput | ExtraProductDeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ExtraProductDeliveries.
+     */
+    cursor?: ExtraProductDeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExtraProductDeliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExtraProductDeliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExtraProductDeliveries.
+     */
+    distinct?: ExtraProductDeliveryScalarFieldEnum | ExtraProductDeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * ExtraProductDelivery create
+   */
+  export type ExtraProductDeliveryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ExtraProductDelivery.
+     */
+    data: XOR<ExtraProductDeliveryCreateInput, ExtraProductDeliveryUncheckedCreateInput>
+  }
+
+  /**
+   * ExtraProductDelivery createMany
+   */
+  export type ExtraProductDeliveryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ExtraProductDeliveries.
+     */
+    data: ExtraProductDeliveryCreateManyInput | ExtraProductDeliveryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ExtraProductDelivery update
+   */
+  export type ExtraProductDeliveryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ExtraProductDelivery.
+     */
+    data: XOR<ExtraProductDeliveryUpdateInput, ExtraProductDeliveryUncheckedUpdateInput>
+    /**
+     * Choose, which ExtraProductDelivery to update.
+     */
+    where: ExtraProductDeliveryWhereUniqueInput
+  }
+
+  /**
+   * ExtraProductDelivery updateMany
+   */
+  export type ExtraProductDeliveryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ExtraProductDeliveries.
+     */
+    data: XOR<ExtraProductDeliveryUpdateManyMutationInput, ExtraProductDeliveryUncheckedUpdateManyInput>
+    /**
+     * Filter which ExtraProductDeliveries to update
+     */
+    where?: ExtraProductDeliveryWhereInput
+    /**
+     * Limit how many ExtraProductDeliveries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExtraProductDelivery upsert
+   */
+  export type ExtraProductDeliveryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ExtraProductDelivery to update in case it exists.
+     */
+    where: ExtraProductDeliveryWhereUniqueInput
+    /**
+     * In case the ExtraProductDelivery found by the `where` argument doesn't exist, create a new ExtraProductDelivery with this data.
+     */
+    create: XOR<ExtraProductDeliveryCreateInput, ExtraProductDeliveryUncheckedCreateInput>
+    /**
+     * In case the ExtraProductDelivery was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExtraProductDeliveryUpdateInput, ExtraProductDeliveryUncheckedUpdateInput>
+  }
+
+  /**
+   * ExtraProductDelivery delete
+   */
+  export type ExtraProductDeliveryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
+    /**
+     * Filter which ExtraProductDelivery to delete.
+     */
+    where: ExtraProductDeliveryWhereUniqueInput
+  }
+
+  /**
+   * ExtraProductDelivery deleteMany
+   */
+  export type ExtraProductDeliveryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExtraProductDeliveries to delete
+     */
+    where?: ExtraProductDeliveryWhereInput
+    /**
+     * Limit how many ExtraProductDeliveries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExtraProductDelivery.milkDelivery
+   */
+  export type ExtraProductDelivery$milkDeliveryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MilkDelivery
+     */
+    select?: MilkDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MilkDelivery
+     */
+    omit?: MilkDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilkDeliveryInclude<ExtArgs> | null
+    where?: MilkDeliveryWhereInput
+  }
+
+  /**
+   * ExtraProductDelivery without action
+   */
+  export type ExtraProductDeliveryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExtraProductDelivery
+     */
+    select?: ExtraProductDeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExtraProductDelivery
+     */
+    omit?: ExtraProductDeliveryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExtraProductDeliveryInclude<ExtArgs> | null
   }
 
 
@@ -12296,6 +13612,26 @@ export namespace Prisma {
   export type MilkDeliveryScalarFieldEnum = (typeof MilkDeliveryScalarFieldEnum)[keyof typeof MilkDeliveryScalarFieldEnum]
 
 
+  export const ExtraProductDeliveryScalarFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    vendorId: 'vendorId',
+    milkDeliveryId: 'milkDeliveryId',
+    date: 'date',
+    productName: 'productName',
+    quantity: 'quantity',
+    unit: 'unit',
+    price: 'price',
+    notes: 'notes',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ExtraProductDeliveryScalarFieldEnum = (typeof ExtraProductDeliveryScalarFieldEnum)[keyof typeof ExtraProductDeliveryScalarFieldEnum]
+
+
   export const PaymentScalarFieldEnum: {
     id: 'id',
     customerId: 'customerId',
@@ -12440,6 +13776,21 @@ export namespace Prisma {
   };
 
   export type MilkDeliveryOrderByRelevanceFieldEnum = (typeof MilkDeliveryOrderByRelevanceFieldEnum)[keyof typeof MilkDeliveryOrderByRelevanceFieldEnum]
+
+
+  export const ExtraProductDeliveryOrderByRelevanceFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    vendorId: 'vendorId',
+    milkDeliveryId: 'milkDeliveryId',
+    productName: 'productName',
+    unit: 'unit',
+    notes: 'notes',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy'
+  };
+
+  export type ExtraProductDeliveryOrderByRelevanceFieldEnum = (typeof ExtraProductDeliveryOrderByRelevanceFieldEnum)[keyof typeof ExtraProductDeliveryOrderByRelevanceFieldEnum]
 
 
   export const PaymentOrderByRelevanceFieldEnum: {
@@ -12725,6 +14076,7 @@ export namespace Prisma {
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     customers?: CustomerListRelationFilter
     milkDeliveries?: MilkDeliveryListRelationFilter
+    extraProductDeliveries?: ExtraProductDeliveryListRelationFilter
   }
 
   export type VendorOrderByWithRelationInput = {
@@ -12748,6 +14100,7 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     customers?: CustomerOrderByRelationAggregateInput
     milkDeliveries?: MilkDeliveryOrderByRelationAggregateInput
+    extraProductDeliveries?: ExtraProductDeliveryOrderByRelationAggregateInput
     _relevance?: VendorOrderByRelevanceInput
   }
 
@@ -12775,6 +14128,7 @@ export namespace Prisma {
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     customers?: CustomerListRelationFilter
     milkDeliveries?: MilkDeliveryListRelationFilter
+    extraProductDeliveries?: ExtraProductDeliveryListRelationFilter
   }, "id" | "userId" | "mobileNumber">
 
   export type VendorOrderByWithAggregationInput = {
@@ -12915,6 +14269,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigListRelationFilter
     milkDeliveries?: MilkDeliveryListRelationFilter
     payments?: PaymentListRelationFilter
+    extraProductDeliveries?: ExtraProductDeliveryListRelationFilter
   }
 
   export type CustomerOrderByWithRelationInput = {
@@ -12937,6 +14292,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigOrderByRelationAggregateInput
     milkDeliveries?: MilkDeliveryOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
+    extraProductDeliveries?: ExtraProductDeliveryOrderByRelationAggregateInput
     _relevance?: CustomerOrderByRelevanceInput
   }
 
@@ -12963,6 +14319,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigListRelationFilter
     milkDeliveries?: MilkDeliveryListRelationFilter
     payments?: PaymentListRelationFilter
+    extraProductDeliveries?: ExtraProductDeliveryListRelationFilter
   }, "id">
 
   export type CustomerOrderByWithAggregationInput = {
@@ -13093,6 +14450,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MilkDelivery"> | Date | string
     vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    extraProducts?: ExtraProductDeliveryListRelationFilter
   }
 
   export type MilkDeliveryOrderByWithRelationInput = {
@@ -13109,6 +14467,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     vendor?: VendorOrderByWithRelationInput
     customer?: CustomerOrderByWithRelationInput
+    extraProducts?: ExtraProductDeliveryOrderByRelationAggregateInput
     _relevance?: MilkDeliveryOrderByRelevanceInput
   }
 
@@ -13130,6 +14489,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MilkDelivery"> | Date | string
     vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    extraProducts?: ExtraProductDeliveryListRelationFilter
   }, "id" | "customerId_date">
 
   export type MilkDeliveryOrderByWithAggregationInput = {
@@ -13166,6 +14526,115 @@ export namespace Prisma {
     updatedBy?: StringNullableWithAggregatesFilter<"MilkDelivery"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"MilkDelivery"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MilkDelivery"> | Date | string
+  }
+
+  export type ExtraProductDeliveryWhereInput = {
+    AND?: ExtraProductDeliveryWhereInput | ExtraProductDeliveryWhereInput[]
+    OR?: ExtraProductDeliveryWhereInput[]
+    NOT?: ExtraProductDeliveryWhereInput | ExtraProductDeliveryWhereInput[]
+    id?: StringFilter<"ExtraProductDelivery"> | string
+    customerId?: StringFilter<"ExtraProductDelivery"> | string
+    vendorId?: StringFilter<"ExtraProductDelivery"> | string
+    milkDeliveryId?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    date?: DateTimeFilter<"ExtraProductDelivery"> | Date | string
+    productName?: StringFilter<"ExtraProductDelivery"> | string
+    quantity?: DecimalFilter<"ExtraProductDelivery"> | Decimal | DecimalJsLike | number | string
+    unit?: StringFilter<"ExtraProductDelivery"> | string
+    price?: DecimalFilter<"ExtraProductDelivery"> | Decimal | DecimalJsLike | number | string
+    notes?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    createdBy?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    updatedBy?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    createdAt?: DateTimeFilter<"ExtraProductDelivery"> | Date | string
+    updatedAt?: DateTimeFilter<"ExtraProductDelivery"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
+    milkDelivery?: XOR<MilkDeliveryNullableScalarRelationFilter, MilkDeliveryWhereInput> | null
+  }
+
+  export type ExtraProductDeliveryOrderByWithRelationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    vendorId?: SortOrder
+    milkDeliveryId?: SortOrderInput | SortOrder
+    date?: SortOrder
+    productName?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    price?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    customer?: CustomerOrderByWithRelationInput
+    vendor?: VendorOrderByWithRelationInput
+    milkDelivery?: MilkDeliveryOrderByWithRelationInput
+    _relevance?: ExtraProductDeliveryOrderByRelevanceInput
+  }
+
+  export type ExtraProductDeliveryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExtraProductDeliveryWhereInput | ExtraProductDeliveryWhereInput[]
+    OR?: ExtraProductDeliveryWhereInput[]
+    NOT?: ExtraProductDeliveryWhereInput | ExtraProductDeliveryWhereInput[]
+    customerId?: StringFilter<"ExtraProductDelivery"> | string
+    vendorId?: StringFilter<"ExtraProductDelivery"> | string
+    milkDeliveryId?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    date?: DateTimeFilter<"ExtraProductDelivery"> | Date | string
+    productName?: StringFilter<"ExtraProductDelivery"> | string
+    quantity?: DecimalFilter<"ExtraProductDelivery"> | Decimal | DecimalJsLike | number | string
+    unit?: StringFilter<"ExtraProductDelivery"> | string
+    price?: DecimalFilter<"ExtraProductDelivery"> | Decimal | DecimalJsLike | number | string
+    notes?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    createdBy?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    updatedBy?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    createdAt?: DateTimeFilter<"ExtraProductDelivery"> | Date | string
+    updatedAt?: DateTimeFilter<"ExtraProductDelivery"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    vendor?: XOR<VendorScalarRelationFilter, VendorWhereInput>
+    milkDelivery?: XOR<MilkDeliveryNullableScalarRelationFilter, MilkDeliveryWhereInput> | null
+  }, "id">
+
+  export type ExtraProductDeliveryOrderByWithAggregationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    vendorId?: SortOrder
+    milkDeliveryId?: SortOrderInput | SortOrder
+    date?: SortOrder
+    productName?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    price?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    updatedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ExtraProductDeliveryCountOrderByAggregateInput
+    _avg?: ExtraProductDeliveryAvgOrderByAggregateInput
+    _max?: ExtraProductDeliveryMaxOrderByAggregateInput
+    _min?: ExtraProductDeliveryMinOrderByAggregateInput
+    _sum?: ExtraProductDeliverySumOrderByAggregateInput
+  }
+
+  export type ExtraProductDeliveryScalarWhereWithAggregatesInput = {
+    AND?: ExtraProductDeliveryScalarWhereWithAggregatesInput | ExtraProductDeliveryScalarWhereWithAggregatesInput[]
+    OR?: ExtraProductDeliveryScalarWhereWithAggregatesInput[]
+    NOT?: ExtraProductDeliveryScalarWhereWithAggregatesInput | ExtraProductDeliveryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ExtraProductDelivery"> | string
+    customerId?: StringWithAggregatesFilter<"ExtraProductDelivery"> | string
+    vendorId?: StringWithAggregatesFilter<"ExtraProductDelivery"> | string
+    milkDeliveryId?: StringNullableWithAggregatesFilter<"ExtraProductDelivery"> | string | null
+    date?: DateTimeWithAggregatesFilter<"ExtraProductDelivery"> | Date | string
+    productName?: StringWithAggregatesFilter<"ExtraProductDelivery"> | string
+    quantity?: DecimalWithAggregatesFilter<"ExtraProductDelivery"> | Decimal | DecimalJsLike | number | string
+    unit?: StringWithAggregatesFilter<"ExtraProductDelivery"> | string
+    price?: DecimalWithAggregatesFilter<"ExtraProductDelivery"> | Decimal | DecimalJsLike | number | string
+    notes?: StringNullableWithAggregatesFilter<"ExtraProductDelivery"> | string | null
+    createdBy?: StringNullableWithAggregatesFilter<"ExtraProductDelivery"> | string | null
+    updatedBy?: StringNullableWithAggregatesFilter<"ExtraProductDelivery"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ExtraProductDelivery"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ExtraProductDelivery"> | Date | string
   }
 
   export type PaymentWhereInput = {
@@ -13595,6 +15064,7 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutVendorInput
     customers?: CustomerCreateNestedManyWithoutVendorInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUncheckedCreateInput = {
@@ -13616,6 +15086,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     customers?: CustomerUncheckedCreateNestedManyWithoutVendorInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUpdateInput = {
@@ -13637,6 +15108,7 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutVendorNestedInput
     customers?: CustomerUpdateManyWithoutVendorNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateInput = {
@@ -13658,6 +15130,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customers?: CustomerUncheckedUpdateManyWithoutVendorNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorCreateManyInput = {
@@ -13814,6 +15287,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateInput = {
@@ -13834,6 +15308,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUpdateInput = {
@@ -13854,6 +15329,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateInput = {
@@ -13874,6 +15350,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerCreateManyInput = {
@@ -14006,6 +15483,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     vendor: VendorCreateNestedOneWithoutMilkDeliveriesInput
     customer: CustomerCreateNestedOneWithoutMilkDeliveriesInput
+    extraProducts?: ExtraProductDeliveryCreateNestedManyWithoutMilkDeliveryInput
   }
 
   export type MilkDeliveryUncheckedCreateInput = {
@@ -14020,6 +15498,7 @@ export namespace Prisma {
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraProducts?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutMilkDeliveryInput
   }
 
   export type MilkDeliveryUpdateInput = {
@@ -14034,6 +15513,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorUpdateOneRequiredWithoutMilkDeliveriesNestedInput
     customer?: CustomerUpdateOneRequiredWithoutMilkDeliveriesNestedInput
+    extraProducts?: ExtraProductDeliveryUpdateManyWithoutMilkDeliveryNestedInput
   }
 
   export type MilkDeliveryUncheckedUpdateInput = {
@@ -14048,6 +15528,7 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraProducts?: ExtraProductDeliveryUncheckedUpdateManyWithoutMilkDeliveryNestedInput
   }
 
   export type MilkDeliveryCreateManyInput = {
@@ -14084,6 +15565,122 @@ export namespace Prisma {
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExtraProductDeliveryCreateInput = {
+    id?: string
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutExtraProductDeliveriesInput
+    vendor: VendorCreateNestedOneWithoutExtraProductDeliveriesInput
+    milkDelivery?: MilkDeliveryCreateNestedOneWithoutExtraProductsInput
+  }
+
+  export type ExtraProductDeliveryUncheckedCreateInput = {
+    id?: string
+    customerId: string
+    vendorId: string
+    milkDeliveryId?: string | null
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ExtraProductDeliveryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutExtraProductDeliveriesNestedInput
+    vendor?: VendorUpdateOneRequiredWithoutExtraProductDeliveriesNestedInput
+    milkDelivery?: MilkDeliveryUpdateOneWithoutExtraProductsNestedInput
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    milkDeliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExtraProductDeliveryCreateManyInput = {
+    id?: string
+    customerId: string
+    vendorId: string
+    milkDeliveryId?: string | null
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ExtraProductDeliveryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    milkDeliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14594,11 +16191,21 @@ export namespace Prisma {
     none?: MilkDeliveryWhereInput
   }
 
+  export type ExtraProductDeliveryListRelationFilter = {
+    every?: ExtraProductDeliveryWhereInput
+    some?: ExtraProductDeliveryWhereInput
+    none?: ExtraProductDeliveryWhereInput
+  }
+
   export type CustomerOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type MilkDeliveryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ExtraProductDeliveryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14959,6 +16566,78 @@ export namespace Prisma {
     eveningQuantity?: SortOrder
   }
 
+  export type MilkDeliveryNullableScalarRelationFilter = {
+    is?: MilkDeliveryWhereInput | null
+    isNot?: MilkDeliveryWhereInput | null
+  }
+
+  export type ExtraProductDeliveryOrderByRelevanceInput = {
+    fields: ExtraProductDeliveryOrderByRelevanceFieldEnum | ExtraProductDeliveryOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type ExtraProductDeliveryCountOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    vendorId?: SortOrder
+    milkDeliveryId?: SortOrder
+    date?: SortOrder
+    productName?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    price?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ExtraProductDeliveryAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+    price?: SortOrder
+  }
+
+  export type ExtraProductDeliveryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    vendorId?: SortOrder
+    milkDeliveryId?: SortOrder
+    date?: SortOrder
+    productName?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    price?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ExtraProductDeliveryMinOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    vendorId?: SortOrder
+    milkDeliveryId?: SortOrder
+    date?: SortOrder
+    productName?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    price?: SortOrder
+    notes?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ExtraProductDeliverySumOrderByAggregateInput = {
+    quantity?: SortOrder
+    price?: SortOrder
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -15275,6 +16954,13 @@ export namespace Prisma {
     connect?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
   }
 
+  export type ExtraProductDeliveryCreateNestedManyWithoutVendorInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutVendorInput, ExtraProductDeliveryUncheckedCreateWithoutVendorInput> | ExtraProductDeliveryCreateWithoutVendorInput[] | ExtraProductDeliveryUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutVendorInput | ExtraProductDeliveryCreateOrConnectWithoutVendorInput[]
+    createMany?: ExtraProductDeliveryCreateManyVendorInputEnvelope
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+  }
+
   export type CustomerUncheckedCreateNestedManyWithoutVendorInput = {
     create?: XOR<CustomerCreateWithoutVendorInput, CustomerUncheckedCreateWithoutVendorInput> | CustomerCreateWithoutVendorInput[] | CustomerUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: CustomerCreateOrConnectWithoutVendorInput | CustomerCreateOrConnectWithoutVendorInput[]
@@ -15287,6 +16973,13 @@ export namespace Prisma {
     connectOrCreate?: MilkDeliveryCreateOrConnectWithoutVendorInput | MilkDeliveryCreateOrConnectWithoutVendorInput[]
     createMany?: MilkDeliveryCreateManyVendorInputEnvelope
     connect?: MilkDeliveryWhereUniqueInput | MilkDeliveryWhereUniqueInput[]
+  }
+
+  export type ExtraProductDeliveryUncheckedCreateNestedManyWithoutVendorInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutVendorInput, ExtraProductDeliveryUncheckedCreateWithoutVendorInput> | ExtraProductDeliveryCreateWithoutVendorInput[] | ExtraProductDeliveryUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutVendorInput | ExtraProductDeliveryCreateOrConnectWithoutVendorInput[]
+    createMany?: ExtraProductDeliveryCreateManyVendorInputEnvelope
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
   }
 
   export type EnumVendorStatusFieldUpdateOperationsInput = {
@@ -15339,6 +17032,20 @@ export namespace Prisma {
     deleteMany?: MilkDeliveryScalarWhereInput | MilkDeliveryScalarWhereInput[]
   }
 
+  export type ExtraProductDeliveryUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutVendorInput, ExtraProductDeliveryUncheckedCreateWithoutVendorInput> | ExtraProductDeliveryCreateWithoutVendorInput[] | ExtraProductDeliveryUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutVendorInput | ExtraProductDeliveryCreateOrConnectWithoutVendorInput[]
+    upsert?: ExtraProductDeliveryUpsertWithWhereUniqueWithoutVendorInput | ExtraProductDeliveryUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: ExtraProductDeliveryCreateManyVendorInputEnvelope
+    set?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    disconnect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    delete?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    update?: ExtraProductDeliveryUpdateWithWhereUniqueWithoutVendorInput | ExtraProductDeliveryUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: ExtraProductDeliveryUpdateManyWithWhereWithoutVendorInput | ExtraProductDeliveryUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: ExtraProductDeliveryScalarWhereInput | ExtraProductDeliveryScalarWhereInput[]
+  }
+
   export type CustomerUncheckedUpdateManyWithoutVendorNestedInput = {
     create?: XOR<CustomerCreateWithoutVendorInput, CustomerUncheckedCreateWithoutVendorInput> | CustomerCreateWithoutVendorInput[] | CustomerUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: CustomerCreateOrConnectWithoutVendorInput | CustomerCreateOrConnectWithoutVendorInput[]
@@ -15365,6 +17072,20 @@ export namespace Prisma {
     update?: MilkDeliveryUpdateWithWhereUniqueWithoutVendorInput | MilkDeliveryUpdateWithWhereUniqueWithoutVendorInput[]
     updateMany?: MilkDeliveryUpdateManyWithWhereWithoutVendorInput | MilkDeliveryUpdateManyWithWhereWithoutVendorInput[]
     deleteMany?: MilkDeliveryScalarWhereInput | MilkDeliveryScalarWhereInput[]
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutVendorInput, ExtraProductDeliveryUncheckedCreateWithoutVendorInput> | ExtraProductDeliveryCreateWithoutVendorInput[] | ExtraProductDeliveryUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutVendorInput | ExtraProductDeliveryCreateOrConnectWithoutVendorInput[]
+    upsert?: ExtraProductDeliveryUpsertWithWhereUniqueWithoutVendorInput | ExtraProductDeliveryUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: ExtraProductDeliveryCreateManyVendorInputEnvelope
+    set?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    disconnect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    delete?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    update?: ExtraProductDeliveryUpdateWithWhereUniqueWithoutVendorInput | ExtraProductDeliveryUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: ExtraProductDeliveryUpdateManyWithWhereWithoutVendorInput | ExtraProductDeliveryUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: ExtraProductDeliveryScalarWhereInput | ExtraProductDeliveryScalarWhereInput[]
   }
 
   export type CustomerCreateNestedManyWithoutAreaInput = {
@@ -15442,6 +17163,13 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
+  export type ExtraProductDeliveryCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutCustomerInput, ExtraProductDeliveryUncheckedCreateWithoutCustomerInput> | ExtraProductDeliveryCreateWithoutCustomerInput[] | ExtraProductDeliveryUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutCustomerInput | ExtraProductDeliveryCreateOrConnectWithoutCustomerInput[]
+    createMany?: ExtraProductDeliveryCreateManyCustomerInputEnvelope
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+  }
+
   export type CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput = {
     create?: XOR<CustomerMilkConfigCreateWithoutCustomerInput, CustomerMilkConfigUncheckedCreateWithoutCustomerInput> | CustomerMilkConfigCreateWithoutCustomerInput[] | CustomerMilkConfigUncheckedCreateWithoutCustomerInput[]
     connectOrCreate?: CustomerMilkConfigCreateOrConnectWithoutCustomerInput | CustomerMilkConfigCreateOrConnectWithoutCustomerInput[]
@@ -15461,6 +17189,13 @@ export namespace Prisma {
     connectOrCreate?: PaymentCreateOrConnectWithoutCustomerInput | PaymentCreateOrConnectWithoutCustomerInput[]
     createMany?: PaymentCreateManyCustomerInputEnvelope
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type ExtraProductDeliveryUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutCustomerInput, ExtraProductDeliveryUncheckedCreateWithoutCustomerInput> | ExtraProductDeliveryCreateWithoutCustomerInput[] | ExtraProductDeliveryUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutCustomerInput | ExtraProductDeliveryCreateOrConnectWithoutCustomerInput[]
+    createMany?: ExtraProductDeliveryCreateManyCustomerInputEnvelope
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
   }
 
   export type DecimalFieldUpdateOperationsInput = {
@@ -15529,6 +17264,20 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type ExtraProductDeliveryUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutCustomerInput, ExtraProductDeliveryUncheckedCreateWithoutCustomerInput> | ExtraProductDeliveryCreateWithoutCustomerInput[] | ExtraProductDeliveryUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutCustomerInput | ExtraProductDeliveryCreateOrConnectWithoutCustomerInput[]
+    upsert?: ExtraProductDeliveryUpsertWithWhereUniqueWithoutCustomerInput | ExtraProductDeliveryUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: ExtraProductDeliveryCreateManyCustomerInputEnvelope
+    set?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    disconnect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    delete?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    update?: ExtraProductDeliveryUpdateWithWhereUniqueWithoutCustomerInput | ExtraProductDeliveryUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: ExtraProductDeliveryUpdateManyWithWhereWithoutCustomerInput | ExtraProductDeliveryUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: ExtraProductDeliveryScalarWhereInput | ExtraProductDeliveryScalarWhereInput[]
+  }
+
   export type CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput = {
     create?: XOR<CustomerMilkConfigCreateWithoutCustomerInput, CustomerMilkConfigUncheckedCreateWithoutCustomerInput> | CustomerMilkConfigCreateWithoutCustomerInput[] | CustomerMilkConfigUncheckedCreateWithoutCustomerInput[]
     connectOrCreate?: CustomerMilkConfigCreateOrConnectWithoutCustomerInput | CustomerMilkConfigCreateOrConnectWithoutCustomerInput[]
@@ -15571,6 +17320,20 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type ExtraProductDeliveryUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutCustomerInput, ExtraProductDeliveryUncheckedCreateWithoutCustomerInput> | ExtraProductDeliveryCreateWithoutCustomerInput[] | ExtraProductDeliveryUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutCustomerInput | ExtraProductDeliveryCreateOrConnectWithoutCustomerInput[]
+    upsert?: ExtraProductDeliveryUpsertWithWhereUniqueWithoutCustomerInput | ExtraProductDeliveryUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: ExtraProductDeliveryCreateManyCustomerInputEnvelope
+    set?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    disconnect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    delete?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    update?: ExtraProductDeliveryUpdateWithWhereUniqueWithoutCustomerInput | ExtraProductDeliveryUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: ExtraProductDeliveryUpdateManyWithWhereWithoutCustomerInput | ExtraProductDeliveryUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: ExtraProductDeliveryScalarWhereInput | ExtraProductDeliveryScalarWhereInput[]
+  }
+
   export type CustomerCreateNestedOneWithoutMilkConfigsInput = {
     create?: XOR<CustomerCreateWithoutMilkConfigsInput, CustomerUncheckedCreateWithoutMilkConfigsInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutMilkConfigsInput
@@ -15597,6 +17360,20 @@ export namespace Prisma {
     connect?: CustomerWhereUniqueInput
   }
 
+  export type ExtraProductDeliveryCreateNestedManyWithoutMilkDeliveryInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutMilkDeliveryInput, ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput> | ExtraProductDeliveryCreateWithoutMilkDeliveryInput[] | ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutMilkDeliveryInput | ExtraProductDeliveryCreateOrConnectWithoutMilkDeliveryInput[]
+    createMany?: ExtraProductDeliveryCreateManyMilkDeliveryInputEnvelope
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+  }
+
+  export type ExtraProductDeliveryUncheckedCreateNestedManyWithoutMilkDeliveryInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutMilkDeliveryInput, ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput> | ExtraProductDeliveryCreateWithoutMilkDeliveryInput[] | ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutMilkDeliveryInput | ExtraProductDeliveryCreateOrConnectWithoutMilkDeliveryInput[]
+    createMany?: ExtraProductDeliveryCreateManyMilkDeliveryInputEnvelope
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+  }
+
   export type VendorUpdateOneRequiredWithoutMilkDeliveriesNestedInput = {
     create?: XOR<VendorCreateWithoutMilkDeliveriesInput, VendorUncheckedCreateWithoutMilkDeliveriesInput>
     connectOrCreate?: VendorCreateOrConnectWithoutMilkDeliveriesInput
@@ -15611,6 +17388,78 @@ export namespace Prisma {
     upsert?: CustomerUpsertWithoutMilkDeliveriesInput
     connect?: CustomerWhereUniqueInput
     update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutMilkDeliveriesInput, CustomerUpdateWithoutMilkDeliveriesInput>, CustomerUncheckedUpdateWithoutMilkDeliveriesInput>
+  }
+
+  export type ExtraProductDeliveryUpdateManyWithoutMilkDeliveryNestedInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutMilkDeliveryInput, ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput> | ExtraProductDeliveryCreateWithoutMilkDeliveryInput[] | ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutMilkDeliveryInput | ExtraProductDeliveryCreateOrConnectWithoutMilkDeliveryInput[]
+    upsert?: ExtraProductDeliveryUpsertWithWhereUniqueWithoutMilkDeliveryInput | ExtraProductDeliveryUpsertWithWhereUniqueWithoutMilkDeliveryInput[]
+    createMany?: ExtraProductDeliveryCreateManyMilkDeliveryInputEnvelope
+    set?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    disconnect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    delete?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    update?: ExtraProductDeliveryUpdateWithWhereUniqueWithoutMilkDeliveryInput | ExtraProductDeliveryUpdateWithWhereUniqueWithoutMilkDeliveryInput[]
+    updateMany?: ExtraProductDeliveryUpdateManyWithWhereWithoutMilkDeliveryInput | ExtraProductDeliveryUpdateManyWithWhereWithoutMilkDeliveryInput[]
+    deleteMany?: ExtraProductDeliveryScalarWhereInput | ExtraProductDeliveryScalarWhereInput[]
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateManyWithoutMilkDeliveryNestedInput = {
+    create?: XOR<ExtraProductDeliveryCreateWithoutMilkDeliveryInput, ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput> | ExtraProductDeliveryCreateWithoutMilkDeliveryInput[] | ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput[]
+    connectOrCreate?: ExtraProductDeliveryCreateOrConnectWithoutMilkDeliveryInput | ExtraProductDeliveryCreateOrConnectWithoutMilkDeliveryInput[]
+    upsert?: ExtraProductDeliveryUpsertWithWhereUniqueWithoutMilkDeliveryInput | ExtraProductDeliveryUpsertWithWhereUniqueWithoutMilkDeliveryInput[]
+    createMany?: ExtraProductDeliveryCreateManyMilkDeliveryInputEnvelope
+    set?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    disconnect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    delete?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    connect?: ExtraProductDeliveryWhereUniqueInput | ExtraProductDeliveryWhereUniqueInput[]
+    update?: ExtraProductDeliveryUpdateWithWhereUniqueWithoutMilkDeliveryInput | ExtraProductDeliveryUpdateWithWhereUniqueWithoutMilkDeliveryInput[]
+    updateMany?: ExtraProductDeliveryUpdateManyWithWhereWithoutMilkDeliveryInput | ExtraProductDeliveryUpdateManyWithWhereWithoutMilkDeliveryInput[]
+    deleteMany?: ExtraProductDeliveryScalarWhereInput | ExtraProductDeliveryScalarWhereInput[]
+  }
+
+  export type CustomerCreateNestedOneWithoutExtraProductDeliveriesInput = {
+    create?: XOR<CustomerCreateWithoutExtraProductDeliveriesInput, CustomerUncheckedCreateWithoutExtraProductDeliveriesInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutExtraProductDeliveriesInput
+    connect?: CustomerWhereUniqueInput
+  }
+
+  export type VendorCreateNestedOneWithoutExtraProductDeliveriesInput = {
+    create?: XOR<VendorCreateWithoutExtraProductDeliveriesInput, VendorUncheckedCreateWithoutExtraProductDeliveriesInput>
+    connectOrCreate?: VendorCreateOrConnectWithoutExtraProductDeliveriesInput
+    connect?: VendorWhereUniqueInput
+  }
+
+  export type MilkDeliveryCreateNestedOneWithoutExtraProductsInput = {
+    create?: XOR<MilkDeliveryCreateWithoutExtraProductsInput, MilkDeliveryUncheckedCreateWithoutExtraProductsInput>
+    connectOrCreate?: MilkDeliveryCreateOrConnectWithoutExtraProductsInput
+    connect?: MilkDeliveryWhereUniqueInput
+  }
+
+  export type CustomerUpdateOneRequiredWithoutExtraProductDeliveriesNestedInput = {
+    create?: XOR<CustomerCreateWithoutExtraProductDeliveriesInput, CustomerUncheckedCreateWithoutExtraProductDeliveriesInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutExtraProductDeliveriesInput
+    upsert?: CustomerUpsertWithoutExtraProductDeliveriesInput
+    connect?: CustomerWhereUniqueInput
+    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutExtraProductDeliveriesInput, CustomerUpdateWithoutExtraProductDeliveriesInput>, CustomerUncheckedUpdateWithoutExtraProductDeliveriesInput>
+  }
+
+  export type VendorUpdateOneRequiredWithoutExtraProductDeliveriesNestedInput = {
+    create?: XOR<VendorCreateWithoutExtraProductDeliveriesInput, VendorUncheckedCreateWithoutExtraProductDeliveriesInput>
+    connectOrCreate?: VendorCreateOrConnectWithoutExtraProductDeliveriesInput
+    upsert?: VendorUpsertWithoutExtraProductDeliveriesInput
+    connect?: VendorWhereUniqueInput
+    update?: XOR<XOR<VendorUpdateToOneWithWhereWithoutExtraProductDeliveriesInput, VendorUpdateWithoutExtraProductDeliveriesInput>, VendorUncheckedUpdateWithoutExtraProductDeliveriesInput>
+  }
+
+  export type MilkDeliveryUpdateOneWithoutExtraProductsNestedInput = {
+    create?: XOR<MilkDeliveryCreateWithoutExtraProductsInput, MilkDeliveryUncheckedCreateWithoutExtraProductsInput>
+    connectOrCreate?: MilkDeliveryCreateOrConnectWithoutExtraProductsInput
+    upsert?: MilkDeliveryUpsertWithoutExtraProductsInput
+    disconnect?: MilkDeliveryWhereInput | boolean
+    delete?: MilkDeliveryWhereInput | boolean
+    connect?: MilkDeliveryWhereUniqueInput
+    update?: XOR<XOR<MilkDeliveryUpdateToOneWithWhereWithoutExtraProductsInput, MilkDeliveryUpdateWithoutExtraProductsInput>, MilkDeliveryUncheckedUpdateWithoutExtraProductsInput>
   }
 
   export type CustomerCreateNestedOneWithoutPaymentsInput = {
@@ -15944,6 +17793,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutVendorsInput
     customers?: CustomerCreateNestedManyWithoutVendorInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUncheckedCreateWithoutUserInput = {
@@ -15964,6 +17814,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     customers?: CustomerUncheckedCreateNestedManyWithoutVendorInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorCreateOrConnectWithoutUserInput = {
@@ -16000,6 +17851,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutVendorsNestedInput
     customers?: CustomerUpdateManyWithoutVendorNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateWithoutUserInput = {
@@ -16020,6 +17872,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customers?: CustomerUncheckedUpdateManyWithoutVendorNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorCreateWithoutCompanyInput = {
@@ -16040,6 +17893,7 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutVendorInput
     customers?: CustomerCreateNestedManyWithoutVendorInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUncheckedCreateWithoutCompanyInput = {
@@ -16060,6 +17914,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     customers?: CustomerUncheckedCreateNestedManyWithoutVendorInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorCreateOrConnectWithoutCompanyInput = {
@@ -16187,6 +18042,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutVendorInput = {
@@ -16206,6 +18062,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutVendorInput = {
@@ -16229,6 +18086,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutMilkDeliveriesInput
+    extraProducts?: ExtraProductDeliveryCreateNestedManyWithoutMilkDeliveryInput
   }
 
   export type MilkDeliveryUncheckedCreateWithoutVendorInput = {
@@ -16242,6 +18100,7 @@ export namespace Prisma {
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraProducts?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutMilkDeliveryInput
   }
 
   export type MilkDeliveryCreateOrConnectWithoutVendorInput = {
@@ -16251,6 +18110,48 @@ export namespace Prisma {
 
   export type MilkDeliveryCreateManyVendorInputEnvelope = {
     data: MilkDeliveryCreateManyVendorInput | MilkDeliveryCreateManyVendorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ExtraProductDeliveryCreateWithoutVendorInput = {
+    id?: string
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutExtraProductDeliveriesInput
+    milkDelivery?: MilkDeliveryCreateNestedOneWithoutExtraProductsInput
+  }
+
+  export type ExtraProductDeliveryUncheckedCreateWithoutVendorInput = {
+    id?: string
+    customerId: string
+    milkDeliveryId?: string | null
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ExtraProductDeliveryCreateOrConnectWithoutVendorInput = {
+    where: ExtraProductDeliveryWhereUniqueInput
+    create: XOR<ExtraProductDeliveryCreateWithoutVendorInput, ExtraProductDeliveryUncheckedCreateWithoutVendorInput>
+  }
+
+  export type ExtraProductDeliveryCreateManyVendorInputEnvelope = {
+    data: ExtraProductDeliveryCreateManyVendorInput | ExtraProductDeliveryCreateManyVendorInput[]
     skipDuplicates?: boolean
   }
 
@@ -16395,6 +18296,42 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MilkDelivery"> | Date | string
   }
 
+  export type ExtraProductDeliveryUpsertWithWhereUniqueWithoutVendorInput = {
+    where: ExtraProductDeliveryWhereUniqueInput
+    update: XOR<ExtraProductDeliveryUpdateWithoutVendorInput, ExtraProductDeliveryUncheckedUpdateWithoutVendorInput>
+    create: XOR<ExtraProductDeliveryCreateWithoutVendorInput, ExtraProductDeliveryUncheckedCreateWithoutVendorInput>
+  }
+
+  export type ExtraProductDeliveryUpdateWithWhereUniqueWithoutVendorInput = {
+    where: ExtraProductDeliveryWhereUniqueInput
+    data: XOR<ExtraProductDeliveryUpdateWithoutVendorInput, ExtraProductDeliveryUncheckedUpdateWithoutVendorInput>
+  }
+
+  export type ExtraProductDeliveryUpdateManyWithWhereWithoutVendorInput = {
+    where: ExtraProductDeliveryScalarWhereInput
+    data: XOR<ExtraProductDeliveryUpdateManyMutationInput, ExtraProductDeliveryUncheckedUpdateManyWithoutVendorInput>
+  }
+
+  export type ExtraProductDeliveryScalarWhereInput = {
+    AND?: ExtraProductDeliveryScalarWhereInput | ExtraProductDeliveryScalarWhereInput[]
+    OR?: ExtraProductDeliveryScalarWhereInput[]
+    NOT?: ExtraProductDeliveryScalarWhereInput | ExtraProductDeliveryScalarWhereInput[]
+    id?: StringFilter<"ExtraProductDelivery"> | string
+    customerId?: StringFilter<"ExtraProductDelivery"> | string
+    vendorId?: StringFilter<"ExtraProductDelivery"> | string
+    milkDeliveryId?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    date?: DateTimeFilter<"ExtraProductDelivery"> | Date | string
+    productName?: StringFilter<"ExtraProductDelivery"> | string
+    quantity?: DecimalFilter<"ExtraProductDelivery"> | Decimal | DecimalJsLike | number | string
+    unit?: StringFilter<"ExtraProductDelivery"> | string
+    price?: DecimalFilter<"ExtraProductDelivery"> | Decimal | DecimalJsLike | number | string
+    notes?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    createdBy?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    updatedBy?: StringNullableFilter<"ExtraProductDelivery"> | string | null
+    createdAt?: DateTimeFilter<"ExtraProductDelivery"> | Date | string
+    updatedAt?: DateTimeFilter<"ExtraProductDelivery"> | Date | string
+  }
+
   export type CustomerCreateWithoutAreaInput = {
     id?: string
     name: string
@@ -16412,6 +18349,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutAreaInput = {
@@ -16431,6 +18369,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutAreaInput = {
@@ -16477,6 +18416,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutVendorsInput
     user?: UserCreateNestedOneWithoutVendorInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUncheckedCreateWithoutCustomersInput = {
@@ -16497,6 +18437,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorCreateOrConnectWithoutCustomersInput = {
@@ -16570,6 +18511,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     vendor: VendorCreateNestedOneWithoutMilkDeliveriesInput
+    extraProducts?: ExtraProductDeliveryCreateNestedManyWithoutMilkDeliveryInput
   }
 
   export type MilkDeliveryUncheckedCreateWithoutCustomerInput = {
@@ -16583,6 +18525,7 @@ export namespace Prisma {
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraProducts?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutMilkDeliveryInput
   }
 
   export type MilkDeliveryCreateOrConnectWithoutCustomerInput = {
@@ -16637,6 +18580,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ExtraProductDeliveryCreateWithoutCustomerInput = {
+    id?: string
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendor: VendorCreateNestedOneWithoutExtraProductDeliveriesInput
+    milkDelivery?: MilkDeliveryCreateNestedOneWithoutExtraProductsInput
+  }
+
+  export type ExtraProductDeliveryUncheckedCreateWithoutCustomerInput = {
+    id?: string
+    vendorId: string
+    milkDeliveryId?: string | null
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ExtraProductDeliveryCreateOrConnectWithoutCustomerInput = {
+    where: ExtraProductDeliveryWhereUniqueInput
+    create: XOR<ExtraProductDeliveryCreateWithoutCustomerInput, ExtraProductDeliveryUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type ExtraProductDeliveryCreateManyCustomerInputEnvelope = {
+    data: ExtraProductDeliveryCreateManyCustomerInput | ExtraProductDeliveryCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type VendorUpsertWithoutCustomersInput = {
     update: XOR<VendorUpdateWithoutCustomersInput, VendorUncheckedUpdateWithoutCustomersInput>
     create: XOR<VendorCreateWithoutCustomersInput, VendorUncheckedCreateWithoutCustomersInput>
@@ -16666,6 +18651,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutVendorsNestedInput
     user?: UserUpdateOneWithoutVendorNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateWithoutCustomersInput = {
@@ -16686,6 +18672,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type AreaUpsertWithoutCustomersInput = {
@@ -16802,6 +18789,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
   }
 
+  export type ExtraProductDeliveryUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: ExtraProductDeliveryWhereUniqueInput
+    update: XOR<ExtraProductDeliveryUpdateWithoutCustomerInput, ExtraProductDeliveryUncheckedUpdateWithoutCustomerInput>
+    create: XOR<ExtraProductDeliveryCreateWithoutCustomerInput, ExtraProductDeliveryUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type ExtraProductDeliveryUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: ExtraProductDeliveryWhereUniqueInput
+    data: XOR<ExtraProductDeliveryUpdateWithoutCustomerInput, ExtraProductDeliveryUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type ExtraProductDeliveryUpdateManyWithWhereWithoutCustomerInput = {
+    where: ExtraProductDeliveryScalarWhereInput
+    data: XOR<ExtraProductDeliveryUpdateManyMutationInput, ExtraProductDeliveryUncheckedUpdateManyWithoutCustomerInput>
+  }
+
   export type CustomerCreateWithoutMilkConfigsInput = {
     id?: string
     name: string
@@ -16819,6 +18822,7 @@ export namespace Prisma {
     area: AreaCreateNestedOneWithoutCustomersInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutMilkConfigsInput = {
@@ -16838,6 +18842,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutMilkConfigsInput = {
@@ -16873,6 +18878,7 @@ export namespace Prisma {
     area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutMilkConfigsInput = {
@@ -16892,6 +18898,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type VendorCreateWithoutMilkDeliveriesInput = {
@@ -16912,6 +18919,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutVendorsInput
     user?: UserCreateNestedOneWithoutVendorInput
     customers?: CustomerCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutVendorInput
   }
 
   export type VendorUncheckedCreateWithoutMilkDeliveriesInput = {
@@ -16932,6 +18940,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customers?: CustomerUncheckedCreateNestedManyWithoutVendorInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorCreateOrConnectWithoutMilkDeliveriesInput = {
@@ -16956,6 +18965,7 @@ export namespace Prisma {
     area: AreaCreateNestedOneWithoutCustomersInput
     milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     payments?: PaymentCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutMilkDeliveriesInput = {
@@ -16975,11 +18985,54 @@ export namespace Prisma {
     updatedAt?: Date | string
     milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutMilkDeliveriesInput = {
     where: CustomerWhereUniqueInput
     create: XOR<CustomerCreateWithoutMilkDeliveriesInput, CustomerUncheckedCreateWithoutMilkDeliveriesInput>
+  }
+
+  export type ExtraProductDeliveryCreateWithoutMilkDeliveryInput = {
+    id?: string
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutExtraProductDeliveriesInput
+    vendor: VendorCreateNestedOneWithoutExtraProductDeliveriesInput
+  }
+
+  export type ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput = {
+    id?: string
+    customerId: string
+    vendorId: string
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ExtraProductDeliveryCreateOrConnectWithoutMilkDeliveryInput = {
+    where: ExtraProductDeliveryWhereUniqueInput
+    create: XOR<ExtraProductDeliveryCreateWithoutMilkDeliveryInput, ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput>
+  }
+
+  export type ExtraProductDeliveryCreateManyMilkDeliveryInputEnvelope = {
+    data: ExtraProductDeliveryCreateManyMilkDeliveryInput | ExtraProductDeliveryCreateManyMilkDeliveryInput[]
+    skipDuplicates?: boolean
   }
 
   export type VendorUpsertWithoutMilkDeliveriesInput = {
@@ -17011,6 +19064,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutVendorsNestedInput
     user?: UserUpdateOneWithoutVendorNestedInput
     customers?: CustomerUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateWithoutMilkDeliveriesInput = {
@@ -17031,6 +19085,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customers?: CustomerUncheckedUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type CustomerUpsertWithoutMilkDeliveriesInput = {
@@ -17061,6 +19116,7 @@ export namespace Prisma {
     area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
     milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutMilkDeliveriesInput = {
@@ -17080,6 +19136,291 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type ExtraProductDeliveryUpsertWithWhereUniqueWithoutMilkDeliveryInput = {
+    where: ExtraProductDeliveryWhereUniqueInput
+    update: XOR<ExtraProductDeliveryUpdateWithoutMilkDeliveryInput, ExtraProductDeliveryUncheckedUpdateWithoutMilkDeliveryInput>
+    create: XOR<ExtraProductDeliveryCreateWithoutMilkDeliveryInput, ExtraProductDeliveryUncheckedCreateWithoutMilkDeliveryInput>
+  }
+
+  export type ExtraProductDeliveryUpdateWithWhereUniqueWithoutMilkDeliveryInput = {
+    where: ExtraProductDeliveryWhereUniqueInput
+    data: XOR<ExtraProductDeliveryUpdateWithoutMilkDeliveryInput, ExtraProductDeliveryUncheckedUpdateWithoutMilkDeliveryInput>
+  }
+
+  export type ExtraProductDeliveryUpdateManyWithWhereWithoutMilkDeliveryInput = {
+    where: ExtraProductDeliveryScalarWhereInput
+    data: XOR<ExtraProductDeliveryUpdateManyMutationInput, ExtraProductDeliveryUncheckedUpdateManyWithoutMilkDeliveryInput>
+  }
+
+  export type CustomerCreateWithoutExtraProductDeliveriesInput = {
+    id?: string
+    name: string
+    phone: string
+    address: string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
+    registrationDate: Date | string
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendor: VendorCreateNestedOneWithoutCustomersInput
+    area: AreaCreateNestedOneWithoutCustomersInput
+    milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
+    milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
+    payments?: PaymentCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerUncheckedCreateWithoutExtraProductDeliveriesInput = {
+    id?: string
+    vendorId: string
+    areaId: string
+    name: string
+    phone: string
+    address: string
+    remainingAmount?: Decimal | DecimalJsLike | number | string
+    advanceAmount?: Decimal | DecimalJsLike | number | string
+    registrationDate: Date | string
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
+    milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerCreateOrConnectWithoutExtraProductDeliveriesInput = {
+    where: CustomerWhereUniqueInput
+    create: XOR<CustomerCreateWithoutExtraProductDeliveriesInput, CustomerUncheckedCreateWithoutExtraProductDeliveriesInput>
+  }
+
+  export type VendorCreateWithoutExtraProductDeliveriesInput = {
+    id?: string
+    name: string
+    phone?: string | null
+    mobileNumber?: string | null
+    email?: string | null
+    area?: string | null
+    address?: string | null
+    status?: $Enums.VendorStatus
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutVendorsInput
+    user?: UserCreateNestedOneWithoutVendorInput
+    customers?: CustomerCreateNestedManyWithoutVendorInput
+    milkDeliveries?: MilkDeliveryCreateNestedManyWithoutVendorInput
+  }
+
+  export type VendorUncheckedCreateWithoutExtraProductDeliveriesInput = {
+    id?: string
+    companyId: string
+    userId?: string | null
+    name: string
+    phone?: string | null
+    mobileNumber?: string | null
+    email?: string | null
+    area?: string | null
+    address?: string | null
+    status?: $Enums.VendorStatus
+    isActive?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customers?: CustomerUncheckedCreateNestedManyWithoutVendorInput
+    milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutVendorInput
+  }
+
+  export type VendorCreateOrConnectWithoutExtraProductDeliveriesInput = {
+    where: VendorWhereUniqueInput
+    create: XOR<VendorCreateWithoutExtraProductDeliveriesInput, VendorUncheckedCreateWithoutExtraProductDeliveriesInput>
+  }
+
+  export type MilkDeliveryCreateWithoutExtraProductsInput = {
+    id?: string
+    date: Date | string
+    morningQuantity?: Decimal | DecimalJsLike | number | string
+    eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendor: VendorCreateNestedOneWithoutMilkDeliveriesInput
+    customer: CustomerCreateNestedOneWithoutMilkDeliveriesInput
+  }
+
+  export type MilkDeliveryUncheckedCreateWithoutExtraProductsInput = {
+    id?: string
+    vendorId: string
+    customerId: string
+    date: Date | string
+    morningQuantity?: Decimal | DecimalJsLike | number | string
+    eveningQuantity?: Decimal | DecimalJsLike | number | string
+    isEdited?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MilkDeliveryCreateOrConnectWithoutExtraProductsInput = {
+    where: MilkDeliveryWhereUniqueInput
+    create: XOR<MilkDeliveryCreateWithoutExtraProductsInput, MilkDeliveryUncheckedCreateWithoutExtraProductsInput>
+  }
+
+  export type CustomerUpsertWithoutExtraProductDeliveriesInput = {
+    update: XOR<CustomerUpdateWithoutExtraProductDeliveriesInput, CustomerUncheckedUpdateWithoutExtraProductDeliveriesInput>
+    create: XOR<CustomerCreateWithoutExtraProductDeliveriesInput, CustomerUncheckedCreateWithoutExtraProductDeliveriesInput>
+    where?: CustomerWhereInput
+  }
+
+  export type CustomerUpdateToOneWithWhereWithoutExtraProductDeliveriesInput = {
+    where?: CustomerWhereInput
+    data: XOR<CustomerUpdateWithoutExtraProductDeliveriesInput, CustomerUncheckedUpdateWithoutExtraProductDeliveriesInput>
+  }
+
+  export type CustomerUpdateWithoutExtraProductDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorUpdateOneRequiredWithoutCustomersNestedInput
+    area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
+    milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
+    milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
+    payments?: PaymentUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateWithoutExtraProductDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    areaId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    remainingAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    advanceAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    registrationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
+    milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type VendorUpsertWithoutExtraProductDeliveriesInput = {
+    update: XOR<VendorUpdateWithoutExtraProductDeliveriesInput, VendorUncheckedUpdateWithoutExtraProductDeliveriesInput>
+    create: XOR<VendorCreateWithoutExtraProductDeliveriesInput, VendorUncheckedCreateWithoutExtraProductDeliveriesInput>
+    where?: VendorWhereInput
+  }
+
+  export type VendorUpdateToOneWithWhereWithoutExtraProductDeliveriesInput = {
+    where?: VendorWhereInput
+    data: XOR<VendorUpdateWithoutExtraProductDeliveriesInput, VendorUncheckedUpdateWithoutExtraProductDeliveriesInput>
+  }
+
+  export type VendorUpdateWithoutExtraProductDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutVendorsNestedInput
+    user?: UserUpdateOneWithoutVendorNestedInput
+    customers?: CustomerUpdateManyWithoutVendorNestedInput
+    milkDeliveries?: MilkDeliveryUpdateManyWithoutVendorNestedInput
+  }
+
+  export type VendorUncheckedUpdateWithoutExtraProductDeliveriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    mobileNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVendorStatusFieldUpdateOperationsInput | $Enums.VendorStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customers?: CustomerUncheckedUpdateManyWithoutVendorNestedInput
+    milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput
+  }
+
+  export type MilkDeliveryUpsertWithoutExtraProductsInput = {
+    update: XOR<MilkDeliveryUpdateWithoutExtraProductsInput, MilkDeliveryUncheckedUpdateWithoutExtraProductsInput>
+    create: XOR<MilkDeliveryCreateWithoutExtraProductsInput, MilkDeliveryUncheckedCreateWithoutExtraProductsInput>
+    where?: MilkDeliveryWhereInput
+  }
+
+  export type MilkDeliveryUpdateToOneWithWhereWithoutExtraProductsInput = {
+    where?: MilkDeliveryWhereInput
+    data: XOR<MilkDeliveryUpdateWithoutExtraProductsInput, MilkDeliveryUncheckedUpdateWithoutExtraProductsInput>
+  }
+
+  export type MilkDeliveryUpdateWithoutExtraProductsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorUpdateOneRequiredWithoutMilkDeliveriesNestedInput
+    customer?: CustomerUpdateOneRequiredWithoutMilkDeliveriesNestedInput
+  }
+
+  export type MilkDeliveryUncheckedUpdateWithoutExtraProductsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CustomerCreateWithoutPaymentsInput = {
@@ -17099,6 +19440,7 @@ export namespace Prisma {
     area: AreaCreateNestedOneWithoutCustomersInput
     milkConfigs?: CustomerMilkConfigCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutPaymentsInput = {
@@ -17118,6 +19460,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     milkConfigs?: CustomerMilkConfigUncheckedCreateNestedManyWithoutCustomerInput
     milkDeliveries?: MilkDeliveryUncheckedCreateNestedManyWithoutCustomerInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutPaymentsInput = {
@@ -17153,6 +19496,7 @@ export namespace Prisma {
     area?: AreaUpdateOneRequiredWithoutCustomersNestedInput
     milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutPaymentsInput = {
@@ -17172,6 +19516,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type ProductCreateWithoutCategoryInput = {
@@ -17315,6 +19660,7 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutVendorNestedInput
     customers?: CustomerUpdateManyWithoutVendorNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateWithoutCompanyInput = {
@@ -17335,6 +19681,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customers?: CustomerUncheckedUpdateManyWithoutVendorNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutVendorNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorUncheckedUpdateManyWithoutCompanyInput = {
@@ -17384,6 +19731,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ExtraProductDeliveryCreateManyVendorInput = {
+    id?: string
+    customerId: string
+    milkDeliveryId?: string | null
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CustomerUpdateWithoutVendorInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -17401,6 +19764,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutVendorInput = {
@@ -17420,6 +19784,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateManyWithoutVendorInput = {
@@ -17449,6 +19814,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutMilkDeliveriesNestedInput
+    extraProducts?: ExtraProductDeliveryUpdateManyWithoutMilkDeliveryNestedInput
   }
 
   export type MilkDeliveryUncheckedUpdateWithoutVendorInput = {
@@ -17462,6 +19828,7 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraProducts?: ExtraProductDeliveryUncheckedUpdateManyWithoutMilkDeliveryNestedInput
   }
 
   export type MilkDeliveryUncheckedUpdateManyWithoutVendorInput = {
@@ -17471,6 +19838,54 @@ export namespace Prisma {
     morningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     eveningQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isEdited?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExtraProductDeliveryUpdateWithoutVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutExtraProductDeliveriesNestedInput
+    milkDelivery?: MilkDeliveryUpdateOneWithoutExtraProductsNestedInput
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateWithoutVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    milkDeliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateManyWithoutVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    milkDeliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17510,6 +19925,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutAreaInput = {
@@ -17529,6 +19945,7 @@ export namespace Prisma {
     milkConfigs?: CustomerMilkConfigUncheckedUpdateManyWithoutCustomerNestedInput
     milkDeliveries?: MilkDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+    extraProductDeliveries?: ExtraProductDeliveryUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateManyWithoutAreaInput = {
@@ -17585,6 +20002,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ExtraProductDeliveryCreateManyCustomerInput = {
+    id?: string
+    vendorId: string
+    milkDeliveryId?: string | null
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CustomerMilkConfigUpdateWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
     effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17623,6 +20056,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorUpdateOneRequiredWithoutMilkDeliveriesNestedInput
+    extraProducts?: ExtraProductDeliveryUpdateManyWithoutMilkDeliveryNestedInput
   }
 
   export type MilkDeliveryUncheckedUpdateWithoutCustomerInput = {
@@ -17636,6 +20070,7 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraProducts?: ExtraProductDeliveryUncheckedUpdateManyWithoutMilkDeliveryNestedInput
   }
 
   export type MilkDeliveryUncheckedUpdateManyWithoutCustomerInput = {
@@ -17692,6 +20127,118 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExtraProductDeliveryUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorUpdateOneRequiredWithoutExtraProductDeliveriesNestedInput
+    milkDelivery?: MilkDeliveryUpdateOneWithoutExtraProductsNestedInput
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    milkDeliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateManyWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    milkDeliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExtraProductDeliveryCreateManyMilkDeliveryInput = {
+    id?: string
+    customerId: string
+    vendorId: string
+    date: Date | string
+    productName: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    price: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ExtraProductDeliveryUpdateWithoutMilkDeliveryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutExtraProductDeliveriesNestedInput
+    vendor?: VendorUpdateOneRequiredWithoutExtraProductDeliveriesNestedInput
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateWithoutMilkDeliveryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExtraProductDeliveryUncheckedUpdateManyWithoutMilkDeliveryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null

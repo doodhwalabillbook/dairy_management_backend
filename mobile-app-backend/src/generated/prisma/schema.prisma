@@ -81,10 +81,11 @@ model Vendor {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
-  company        Company        @relation(fields: [companyId], references: [id])
-  user           User?          @relation(fields: [userId], references: [id])
-  customers      Customer[]
-  milkDeliveries MilkDelivery[]
+  company                Company                @relation(fields: [companyId], references: [id])
+  user                   User?                  @relation(fields: [userId], references: [id])
+  customers              Customer[]
+  milkDeliveries         MilkDelivery[]
+  extraProductDeliveries ExtraProductDelivery[]
 }
 
 // ─── Area ────────────────────────────────────────────────────────────────────
@@ -120,11 +121,12 @@ model Customer {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
-  vendor         Vendor               @relation(fields: [vendorId], references: [id])
-  area           Area                 @relation(fields: [areaId], references: [id])
-  milkConfigs    CustomerMilkConfig[]
-  milkDeliveries MilkDelivery[]
-  payments       Payment[]
+  vendor                 Vendor                 @relation(fields: [vendorId], references: [id])
+  area                   Area                   @relation(fields: [areaId], references: [id])
+  milkConfigs            CustomerMilkConfig[]
+  milkDeliveries         MilkDelivery[]
+  payments               Payment[]
+  extraProductDeliveries ExtraProductDelivery[]
 
   @@index([vendorId])
   @@index([areaId])
@@ -163,10 +165,37 @@ model MilkDelivery {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  vendor   Vendor   @relation(fields: [vendorId], references: [id])
-  customer Customer @relation(fields: [customerId], references: [id])
+  vendor        Vendor                 @relation(fields: [vendorId], references: [id])
+  customer      Customer               @relation(fields: [customerId], references: [id])
+  extraProducts ExtraProductDelivery[]
 
   @@unique([customerId, date])
+  @@index([customerId, date])
+  @@index([vendorId, date])
+}
+
+// ─── ExtraProductDelivery (daily extra product tracking) ─────────────────────
+
+model ExtraProductDelivery {
+  id             String   @id @default(uuid()) @db.VarChar(36)
+  customerId     String   @db.VarChar(36)
+  vendorId       String   @db.VarChar(36)
+  milkDeliveryId String?  @db.VarChar(36)
+  date           DateTime @db.Date
+  productName    String   @db.VarChar(100)
+  quantity       Decimal  @db.Decimal(10, 2)
+  unit           String   @db.VarChar(20)
+  price          Decimal  @db.Decimal(10, 2)
+  notes          String?
+  createdBy      String?  @db.VarChar(36)
+  updatedBy      String?  @db.VarChar(36)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  customer     Customer      @relation(fields: [customerId], references: [id])
+  vendor       Vendor        @relation(fields: [vendorId], references: [id])
+  milkDelivery MilkDelivery? @relation(fields: [milkDeliveryId], references: [id])
+
   @@index([customerId, date])
   @@index([vendorId, date])
 }

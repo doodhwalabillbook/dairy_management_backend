@@ -30,6 +30,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/vendor', vendorAuthRoutes);
 app.use('/api/v1/vendor/dashboard', require('./modules/dashboard/dashboard.routes'));
 app.use('/api/v1/vendor/milk-delivery', milkDeliveryRoutes);
+app.use('/api/v1/vendor/extra-products', require('./modules/extra-products/extra-product.routes'));
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/companies', companyRoutes);
 app.use('/api/v1/customers', customerRoutes);

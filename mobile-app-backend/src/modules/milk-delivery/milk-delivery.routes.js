@@ -39,6 +39,114 @@ const authMiddleware = require('../../middleware/auth.middleware');
  *     responses:
  *       200:
  *         description: Generated daily list overlaid with overrides dynamically generated up to today reliably
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 customer:
+ *                   type: object
+ *                   properties:
+ *                     customerId:
+ *                       type: string
+ *                       format: uuid
+ *                     name:
+ *                       type: string
+ *                     registrationDate:
+ *                       type: string
+ *                     currentConfig:
+ *                       type: object
+ *                       nullable: true
+ *                       properties:
+ *                         morningQuantity:
+ *                           type: number
+ *                         eveningQuantity:
+ *                           type: number
+ *                         ratePerLiter:
+ *                           type: number
+ *                         effectiveFrom:
+ *                           type: string
+ *                 month:
+ *                   type: integer
+ *                 year:
+ *                   type: integer
+ *                 dateRange:
+ *                   type: object
+ *                   properties:
+ *                     startDate:
+ *                       type: string
+ *                       nullable: true
+ *                     endDate:
+ *                       type: string
+ *                       nullable: true
+ *                 summary:
+ *                   type: object
+ *                   properties:
+ *                     totalDaysMilkTaken:
+ *                       type: integer
+ *                     totalMorningMilk:
+ *                       type: number
+ *                     totalEveningMilk:
+ *                       type: number
+ *                     totalMilkDelivered:
+ *                       type: number
+ *                     baseAmount:
+ *                       type: number
+ *                     extraProductAmount:
+ *                       type: number
+ *                     openingDue:
+ *                       type: number
+ *                     advanceAmount:
+ *                       type: number
+ *                     totalAmount:
+ *                       type: number
+ *                     totalPaid:
+ *                       type: number
+ *                     remainingAmount:
+ *                       type: number
+ *                     paymentStatus:
+ *                       type: string
+ *                       enum: [PAID, UNPAID, PARTIAL]
+ *                 dailyList:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       date:
+ *                         type: string
+ *                       morningQuantity:
+ *                         type: number
+ *                       eveningQuantity:
+ *                         type: number
+ *                       total:
+ *                         type: number
+ *                       ratePerLiter:
+ *                         type: number
+ *                       amount:
+ *                         type: number
+ *                       isEdited:
+ *                         type: boolean
+ *                 extraProducts:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         format: uuid
+ *                       date:
+ *                         type: string
+ *                       productName:
+ *                         type: string
+ *                       quantity:
+ *                         type: number
+ *                       unit:
+ *                         type: string
+ *                       price:
+ *                         type: number
+ *                       notes:
+ *                         type: string
+ *                         nullable: true
  */
 router.get('/', authMiddleware, validateQuery(getMonthlyListSchema), controller.getMonthlyBadiList);
 

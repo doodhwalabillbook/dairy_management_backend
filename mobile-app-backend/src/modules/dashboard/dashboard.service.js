@@ -60,31 +60,34 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
   const globalStart    = new Date(Date.UTC(targetYear, targetMonth - 1, 1));
   const globalEnd      = today < lastDayOfMonth ? today : lastDayOfMonth;
 
-  // ── 2. Bulk fetch (3 queries) ────────────────────────────────────────────────
-  const [configs, deliveries, payments] = await Promise.all([
+  // ── 2. Bulk fetch (4 queries) ────────────────────────────────────────────────
+  const [configs, deliveries, payments, extraProducts] = await Promise.all([
     billingRepo.getConfigsForCustomers(customerIds, lastDayOfMonth),
     billingRepo.getDeliveriesForCustomers(customerIds, globalStart, globalEnd),
     billingRepo.getPaymentsForCustomers(customerIds, targetMonth, targetYear),
+    billingRepo.getExtraProductsForCustomers(customerIds, globalStart, globalEnd),
   ]);
 
   // ── 3. Group into per-customer maps ────────────────────────────────────────
-  const cfgMap = _groupById(configs,    'customerId');
-  const delMap = _groupById(deliveries, 'customerId');
-  const payMap = _groupById(payments,   'customerId');
+  const cfgMap   = _groupById(configs,       'customerId');
+  const delMap   = _groupById(deliveries,    'customerId');
+  const payMap   = _groupById(payments,      'customerId');
+  const extraMap = _groupById(extraProducts, 'customerId');
 
   // ── 4. Accumulators ─────────────────────────────────────────────────────────
   let todayMorning = 0, todayEvening = 0, todayMilk   = 0;
-  let todayEarning = 0, todayServed  = 0;
+  let todayEarning = 0, todayServed  = 0, todayExtraAmt = 0;
 
-  let monthMorning = 0, monthEvening  = 0, monthMilk   = 0;
-  let monthEarning = 0, monthOpenDue  = 0;
+  let monthMorning = 0, monthEvening  = 0, monthMilk    = 0;
+  let monthEarning = 0, monthOpenDue  = 0, monthExtraAmt = 0;
   let monthPaid    = 0, monthRemain   = 0, monthAdvance  = 0;
 
   // ── 5. Per-customer computation (pure in-memory, zero DB queries) ────────────
   for (const customer of customers) {
-    const custConfigs    = cfgMap[customer.id] || [];
-    const custDeliveries = delMap[customer.id] || [];
-    const custPayments   = payMap[customer.id] || [];
+    const custConfigs      = cfgMap[customer.id]   || [];
+    const custDeliveries   = delMap[customer.id]   || [];
+    const custPayments     = payMap[customer.id]   || [];
+    const custExtraProds   = extraMap[customer.id] || [];
 
     // Build reusable config structures (shared across today + monthly)
     const sortedConfigs = [...custConfigs].sort(
@@ -106,38 +109,55 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
     if (monthRange) {
       const calc = calculateCustomerBilling({
         customer,
-        startDate:  monthRange.startDate,
-        endDate:    monthRange.endDate,
-        configs:    custConfigs,
-        deliveries: custDeliveries,
-        payments:   custPayments,
+        startDate:     monthRange.startDate,
+        endDate:       monthRange.endDate,
+        configs:       custConfigs,
+        deliveries:    custDeliveries,
+        payments:      custPayments,
+        extraProducts: custExtraProds,
       });
 
-      monthMorning += calc.totalMorningMilk;
-      monthEvening += calc.totalEveningMilk;
-      monthMilk    += calc.totalMilkDelivered;
-      monthEarning += calc.baseAmount;
-      monthOpenDue += calc.openingDue;
-      monthAdvance += calc.advanceAmount;
-      monthPaid    += calc.paymentPaid;
-      monthRemain  += calc.remainingPayment;
+      monthMorning  += calc.totalMorningMilk;
+      monthEvening  += calc.totalEveningMilk;
+      monthMilk     += calc.totalMilkDelivered;
+      monthEarning  += calc.baseAmount;
+      monthExtraAmt += calc.extraProductAmount;
+      monthOpenDue  += calc.openingDue;
+      monthAdvance  += calc.advanceAmount;
+      monthPaid     += calc.paymentPaid;
+      monthRemain   += calc.remainingPayment;
     }
 
     // ── Today / single-date summary (Layer 1 applied inside calculateDailyMilk) ─
-    // calculateDailyMilk internally checks targetDateStr >= registrationDate
+    // Build per-date extra product map for this customer
+    const extraProductMap = {};
+    for (const ep of custExtraProds) {
+      const dateKey = toDateStr(ep.date);
+      if (!extraProductMap[dateKey]) extraProductMap[dateKey] = [];
+      extraProductMap[dateKey].push({
+        id:          ep.id,
+        productName: ep.productName,
+        quantity:    parseFloat(ep.quantity.toString()),
+        unit:        ep.unit,
+        price:       parseFloat(ep.price.toString()),
+      });
+    }
+
     const daily = calculateDailyMilk({
       customer,
       configRanges,
       deliveryMap,
       targetDateStr,
+      extraProductMap,
     });
 
-    if (daily.total > 0) {
+    if (daily.total > 0 || daily.extraProducts.length > 0) {
       todayServed++;
-      todayMorning += daily.morningQuantity;
-      todayEvening += daily.eveningQuantity;
-      todayMilk    += daily.total;
-      todayEarning += daily.amount;
+      todayMorning  += daily.morningQuantity;
+      todayEvening  += daily.eveningQuantity;
+      todayMilk     += daily.total;
+      todayEarning  += daily.amount;
+      todayExtraAmt += daily.extraProductAmount;
     }
   }
 
@@ -148,7 +168,9 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
       totalEveningMilkDelivered: parseFloat(todayEvening.toFixed(2)),
       totalMilkDelivered:        parseFloat(todayMilk.toFixed(2)),
       totalCustomersServed:      todayServed,
-      totalEarning:              parseFloat(todayEarning.toFixed(2)),
+      totalMilkEarning:          parseFloat(todayEarning.toFixed(2)),
+      totalExtraProductAmount:   parseFloat(todayExtraAmt.toFixed(2)),
+      totalEarning:              parseFloat((todayEarning + todayExtraAmt).toFixed(2)),
     },
     monthlySummary: {
       month:                     targetMonth,
@@ -156,7 +178,9 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
       totalMorningMilkDelivered: parseFloat(monthMorning.toFixed(2)),
       totalEveningMilkDelivered: parseFloat(monthEvening.toFixed(2)),
       totalMilkDelivered:        parseFloat(monthMilk.toFixed(2)),
-      totalEarning:              parseFloat(monthEarning.toFixed(2)),
+      totalMilkEarning:          parseFloat(monthEarning.toFixed(2)),
+      totalExtraProductAmount:   parseFloat(monthExtraAmt.toFixed(2)),
+      totalEarning:              parseFloat((monthEarning + monthExtraAmt).toFixed(2)),
       totalOpeningDue:           parseFloat(monthOpenDue.toFixed(2)),
       totalAdvanceAmount:        parseFloat(monthAdvance.toFixed(2)),
       totalPaymentReceived:      parseFloat(monthPaid.toFixed(2)),
