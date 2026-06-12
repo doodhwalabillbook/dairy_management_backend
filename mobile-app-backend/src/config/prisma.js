@@ -1,10 +1,8 @@
 'use strict';
 
 const { PrismaClient } = require('../generated/prisma');
-const { PrismaMariaDb } = require('@prisma/adapter-mariadb');
 
-const adapter = new PrismaMariaDb(process.env.DATABASE_URL);
-
-const prisma = new PrismaClient({ adapter });
+// Use native Prisma Client for maximum stability and MySQL 8.0 compatibility
+const prisma = new PrismaClient();
 
 module.exports = prisma;
