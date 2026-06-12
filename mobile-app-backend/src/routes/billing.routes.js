@@ -50,7 +50,7 @@ router.use(authMiddleware);
  *         name: filterType
  *         schema:
  *           type: string
- *           enum: [ALL, PAID, UNPAID]
+ *           enum: [ALL, PAID, UNPAID, PARTIAL]
  *           default: ALL
  *         description: Filter customers by payment status
  *       - in: query
@@ -113,7 +113,7 @@ router.use(authMiddleware);
  *                         type: number
  *                       paymentStatus:
  *                         type: string
- *                         enum: [PAID, UNPAID]
+ *                         enum: [PAID, UNPAID, PARTIAL]
  *       400:
  *         description: Validation error (missing/invalid month, year, or filterType)
  *         content:

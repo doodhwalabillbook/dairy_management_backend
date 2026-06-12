@@ -1,5 +1,18 @@
 const swaggerJsdoc = require('swagger-jsdoc');
 
+const nodeEnv = process.env.NODE_ENV || 'local';
+
+let swaggerUrl = 'http://localhost:3000';
+if (nodeEnv === 'production') {
+  swaggerUrl = 'https://api.doodhwalabillbook.in';
+} else if (nodeEnv === 'development') {
+  swaggerUrl = 'https://dev-api.doodhwalabillbook.in';
+} else if (process.env.SWAGGER_SERVER_URL) {
+  swaggerUrl = process.env.SWAGGER_SERVER_URL;
+} else if (process.env.PORT) {
+  swaggerUrl = `http://localhost:${process.env.PORT}`;
+}
+
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -10,7 +23,8 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: swaggerUrl,
+        description: `${nodeEnv.charAt(0).toUpperCase() + nodeEnv.slice(1)} server`,
       },
     ],
     components: {

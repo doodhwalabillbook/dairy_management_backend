@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js",
-    "prisma": "prisma"
+    "dev": "NODE_ENV=development nodemon src/server.js",
+    "dev:local": "NODE_ENV=local nodemon src/server.js",
+    "start": "NODE_ENV=production node src/server.js",
+    "prisma:dev": "NODE_ENV=development prisma",
+    "prisma:local": "NODE_ENV=local prisma",
+    "prisma:prod": "NODE_ENV=production prisma"
   },
   "keywords": [],
   "author": "",
