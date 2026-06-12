@@ -1,7 +1,12 @@
 const path = require('path');
 const dotenv = require('dotenv');
+
+// 1. Load the default .env file (if it exists)
+dotenv.config();
+
+// 2. Load the environment-specific file (if NODE_ENV is set, defaulting to 'local')
 const nodeEnv = process.env.NODE_ENV || 'local';
-dotenv.config({ path: path.resolve(process.cwd(), `.env.${nodeEnv}`) });
+dotenv.config({ path: path.resolve(process.cwd(), `.env.${nodeEnv}`), override: true });
 const express = require('express');
 const cors = require('cors');
 
