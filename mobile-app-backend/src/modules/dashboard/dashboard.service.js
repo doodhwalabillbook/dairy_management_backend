@@ -9,6 +9,9 @@ const {
   buildConfigRanges,
   toDateStr,
   utcToday,
+  sumBills,
+  deriveOpeningBalance,
+  getOpeningBalanceForMonth,
 } = require('../../services/billing.calculator');
 
 // ─── Vendor Dashboard ─────────────────────────────────────────────────────────
@@ -55,17 +58,20 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
   }
 
   const customerIds    = customers.map((c) => c.id);
+  const earliestRegDate = customers.reduce((min, c) => {
+    const regDate = new Date(c.registrationDate);
+    return regDate < min ? regDate : min;
+  }, new Date(Date.UTC(targetYear, targetMonth - 1, 1)));
+
   const lastDayOfMonth = new Date(Date.UTC(targetYear, targetMonth, 0));
-  // globalEnd: used for bulk delivery fetch (widest range for the month)
-  const globalStart    = new Date(Date.UTC(targetYear, targetMonth - 1, 1));
-  const globalEnd      = today < lastDayOfMonth ? today : lastDayOfMonth;
+  const globalEnd      = today > lastDayOfMonth ? today : lastDayOfMonth;
 
   // ── 2. Bulk fetch (4 queries) ────────────────────────────────────────────────
   const [configs, deliveries, payments, extraProducts] = await Promise.all([
-    billingRepo.getConfigsForCustomers(customerIds, lastDayOfMonth),
-    billingRepo.getDeliveriesForCustomers(customerIds, globalStart, globalEnd),
-    billingRepo.getPaymentsForCustomers(customerIds, targetMonth, targetYear),
-    billingRepo.getExtraProductsForCustomers(customerIds, globalStart, globalEnd),
+    billingRepo.getConfigsForCustomers(customerIds, globalEnd),
+    billingRepo.getDeliveriesForCustomers(customerIds, earliestRegDate, globalEnd),
+    billingRepo.getPaymentsForCustomersFromDate(customerIds, earliestRegDate),
+    billingRepo.getExtraProductsForCustomers(customerIds, earliestRegDate, globalEnd),
   ]);
 
   // ── 3. Group into per-customer maps ────────────────────────────────────────
@@ -107,14 +113,36 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
     // ── Monthly billing (Layer 1 respected via getEffectiveDateRange) ──────────
     const monthRange = getEffectiveDateRange(customer.registrationDate, targetMonth, targetYear);
     if (monthRange) {
-      const calc = calculateCustomerBilling({
+      // Calculate dynamic opening balance
+      const derivedOpening = getOpeningBalanceForMonth(
         customer,
+        targetMonth,
+        targetYear,
+        custConfigs,
+        custDeliveries,
+        custPayments,
+        custExtraProds
+      );
+
+      const derivedCustomer = {
+        ...customer,
+        remainingAmount: derivedOpening.remainingAmount,
+        advanceAmount:   derivedOpening.advanceAmount,
+      };
+
+      // Filter to target month
+      const monthDeliveries = custDeliveries.filter(d => new Date(d.date) <= lastDayOfMonth);
+      const monthExtraProducts = custExtraProds.filter(ep => new Date(ep.date) <= lastDayOfMonth);
+      const monthPayments = custPayments.filter(p => p.month === targetMonth && p.year === targetYear);
+
+      const calc = calculateCustomerBilling({
+        customer:      derivedCustomer,
         startDate:     monthRange.startDate,
         endDate:       monthRange.endDate,
         configs:       custConfigs,
-        deliveries:    custDeliveries,
-        payments:      custPayments,
-        extraProducts: custExtraProds,
+        deliveries:    monthDeliveries,
+        payments:      monthPayments,
+        extraProducts: monthExtraProducts,
       });
 
       monthMorning  += calc.totalMorningMilk;

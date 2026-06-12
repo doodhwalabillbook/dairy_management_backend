@@ -8,6 +8,10 @@ const {
   calculateCustomerBilling,
   buildConfigRanges,
   toDateStr,
+  sumBills,
+  deriveOpeningBalance,
+  utcToday,
+  getOpeningBalanceForMonth,
 } = require('../../services/billing.calculator');
 
 // ─── Monthly Bandi List ───────────────────────────────────────────────────────
@@ -53,25 +57,49 @@ const getMonthlyBadiList = async (customerId, queryMonth, queryYear, vendorId) =
 
   const { startDate, endDate } = range;
 
-  // 3. Bulk fetch (4 queries, no N+1)
-  //    Config fetch uses lastDayOfMonth as bound so ALL relevant configs are included
+  const regDate = new Date(customer.registrationDate);
   const lastDayOfMonth = new Date(Date.UTC(queryYear, queryMonth, 0));
+  const today = utcToday();
+  const globalEnd = today > lastDayOfMonth ? today : lastDayOfMonth;
+
   const [configs, deliveries, payments, extraProducts] = await Promise.all([
-    billingRepo.getConfigsForCustomers([customerId], lastDayOfMonth),
-    billingRepo.getDeliveriesForCustomers([customerId], startDate, endDate),
-    billingRepo.getPaymentsForCustomers([customerId], queryMonth, queryYear),
-    billingRepo.getExtraProductsForCustomers([customerId], startDate, endDate),
+    billingRepo.getConfigsForCustomers([customerId], globalEnd),
+    billingRepo.getDeliveriesForCustomers([customerId], regDate, globalEnd),
+    billingRepo.getPaymentsForCustomersFromDate([customerId], regDate),
+    billingRepo.getExtraProductsForCustomers([customerId], regDate, globalEnd),
   ]);
 
-  // 4. Delegate to shared billing engine (Layers 2 + 3)
-  const calc = calculateCustomerBilling({
+  // Derive dynamic opening balance
+  const derivedOpening = getOpeningBalanceForMonth(
     customer,
-    startDate,
-    endDate,
+    queryMonth,
+    queryYear,
     configs,
     deliveries,
     payments,
-    extraProducts,
+    extraProducts
+  );
+
+  const derivedCustomer = {
+    ...customer,
+    remainingAmount: derivedOpening.remainingAmount,
+    advanceAmount:   derivedOpening.advanceAmount,
+  };
+
+  // Filter to requested month
+  const monthDeliveries = deliveries.filter(d => new Date(d.date) <= lastDayOfMonth);
+  const monthExtraProducts = extraProducts.filter(ep => new Date(ep.date) <= lastDayOfMonth);
+  const monthPayments = payments.filter(p => p.month === queryMonth && p.year === queryYear);
+
+  // 4. Delegate to shared billing engine (Layers 2 + 3)
+  const calc = calculateCustomerBilling({
+    customer:      derivedCustomer,
+    startDate,
+    endDate,
+    configs,
+    deliveries:    monthDeliveries,
+    payments:      monthPayments,
+    extraProducts: monthExtraProducts,
   });
 
   // 5. Build current active config for display

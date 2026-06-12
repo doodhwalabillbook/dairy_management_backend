@@ -175,6 +175,23 @@ const getExtraProductsForCustomers = async (customerIds, startDate, endDate) => 
   });
 };
 
+/**
+ * Bulk fetch payments for multiple customers starting from a specific date.
+ *
+ * @param {string[]} customerIds
+ * @param {Date}     startDate
+ * @returns {Array<Payment>}
+ */
+const getPaymentsForCustomersFromDate = async (customerIds, startDate) => {
+  if (!customerIds.length) return [];
+  return prisma.payment.findMany({
+    where: {
+      customerId: { in: customerIds },
+      paymentDate: { gte: startDate },
+    },
+  });
+};
+
 // ─── Exports ─────────────────────────────────────────────────────────────────
 
 module.exports = {
@@ -185,6 +202,7 @@ module.exports = {
   // Delivery / Payment bulk
   getDeliveriesForCustomers,
   getPaymentsForCustomers,
+  getPaymentsForCustomersFromDate, // Bulk query by start date
   // Extra Products bulk
   getExtraProductsForCustomers,
   // Payment CRUD

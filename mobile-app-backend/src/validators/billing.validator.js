@@ -19,8 +19,8 @@ const billingQuerySchema = z.object({
   vendorId: z.string().uuid('vendorId must be a valid UUID').optional(),
 
   filterType: z
-    .enum(['ALL', 'PAID', 'UNPAID'], {
-      errorMap: () => ({ message: 'filterType must be ALL, PAID, or UNPAID' }),
+    .enum(['ALL', 'PAID', 'UNPAID', 'PARTIAL'], {
+      errorMap: () => ({ message: 'filterType must be ALL, PAID, UNPAID, or PARTIAL' }),
     })
     .default('ALL'),
 });
