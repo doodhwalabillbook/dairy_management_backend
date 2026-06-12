@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const projectRoot = path.resolve(__dirname, '..');
 
 // 1. Load the default .env file (if it exists)
-dotenv.config({ path: path.resolve(projectRoot, '.env') });
+dotenv.config({ path: path.resolve(projectRoot, '.env'), override: true });
 
 // 2. Load the environment-specific file (if NODE_ENV is set, defaulting to 'local')
 const nodeEnv = process.env.NODE_ENV || 'local';

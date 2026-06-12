@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import path from "path";
 
 // Load the default .env file first (if it exists)
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.resolve(__dirname, '.env'), override: true });
 
 // Load correct environment configuration
 const nodeEnv = process.env.NODE_ENV || 'local';
