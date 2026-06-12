@@ -4,6 +4,7 @@ const customerRepo = require('../repositories/customer.repository');
 const billingRepo  = require('../repositories/billing.repository');
 const vendorRepo   = require('../repositories/vendor.repository');
 const areaRepo     = require('../modules/area/area.repository');
+const prisma       = require('../config/prisma');
 
 // ─── Create Customer ──────────────────────────────────────────────────────────
 
@@ -83,6 +84,25 @@ const createCustomer = async (data, userId) => {
       notes:            'Advance amount at customer creation',
       createdBy:        userId || null,
       updatedBy:        userId || null,
+    });
+  }
+
+  // 8. Auto Extra Product entry for opening remaining balance
+  if (data.remainingAmount && data.remainingAmount > 0) {
+    const regDateObj = new Date(data.registrationDate + 'T00:00:00Z');
+    await prisma.extraProductDelivery.create({
+      data: {
+        customerId:       newCustomer.id,
+        vendorId:         data.vendorId,
+        date:             regDateObj,
+        productName:      'Opening Balance',
+        quantity:         1,
+        unit:             'pcs',
+        price:            data.remainingAmount,
+        notes:            'Opening balance at customer creation',
+        createdBy:        userId || null,
+        updatedBy:        userId || null,
+      }
     });
   }
 

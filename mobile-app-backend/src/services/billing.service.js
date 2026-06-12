@@ -7,6 +7,9 @@ const {
   calculateCustomerBilling,
   toDateStr,
   utcToday,
+  sumBills,
+  deriveOpeningBalance,
+  getOpeningBalanceForMonth,
 } = require('./billing.calculator');
 
 // ─── Billing Service ──────────────────────────────────────────────────────────
@@ -46,18 +49,22 @@ const getBilling = async ({ month, year, filterType, vendorId }) => {
   const customerIds = customers.map((c) => c.id);
 
   // ── 2. Global date bounds for bulk DB fetches ───────────────────────────────
-  //    We fetch from the 1st of the month (widest possible range).
-  //    Per-customer startDate is applied in-memory via getEffectiveDateRange().
-  const globalStart    = new Date(Date.UTC(year, month - 1, 1));
+  //    We fetch from the minimum registration date of the customers to support forward calculation.
+  const earliestRegDate = customers.reduce((min, c) => {
+    const regDate = new Date(c.registrationDate);
+    return regDate < min ? regDate : min;
+  }, new Date(Date.UTC(year, month - 1, 1)));
+
   const lastDayOfMonth = new Date(Date.UTC(year, month, 0));
-  const globalEnd      = utcToday() < lastDayOfMonth ? utcToday() : lastDayOfMonth;
+  const today          = utcToday();
+  const globalEnd      = today > lastDayOfMonth ? today : lastDayOfMonth;
 
   // ── 3. Bulk fetch (4 queries, no N+1) ──────────────────────────────────────
   const [configs, deliveries, payments, extraProducts] = await Promise.all([
-    billingRepo.getConfigsForCustomers(customerIds, lastDayOfMonth),
-    billingRepo.getDeliveriesForCustomers(customerIds, globalStart, globalEnd),
-    billingRepo.getPaymentsForCustomers(customerIds, month, year),
-    billingRepo.getExtraProductsForCustomers(customerIds, globalStart, globalEnd),
+    billingRepo.getConfigsForCustomers(customerIds, globalEnd),
+    billingRepo.getDeliveriesForCustomers(customerIds, earliestRegDate, globalEnd),
+    billingRepo.getPaymentsForCustomersFromDate(customerIds, earliestRegDate),
+    billingRepo.getExtraProductsForCustomers(customerIds, earliestRegDate, globalEnd),
   ]);
 
   // ── 4. Group into per-customer maps { customerId → [...] } ──────────────────
@@ -76,15 +83,42 @@ const getBilling = async ({ month, year, filterType, vendorId }) => {
     // Skip customers not yet registered in this billing period
     if (!range) continue;
 
+    const custConfigs   = cfgMap[customer.id]   || [];
+    const custDeliveries  = delMap[customer.id]   || [];
+    const custPayments      = payMap[customer.id]      || [];
+    const custExtraProds = extraMap[customer.id] || [];
+
+    // Calculate dynamic opening balance using forward calculator
+    const derivedOpening = getOpeningBalanceForMonth(
+      customer,
+      month,
+      year,
+      custConfigs,
+      custDeliveries,
+      custPayments,
+      custExtraProds
+    );
+
+    const derivedCustomer = {
+      ...customer,
+      remainingAmount: derivedOpening.remainingAmount,
+      advanceAmount:   derivedOpening.advanceAmount,
+    };
+
+    // Filter to requested month
+    const monthDeliveries = custDeliveries.filter(d => new Date(d.date) <= lastDayOfMonth);
+    const monthExtraProducts = custExtraProds.filter(ep => new Date(ep.date) <= lastDayOfMonth);
+    const monthPayments = custPayments.filter(p => p.month === month && p.year === year);
+
     customersInfo.push(
       calculateCustomerBilling({
-        customer,
+        customer:      derivedCustomer,
         startDate:     range.startDate,
         endDate:       range.endDate,
-        configs:       cfgMap[customer.id]   || [],
-        deliveries:    delMap[customer.id]   || [],
-        payments:      payMap[customer.id]   || [],
-        extraProducts: extraMap[customer.id] || [],
+        configs:       custConfigs,
+        deliveries:    monthDeliveries,
+        payments:      monthPayments,
+        extraProducts: monthExtraProducts,
       })
     );
   }
@@ -154,31 +188,68 @@ const recordPayment = async (data, userId) => {
       paymentStatus:   'PAID',
     };
   }
+  const regDate = new Date(customer.registrationDate);
+  const today = utcToday();
+  const globalEnd = today > lastDayOfMonth ? today : lastDayOfMonth;
 
   const [configs, deliveries, payments, extraProducts] = await Promise.all([
-    billingRepo.getConfigsForCustomers([data.customerId], lastDayOfMonth),
-    billingRepo.getDeliveriesForCustomers([data.customerId], range.startDate, range.endDate),
-    billingRepo.getPaymentsForCustomers([data.customerId], data.month, data.year),
-    billingRepo.getExtraProductsForCustomers([data.customerId], range.startDate, range.endDate),
+    billingRepo.getConfigsForCustomers([data.customerId], globalEnd),
+    billingRepo.getDeliveriesForCustomers([data.customerId], regDate, globalEnd),
+    billingRepo.getPaymentsForCustomersFromDate([data.customerId], regDate),
+    billingRepo.getExtraProductsForCustomers([data.customerId], regDate, globalEnd),
   ]);
 
-  const calc = calculateCustomerBilling({
-    customer,
-    startDate:     range.startDate,
-    endDate:       range.endDate,
+  // 3. Calculate live outstanding balance as of today (to save in DB)
+  const liveCalc = calculateCustomerBilling({
+    customer: { ...customer, remainingAmount: 0, advanceAmount: 0 },
+    startDate: regDate,
+    endDate: today,
     configs,
     deliveries,
-    payments,
+    payments, // includes the newly recorded payment
     extraProducts,
   });
 
-  // 4. Update customer's advanceAmount in the database if overpaid
-  if (calc.advanceAmount !== undefined && calc.advanceAmount !== parseFloat(customer.advanceAmount?.toString() || '0')) {
-    await prisma.customer.update({
-      where: { id: data.customerId },
-      data: { advanceAmount: calc.advanceAmount }
-    });
-  }
+  // 4. Update customer's remainingAmount and advanceAmount in the database
+  await prisma.customer.update({
+    where: { id: data.customerId },
+    data: {
+      remainingAmount: liveCalc.remainingPayment,
+      advanceAmount:   liveCalc.advanceAmount,
+    }
+  });
+
+  // 5. Calculate monthly billing for return summary
+  const derivedOpening = getOpeningBalanceForMonth(
+    customer,
+    data.month,
+    data.year,
+    configs,
+    deliveries,
+    payments,
+    extraProducts
+  );
+
+  const derivedCustomer = {
+    ...customer,
+    remainingAmount: derivedOpening.remainingAmount,
+    advanceAmount:   derivedOpening.advanceAmount,
+  };
+
+  // Filter to requested month
+  const monthDeliveries = deliveries.filter(d => new Date(d.date) <= lastDayOfMonth);
+  const monthExtraProducts = extraProducts.filter(ep => new Date(ep.date) <= lastDayOfMonth);
+  const monthPayments = payments.filter(p => p.month === data.month && p.year === data.year);
+
+  const calc = calculateCustomerBilling({
+    customer:      derivedCustomer,
+    startDate:     range.startDate,
+    endDate:       range.endDate,
+    configs,
+    deliveries:    monthDeliveries,
+    payments:      monthPayments,
+    extraProducts: monthExtraProducts,
+  });
 
   return {
     customerId:      data.customerId,

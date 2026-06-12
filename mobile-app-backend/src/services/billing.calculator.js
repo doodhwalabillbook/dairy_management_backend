@@ -404,6 +404,111 @@ const calculateDailyMilk = ({ customer, configRanges, deliveryMap, targetDateStr
   };
 };
 
+// ─── Opening Balance Derivation Helpers ──────────────────────────────────────
+
+/**
+ * Sum the total billing amount (milk deliveries + extra products) for a customer
+ * across a date range and specific array of deliveries/extra products, using versioned configs.
+ * Delegates directly to calculateCustomerBilling to ensure fallback defaults are correctly calculated.
+ *
+ * @param {Date|string} startDate
+ * @param {Date|string} endDate
+ * @param {Array}       deliveries    - MilkDelivery rows
+ * @param {Array}       extraProducts - ExtraProductDelivery rows
+ * @param {Array}       configs       - CustomerMilkConfig rows
+ * @returns {number} Summed total bill amount
+ */
+const sumBills = (startDate, endDate, deliveries, extraProducts, configs) => {
+  if (toDateStr(startDate) > toDateStr(endDate)) return 0;
+
+  const calc = calculateCustomerBilling({
+    customer: { registrationDate: startDate, remainingAmount: 0, advanceAmount: 0 },
+    startDate,
+    endDate,
+    configs,
+    deliveries,
+    payments: [],
+    extraProducts,
+  });
+
+  return parseFloat((calc.baseAmount + calc.extraProductAmount).toFixed(2));
+};
+
+/**
+ * Derive the opening balance (remainingAmount and advanceAmount) for a customer
+ * at the start of a requested billing period by reversing all transactions from
+ * the start of that period up to today.
+ *
+ * @param {Object} customer          - Customer record (has live DB values)
+ * @param {number} billsFromStart    - Sum of all bills (milk + extra products) from start of period to today
+ * @param {number} paymentsFromStart - Sum of all payments from start of period to today
+ * @returns {{ remainingAmount: number, advanceAmount: number }}
+ */
+const deriveOpeningBalance = (customer, billsFromStart, paymentsFromStart) => {
+  const liveRemaining = parseFloat((customer.remainingAmount || 0).toString());
+  const liveAdvance   = parseFloat((customer.advanceAmount || 0).toString());
+  const liveBalance   = liveRemaining - liveAdvance;
+
+  const openingNetDue = liveBalance - billsFromStart + paymentsFromStart;
+
+  let remainingAmount = 0;
+  let advanceAmount = 0;
+  if (openingNetDue > 0) {
+    remainingAmount = parseFloat(openingNetDue.toFixed(2));
+  } else if (openingNetDue < 0) {
+    advanceAmount = parseFloat(Math.abs(openingNetDue).toFixed(2));
+  }
+
+  return { remainingAmount, advanceAmount };
+};
+
+/**
+ * Calculate the opening balance for a customer dynamically as of the start of the queried month.
+ * Runs the billing forward from the customer's registration date to the last day of the prior month.
+ */
+const getOpeningBalanceForMonth = (customer, month, year, configs, deliveries, payments, extraProducts) => {
+  const regDateStr = toDateStr(customer.registrationDate);
+  const regDate = new Date(regDateStr + 'T00:00:00Z');
+  const globalStart = new Date(Date.UTC(year, month - 1, 1));
+
+  // If registration date is >= start of queried month, opening balance is 0
+  if (globalStart <= regDate) {
+    return { remainingAmount: 0, advanceAmount: 0 };
+  }
+
+  const endOfPriorMonth = new Date(Date.UTC(year, month - 1, 0)); // last day of prior month
+  const endOfPriorMonthStr = toDateStr(endOfPriorMonth);
+
+  // Filter transactions in range [regDate, endOfPriorMonth]
+  const deliveriesPrior = deliveries.filter(d => {
+    const dStr = toDateStr(d.date);
+    return dStr >= regDateStr && dStr <= endOfPriorMonthStr;
+  });
+  const extraProductsPrior = extraProducts.filter(ep => {
+    const epStr = toDateStr(ep.date);
+    return epStr >= regDateStr && epStr <= endOfPriorMonthStr;
+  });
+  const paymentsPrior = payments.filter(p => {
+    const pStr = toDateStr(p.paymentDate);
+    return pStr >= regDateStr && pStr <= endOfPriorMonthStr;
+  });
+
+  const calc = calculateCustomerBilling({
+    customer: { ...customer, remainingAmount: 0, advanceAmount: 0 },
+    startDate: regDate,
+    endDate: endOfPriorMonth,
+    configs,
+    deliveries: deliveriesPrior,
+    payments: paymentsPrior,
+    extraProducts: extraProductsPrior,
+  });
+
+  return {
+    remainingAmount: calc.remainingPayment,
+    advanceAmount: calc.advanceAmount,
+  };
+};
+
 // ─── Exports ─────────────────────────────────────────────────────────────────
 
 module.exports = {
@@ -411,6 +516,9 @@ module.exports = {
   getEffectiveDateRange,     // Layer 1 helper — use this in ALL services
   calculateCustomerBilling,  // Main billing engine
   calculateDailyMilk,        // Single-day helper for dashboard
+  sumBills,                  // Dynamic billing sum helper
+  deriveOpeningBalance,      // Opening balance derivation helper
+  getOpeningBalanceForMonth, // Dynamic opening balance loader
   // Internals (exported for reuse in dashboard)
   buildConfigRanges,
   findConfigForDate,
