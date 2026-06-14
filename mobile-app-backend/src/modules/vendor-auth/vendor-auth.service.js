@@ -1,6 +1,7 @@
 const vendorRepository = require('../../repositories/vendor.repository');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const subscriptionStateService = require('../subscription/services/subscription-state.service');
 
 const login = async (mobileNumber, pin) => {
   const vendor = await vendorRepository.findVendorByMobileWithUser(mobileNumber);
@@ -44,14 +45,24 @@ const login = async (mobileNumber, pin) => {
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
   );
 
+  const subscriptionSummary = await subscriptionStateService.getSubscriptionState(vendor.id);
+
   return {
+    token,
+    vendor: {
+      id: vendor.id,
+      name: vendor.name,
+      mobileNumber: vendor.mobileNumber,
+      status: vendor.status
+    },
     data: {
       vendorId: vendor.id,
       name: vendor.name,
       mobileNumber: vendor.mobileNumber,
       status: vendor.status,
       token
-    }
+    },
+    subscription: subscriptionSummary
   };
 };
 

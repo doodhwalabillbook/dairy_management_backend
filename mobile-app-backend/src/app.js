@@ -3,12 +3,14 @@ const dotenv = require('dotenv');
 
 const projectRoot = path.resolve(__dirname, '..');
 
-// 1. Load the default .env file (if it exists)
-dotenv.config({ path: path.resolve(projectRoot, '.env'), override: true });
-
-// 2. Load the environment-specific file (if NODE_ENV is set, defaulting to 'local')
+// 1. Determine NODE_ENV first from the process environment (defaulting to 'local')
 const nodeEnv = process.env.NODE_ENV || 'local';
+
+// 2. Load the environment-specific file (e.g. .env.local or .env.development) with override: true
 dotenv.config({ path: path.resolve(projectRoot, `.env.${nodeEnv}`), override: true });
+
+// 3. Load the default .env file, but do NOT override already defined process environment variables
+dotenv.config({ path: path.resolve(projectRoot, '.env'), override: false });
 const express = require('express');
 const cors = require('cors');
 
@@ -45,6 +47,11 @@ app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/companies', companyRoutes);
 app.use('/api/v1/customers', customerRoutes);
 app.use('/api/v1/billing', billingRoutes);
+
+// Subscription and Settings Routes
+app.use('/api/subscriptions', require('./modules/subscription/routes/vendor-subscription.routes'));
+app.use('/api/admin/subscriptions', require('./modules/subscription/routes/admin-subscription.routes'));
+app.use('/api/admin', require('./modules/system-settings/routes/system-settings.routes'));
 
 app.get('/api/v1/profile', authMiddleware, (req, res) => {
   res.json({ user: req.user });

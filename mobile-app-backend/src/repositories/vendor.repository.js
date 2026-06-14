@@ -70,6 +70,39 @@ const createVendorWithUser = async (userData, vendorData) => {
       },
     });
 
+    // Auto-assign FREE subscription plan on registration
+    const freePlan = await tx.subscriptionPlan.findUnique({
+      where: { planCode: 'FREE' }
+    });
+
+    if (!freePlan) {
+      throw new Error('System Error: Default FREE subscription plan not seeded');
+    }
+
+    const startDate = new Date();
+    const expiryDate = new Date();
+    expiryDate.setDate(startDate.getDate() + (freePlan.durationDays || 30));
+
+    await tx.vendorSubscription.create({
+      data: {
+        vendorId: vendor.id,
+        planId: freePlan.id,
+        status: 'ACTIVE',
+        startDate,
+        expiryDate
+      }
+    });
+
+    await tx.subscriptionHistory.create({
+      data: {
+        vendorId: vendor.id,
+        oldPlanId: null,
+        newPlanId: freePlan.id,
+        action: 'INIT',
+        performedBy: user.id
+      }
+    });
+
     return { user, vendor };
   });
 };
