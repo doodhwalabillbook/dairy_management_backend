@@ -3,12 +3,14 @@ const dotenv = require('dotenv');
 
 const projectRoot = path.resolve(__dirname, '..');
 
-// 1. Load default env
-dotenv.config({ path: path.resolve(projectRoot, '.env'), override: true });
-
-// 2. Load env-specific configuration
+// 1. Determine NODE_ENV first from the process environment (defaulting to 'local')
 const nodeEnv = process.env.NODE_ENV || 'local';
+
+// 2. Load the environment-specific file (e.g. .env.local or .env.development) with override: true
 dotenv.config({ path: path.resolve(projectRoot, `.env.${nodeEnv}`), override: true });
+
+// 3. Load the default .env file next, but do NOT override already defined process environment variables
+dotenv.config({ path: path.resolve(projectRoot, '.env'), override: false });
 
 const { PrismaClient } = require('../src/generated/prisma');
 const { PrismaMariaDb } = require('@prisma/adapter-mariadb');
