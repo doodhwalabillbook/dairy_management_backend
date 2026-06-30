@@ -20,4 +20,21 @@ const companyExists = async (name) => prisma.company.findFirst({
   where: { name },
 });
 
-module.exports = { createCompany, findAllCompanies, findCompanyById, companyExists };
+const updateCompany = async (id, data) => prisma.company.update({
+  where: { id },
+  data,
+});
+
+const softDeleteCompany = async (id) => prisma.company.update({
+  where: { id },
+  data: { isActive: false },
+});
+
+module.exports = { 
+  createCompany, 
+  findAllCompanies, 
+  findCompanyById, 
+  companyExists,
+  updateCompany,
+  softDeleteCompany
+};

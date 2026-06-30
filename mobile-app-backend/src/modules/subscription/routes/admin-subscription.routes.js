@@ -5,7 +5,12 @@ const router = express.Router();
 const controller = require('../controllers/admin-subscription.controller');
 const authMiddleware = require('../../../middleware/auth.middleware');
 const adminRoleMiddleware = require('../middlewares/admin-role.middleware');
-const { rejectRequestSchema } = require('../validators/subscription.validator');
+const { 
+  rejectRequestSchema,
+  createPlanSchema,
+  updatePlanSchema,
+  togglePlanStatusSchema
+} = require('../validators/subscription.validator');
 
 const validateRequest = (schema) => (req, res, next) => {
   try {
@@ -126,5 +131,151 @@ router.put('/requests/:id/reject', validateRequest(rejectRequestSchema), control
  *         description: List of all vendor subscriptions
  */
 router.get('/vendors', controller.getVendors);
+
+/**
+ * @swagger
+ * /api/admin/subscriptions/plans:
+ *   get:
+ *     summary: Get all subscription plans including inactive ones (Admin only)
+ *     tags: [Admin Subscriptions]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all subscription plans
+ */
+router.get('/plans', controller.getPlans);
+
+/**
+ * @swagger
+ * /api/admin/subscriptions/plans:
+ *   post:
+ *     summary: Create a new subscription plan (Admin only)
+ *     tags: [Admin Subscriptions]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - planCode
+ *               - planName
+ *               - price
+ *             properties:
+ *               planCode:
+ *                 type: string
+ *               planName:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               customerLimit:
+ *                 type: integer
+ *               durationDays:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Subscription plan created successfully
+ */
+router.post('/plans', validateRequest(createPlanSchema), controller.createPlan);
+
+/**
+ * @swagger
+ * /api/admin/subscriptions/plans/{id}:
+ *   put:
+ *     summary: Update an existing subscription plan (Admin only)
+ *     tags: [Admin Subscriptions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               planName:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               customerLimit:
+ *                 type: integer
+ *               durationDays:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Subscription plan updated successfully
+ */
+router.put('/plans/:id', validateRequest(updatePlanSchema), controller.updatePlan);
+
+/**
+ * @swagger
+ * /api/admin/subscriptions/plans/{id}/status:
+ *   patch:
+ *     summary: Activate or deactivate a subscription plan (Admin only)
+ *     tags: [Admin Subscriptions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - isActive
+ *             properties:
+ *               isActive:
+ *                 type: boolean
+ *     responses:
+ *       200:
+ *         description: Plan status updated successfully
+ */
+router.patch('/plans/:id/status', validateRequest(togglePlanStatusSchema), controller.togglePlanStatus);
+
+/**
+ * @swagger
+ * /api/admin/subscriptions/history:
+ *   get:
+ *     summary: Get global subscription history logs (Admin only)
+ *     tags: [Admin Subscriptions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Global audit history logs
+ */
+router.get('/history', controller.getSubscriptionHistory);
 
 module.exports = router;

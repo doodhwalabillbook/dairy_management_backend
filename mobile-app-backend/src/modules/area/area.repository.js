@@ -86,10 +86,11 @@ const getCustomersByAreaId = async (areaId, { page = 1, size = 10, search, statu
         name: true,
         phone: true,
         address: true,
-        ratePerLiter: true,
-        morningQuantity: true,
-        eveningQuantity: true,
-        isActive: true
+        isActive: true,
+        milkConfigs: {
+          orderBy: { effectiveFrom: 'desc' },
+          take: 1
+        }
       }
     }),
     prisma.customer.count({ where })

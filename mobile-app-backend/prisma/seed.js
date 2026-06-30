@@ -110,6 +110,33 @@ async function main() {
     console.log(`Upserted system setting: ${upsertedSetting.settingKey}`);
   }
 
+  // 3. Seed Default Super Admin
+  const bcrypt = require('bcrypt');
+  const pinHash = await bcrypt.hash('123456', 10);
+  const passwordHash = await bcrypt.hash('AdminPassword123', 10);
+  const adminMobile = '9999999999';
+  const adminEmail = 'admin@dairytrack.com';
+
+  const upsertedAdmin = await prisma.user.upsert({
+    where: { mobile: adminMobile },
+    update: {
+      email: adminEmail,
+      passwordHash: passwordHash,
+      role: 'ADMIN',
+      name: 'Super Admin'
+    },
+    create: {
+      mobile: adminMobile,
+      name: 'Super Admin',
+      pinHash: pinHash,
+      email: adminEmail,
+      passwordHash: passwordHash,
+      role: 'ADMIN',
+      isActive: true
+    }
+  });
+  console.log(`Upserted default admin: ${upsertedAdmin.email} (${upsertedAdmin.mobile})`);
+
   console.log('✅ Seeding completed successfully!');
 }
 

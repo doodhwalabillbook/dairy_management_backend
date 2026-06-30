@@ -4,6 +4,9 @@ const subscriptionStateService = require('../services/subscription-state.service
 
 const customerLimitMiddleware = async (req, res, next) => {
   try {
+    if (req.user && req.user.role === 'ADMIN') {
+      return next();
+    }
     const vendorId = req.user.vendorId;
     if (!vendorId) {
       return res.status(400).json({

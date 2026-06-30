@@ -82,6 +82,36 @@ const changeStatus = async (req, res) => {
   }
 };
 
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const result = await adminService.loginAdmin(email, password);
+    res.json({ message: 'Login successful', ...result });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const result = await adminService.forgotPasswordAdmin(email);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const { email, token, newPassword } = req.body;
+    const result = await adminService.resetPasswordAdmin(email, token, newPassword);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   registerVendor,
   provisionVendor,
@@ -90,5 +120,8 @@ module.exports = {
   getVendor,
   updateVendor,
   deleteVendor,
-  changeStatus
+  changeStatus,
+  login,
+  forgotPassword,
+  resetPassword
 };

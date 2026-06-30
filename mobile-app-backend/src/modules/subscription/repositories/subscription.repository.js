@@ -84,6 +84,67 @@ const getAllVendorSubscriptions = async () => {
   });
 };
 
+const getAdminPlans = async () => {
+  return prisma.subscriptionPlan.findMany({
+    orderBy: { price: 'asc' }
+  });
+};
+
+const getPlanByCode = async (planCode) => {
+  return prisma.subscriptionPlan.findUnique({
+    where: { planCode }
+  });
+};
+
+const createPlan = async (data) => {
+  return prisma.subscriptionPlan.create({
+    data: {
+      planCode: data.planCode,
+      planName: data.planName,
+      description: data.description,
+      price: data.price,
+      customerLimit: data.customerLimit,
+      durationDays: data.durationDays,
+      isActive: true
+    }
+  });
+};
+
+const updatePlan = async (id, data) => {
+  return prisma.subscriptionPlan.update({
+    where: { id },
+    data
+  });
+};
+
+const getGlobalHistory = async ({ page = 1, limit = 20, search = '' }) => {
+  const skip = (page - 1) * limit;
+  const where = search ? {
+    OR: [
+      { vendor: { name: { contains: search } } },
+      { newPlan: { planName: { contains: search } } },
+      { action: { contains: search } }
+    ]
+  } : {};
+
+  const [total, items] = await Promise.all([
+    prisma.subscriptionHistory.count({ where }),
+    prisma.subscriptionHistory.findMany({
+      where,
+      skip,
+      take: limit,
+      include: {
+        vendor: true,
+        oldPlan: true,
+        newPlan: true
+      },
+      orderBy: { createdAt: 'desc' }
+    })
+  ]);
+
+  return { total, page, limit, items };
+};
+
 module.exports = {
   getPlans,
   getPlanById,
@@ -93,5 +154,10 @@ module.exports = {
   createSubscriptionRequest,
   getPendingRequests,
   getRequestById,
-  getAllVendorSubscriptions
+  getAllVendorSubscriptions,
+  getAdminPlans,
+  getPlanByCode,
+  createPlan,
+  updatePlan,
+  getGlobalHistory
 };

@@ -92,16 +92,19 @@ const getCustomersByArea = async (areaId, queryParams) => {
       areaId: area.id,
       name: area.name
     },
-    customers: result.customers.map(c => ({
-      customerId: c.id,
-      name: c.name,
-      mobileNumber: c.phone, // alias for standard mapping compatibility requirement
-      address: c.address,
-      ratePerLiter: c.ratePerLiter,
-      morningQuantity: c.morningQuantity,
-      eveningQuantity: c.eveningQuantity,
-      isActive: c.isActive
-    })),
+    customers: result.customers.map(c => {
+      const latestConfig = c.milkConfigs?.[0] || {};
+      return {
+        customerId: c.id,
+        name: c.name,
+        mobileNumber: c.phone, // alias for standard mapping compatibility requirement
+        address: c.address,
+        ratePerLiter: latestConfig.ratePerLiter !== undefined ? Number(latestConfig.ratePerLiter) : 0,
+        morningQuantity: latestConfig.morningQuantity !== undefined ? Number(latestConfig.morningQuantity) : 0,
+        eveningQuantity: latestConfig.eveningQuantity !== undefined ? Number(latestConfig.eveningQuantity) : 0,
+        isActive: c.isActive
+      };
+    }),
     pagination: {
       page: queryParams.page,
       size: queryParams.size,

@@ -52,6 +52,7 @@ app.use('/api/v1/billing', billingRoutes);
 app.use('/api/subscriptions', require('./modules/subscription/routes/vendor-subscription.routes'));
 app.use('/api/admin/subscriptions', require('./modules/subscription/routes/admin-subscription.routes'));
 app.use('/api/admin', require('./modules/system-settings/routes/system-settings.routes'));
+app.use('/api/admin/dashboard', require('./modules/dashboard/routes/admin-dashboard.routes'));
 
 app.get('/api/v1/profile', authMiddleware, (req, res) => {
   res.json({ user: req.user });

@@ -111,6 +111,36 @@ const getVendorById = async (id) => {
   return vendor;
 };
 
+const updateCompany = async (id, data) => {
+  const company = await companyRepo.findCompanyById(id);
+  if (!company) {
+    const error = new Error('Company not found');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (data.name && data.name !== company.name) {
+    const existing = await companyRepo.companyExists(data.name);
+    if (existing) {
+      const error = new Error('Company name already exists');
+      error.statusCode = 409;
+      throw error;
+    }
+  }
+
+  return companyRepo.updateCompany(id, data);
+};
+
+const deleteCompany = async (id) => {
+  const company = await companyRepo.findCompanyById(id);
+  if (!company) {
+    const error = new Error('Company not found');
+    error.statusCode = 404;
+    throw error;
+  }
+  return companyRepo.softDeleteCompany(id);
+};
+
 module.exports = {
   registerCompany,
   getAllCompanies,
@@ -119,4 +149,6 @@ module.exports = {
   getVendorsByCompany,
   getAllVendors,
   getVendorById,
+  updateCompany,
+  deleteCompany
 };

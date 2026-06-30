@@ -234,6 +234,37 @@ const getAllVendorSubscriptions = async () => {
   return subscriptionRepo.getAllVendorSubscriptions();
 };
 
+const getAdminPlans = async () => {
+  return subscriptionRepo.getAdminPlans();
+};
+
+const createSubscriptionPlan = async (data) => {
+  const existing = await subscriptionRepo.getPlanByCode(data.planCode);
+  if (existing) {
+    const error = new Error('Subscription plan with this planCode already exists');
+    error.statusCode = 409;
+    throw error;
+  }
+  return subscriptionRepo.createPlan(data);
+};
+
+const updateSubscriptionPlan = async (id, data) => {
+  const plan = await subscriptionRepo.getPlanById(id);
+  if (!plan) {
+    const error = new Error('Subscription plan not found');
+    error.statusCode = 404;
+    throw error;
+  }
+  return subscriptionRepo.updatePlan(id, data);
+};
+
+const getGlobalHistory = async (query) => {
+  const page = parseInt(query.page, 10) || 1;
+  const limit = parseInt(query.limit, 10) || 20;
+  const search = query.search || '';
+  return subscriptionRepo.getGlobalHistory({ page, limit, search });
+};
+
 module.exports = {
   getPlans,
   getCurrentSubscription,
@@ -246,5 +277,9 @@ module.exports = {
   getRequestById,
   approveSubscriptionRequest,
   rejectSubscriptionRequest,
-  getAllVendorSubscriptions
+  getAllVendorSubscriptions,
+  getAdminPlans,
+  createSubscriptionPlan,
+  updateSubscriptionPlan,
+  getGlobalHistory
 };

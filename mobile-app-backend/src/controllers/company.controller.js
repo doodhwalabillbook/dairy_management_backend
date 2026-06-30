@@ -63,6 +63,24 @@ const getVendorById = async (req, res, next) => {
   }
 };
 
+const updateCompany = async (req, res, next) => {
+  try {
+    const company = await companyService.updateCompany(req.params.id, req.body);
+    res.json({ success: true, message: 'Company updated successfully', data: company });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteCompany = async (req, res, next) => {
+  try {
+    await companyService.deleteCompany(req.params.id);
+    res.json({ success: true, message: 'Company deactivated successfully' });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   registerCompany,
   getAllCompanies,
@@ -71,4 +89,6 @@ module.exports = {
   getVendorsByCompany,
   getAllVendors,
   getVendorById,
+  updateCompany,
+  deleteCompany
 };

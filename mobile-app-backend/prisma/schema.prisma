@@ -31,14 +31,16 @@ enum PaymentMode {
 // ─── Auth ────────────────────────────────────────────────────────────────────
 
 model User {
-  id        String   @id @default(uuid()) @db.VarChar(36)
-  mobile    String   @unique @db.VarChar(15)
-  name      String
-  pinHash   String
-  role      Role     @default(VENDOR)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid()) @db.VarChar(36)
+  mobile       String   @unique @db.VarChar(15)
+  name         String
+  pinHash      String
+  role         Role     @default(VENDOR)
+  email        String?  @unique @db.VarChar(255)
+  passwordHash String?  @db.VarChar(255)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   vendor Vendor?
 }
