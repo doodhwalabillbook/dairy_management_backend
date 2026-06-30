@@ -75,13 +75,60 @@ const getRequestById = async (id) => {
 };
 
 const getAllVendorSubscriptions = async () => {
-  return prisma.vendorSubscription.findMany({
+  const vendors = await prisma.vendor.findMany({
     include: {
-      vendor: true,
-      plan: true
-    },
-    orderBy: { expiryDate: 'asc' }
+      subscriptions: {
+        include: { plan: true },
+        orderBy: { expiryDate: 'desc' }
+      }
+    }
   });
+
+  const graceSetting = await prisma.systemSetting.findUnique({ where: { settingKey: 'SUBSCRIPTION_GRACE_PERIOD_DAYS' } });
+  const gracePeriodDays = parseInt(graceSetting?.settingValue || '7', 10);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const mapped = vendors.map(vendor => {
+    const latestSub = vendor.subscriptions[0];
+    
+    if (!latestSub) {
+      return {
+        id: `no-sub-${vendor.id}`,
+        status: 'EXPIRED',
+        startDate: null,
+        expiryDate: null,
+        vendor: { name: vendor.name },
+        plan: { planName: 'NONE' }
+      };
+    }
+
+    let status = latestSub.status;
+    if (status === 'ACTIVE') {
+      const expiryDate = new Date(latestSub.expiryDate);
+      expiryDate.setHours(0, 0, 0, 0);
+
+      const graceExpiryDate = new Date(expiryDate);
+      graceExpiryDate.setDate(graceExpiryDate.getDate() + gracePeriodDays);
+
+      if (today > graceExpiryDate) {
+        status = 'EXPIRED';
+      } else if (today > expiryDate) {
+        status = 'GRACE_PERIOD';
+      }
+    }
+
+    return {
+      id: latestSub.id,
+      status,
+      startDate: latestSub.startDate,
+      expiryDate: latestSub.expiryDate,
+      vendor: { name: vendor.name },
+      plan: { planName: latestSub.plan.planName }
+    };
+  });
+
+  return mapped;
 };
 
 const getAdminPlans = async () => {
