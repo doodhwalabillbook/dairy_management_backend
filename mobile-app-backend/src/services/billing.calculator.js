@@ -18,6 +18,8 @@
  * @module billing.calculator
  */
 
+const { calculateBill, convertMlToLitre } = require('../utils/milk.utils');
+
 // ─── Date Utility ─────────────────────────────────────────────────────────────
 
 /**
@@ -255,7 +257,7 @@ const calculateCustomerBilling = ({
 
       const rate      = cfg.ratePerLiter;
       const dayTotal  = morning + evening;
-      const dayAmount = parseFloat((dayTotal * rate).toFixed(4));
+      const dayAmount = calculateBill(dayTotal, rate);
 
       // ── Extra products for this day ──
       const dayExtraProducts = extraProductsByDate[dateStr] || [];
@@ -384,7 +386,7 @@ const calculateDailyMilk = ({ customer, configRanges, deliveryMap, targetDateStr
   }
 
   const total  = morning + evening;
-  const amount = parseFloat((total * cfg.ratePerLiter).toFixed(2));
+  const amount = calculateBill(total, cfg.ratePerLiter);
 
   // ── Extra products for this day ──
   const dayExtraProducts = extraProductMap[targetDateStr] || [];

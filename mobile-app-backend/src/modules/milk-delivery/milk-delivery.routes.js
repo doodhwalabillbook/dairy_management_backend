@@ -178,10 +178,10 @@ router.get('/', authMiddleware, validateQuery(getMonthlyListSchema), controller.
  *                 example: "2026-03-24"
  *               morningQuantity:
  *                 type: number
- *                 example: 5
+ *                 example: 500
  *               eveningQuantity:
  *                 type: number
- *                 example: 2
+ *                 example: 250
  *     responses:
  *       200:
  *         description: Updated properly securely mapped

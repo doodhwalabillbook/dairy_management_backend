@@ -65,12 +65,12 @@ router.use(authMiddleware);
  *                 type: number
  *                 format: float
  *                 default: 0
- *                 example: 1.5
+ *                 example: 500
  *               eveningQuantity:
  *                 type: number
  *                 format: float
  *                 default: 0
- *                 example: 1.0
+ *                 example: 1000
  *               registrationDate:
  *                 type: string
  *                 format: date
