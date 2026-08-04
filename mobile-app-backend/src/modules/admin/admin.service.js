@@ -172,6 +172,137 @@ const changeVendorStatus = async (vendorId, status) => {
   return vendorRepository.updateVendorStatus(vendorId, status);
 };
 
+const loginAdmin = async (email, password) => {
+  const jwt = require('jsonwebtoken');
+  
+  const user = await prisma.user.findUnique({
+    where: { email }
+  });
+
+  if (!user || user.role !== 'ADMIN') {
+    const error = new Error('Invalid credentials');
+    error.statusCode = 401;
+    throw error;
+  }
+
+  if (!user.isActive) {
+    const error = new Error('Account deactivated');
+    error.statusCode = 403;
+    throw error;
+  }
+
+  if (!user.passwordHash) {
+    const error = new Error('Password credentials not set up. Please use Mobile/PIN login first.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const isMatch = await bcrypt.compare(password, user.passwordHash);
+  if (!isMatch) {
+    const error = new Error('Invalid credentials');
+    error.statusCode = 401;
+    throw error;
+  }
+
+  const payload = {
+    id: user.id,
+    userId: user.id,
+    vendorId: null,
+    email: user.email,
+    mobile: user.mobile,
+    role: user.role
+  };
+
+  const token = jwt.sign(
+    payload,
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+  );
+
+  return {
+    token,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      mobileNumber: user.mobile,
+      role: user.role
+    }
+  };
+};
+
+const forgotPasswordAdmin = async (email) => {
+  const jwt = require('jsonwebtoken');
+
+  const user = await prisma.user.findUnique({
+    where: { email }
+  });
+
+  if (!user || user.role !== 'ADMIN') {
+    // Return generic response to avoid user enumeration
+    return {
+      success: true,
+      message: 'If a matching admin account exists, a reset instruction has been sent.'
+    };
+  }
+
+  // Generate a stateless reset token valid for 15 minutes
+  const resetToken = jwt.sign(
+    { email: user.email, type: 'reset' },
+    process.env.JWT_SECRET,
+    { expiresIn: '15m' }
+  );
+
+  console.log(`[MOCK EMAIL] Password reset token generated for ${email}: ${resetToken}`);
+
+  return {
+    success: true,
+    message: 'Password reset token generated successfully.',
+    resetToken
+  };
+};
+
+const resetPasswordAdmin = async (email, token, newPassword) => {
+  const jwt = require('jsonwebtoken');
+
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    const error = new Error('Invalid or expired reset token');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (decoded.type !== 'reset' || decoded.email !== email) {
+    const error = new Error('Invalid or expired reset token');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email }
+  });
+
+  if (!user || user.role !== 'ADMIN') {
+    const error = new Error('Admin user not found');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, 10);
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { passwordHash }
+  });
+
+  return {
+    success: true,
+    message: 'Password reset successfully'
+  };
+};
+
 module.exports = {
   registerVendor,
   provisionVendor,
@@ -180,5 +311,8 @@ module.exports = {
   getVendorById,
   updateVendor,
   deleteVendor,
-  changeVendorStatus
+  changeVendorStatus,
+  loginAdmin,
+  forgotPasswordAdmin,
+  resetPasswordAdmin
 };

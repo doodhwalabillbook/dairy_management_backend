@@ -8,8 +8,8 @@ const createAreaSchema = z.object({
 const updateAreaSchema = createAreaSchema.partial();
 
 const areaFiltersSchema = z.object({
-  page: z.string().regex(/^\d+$/).transform(Number).optional().default("1"),
-  size: z.string().regex(/^\d+$/).transform(Number).optional().default("10"),
+  page: z.string().regex(/^\d+$/).transform(Number).optional().default(1),
+  size: z.string().regex(/^\d+$/).transform(Number).optional().default(10),
   search: z.string().optional(),
   status: z.enum(['ACTIVE', 'INACTIVE']).optional(),
 });

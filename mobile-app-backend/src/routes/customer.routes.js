@@ -4,6 +4,8 @@ const controller = require('../controllers/customer.controller');
 const { validateRequest } = require('../validators/auth.validator');
 const { createCustomerSchema, updateCustomerSchema } = require('../validators/customer.validator');
 const authMiddleware = require('../middleware/auth.middleware');
+const customerLimitMiddleware = require('../modules/subscription/middlewares/customer-limit.middleware');
+const subscriptionStateMiddleware = require('../modules/subscription/middlewares/subscription-state.middleware');
 
 // Apply JWT auth to all customer routes
 router.use(authMiddleware);
@@ -63,12 +65,12 @@ router.use(authMiddleware);
  *                 type: number
  *                 format: float
  *                 default: 0
- *                 example: 1.5
+ *                 example: 500
  *               eveningQuantity:
  *                 type: number
  *                 format: float
  *                 default: 0
- *                 example: 1.0
+ *                 example: 1000
  *               registrationDate:
  *                 type: string
  *                 format: date
@@ -108,7 +110,7 @@ router.use(authMiddleware);
  *       409:
  *         description: Phone number already exists
  */
-router.post('/', validateRequest(createCustomerSchema), controller.createCustomer);
+router.post('/', customerLimitMiddleware, validateRequest(createCustomerSchema), controller.createCustomer);
 
 /**
  * @swagger
@@ -272,7 +274,7 @@ router.get('/:id', controller.getCustomerById);
  *       409:
  *         description: Phone number already exists
  */
-router.put('/:id', validateRequest(updateCustomerSchema), controller.updateCustomer);
+router.put('/:id', subscriptionStateMiddleware, validateRequest(updateCustomerSchema), controller.updateCustomer);
 
 /**
  * @swagger

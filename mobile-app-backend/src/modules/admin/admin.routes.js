@@ -9,7 +9,10 @@ const {
   vendorRegistrationSchema,
   vendorUpdateSchema,
   vendorStatusSchema,
-  vendorFiltersSchema
+  vendorFiltersSchema,
+  adminLoginSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema
 } = require('../../validators/auth.validator');
 
 // Area CRUD Routes mapped
@@ -251,5 +254,85 @@ router.post('/vendors/provision', validateRequest(adminProvisionSchema), control
  *         description: PIN reset successfully
  */
 router.post('/vendors/:id/reset-pin', controller.forceResetPin);
+
+/**
+ * @swagger
+ * /api/v1/admin/login:
+ *   post:
+ *     summary: Admin Login (Email + Password)
+ *     tags: [Admin]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       401:
+ *         description: Invalid credentials
+ */
+router.post('/login', validateRequest(adminLoginSchema), controller.login);
+
+/**
+ * @swagger
+ * /api/v1/admin/forgot-password:
+ *   post:
+ *     summary: Admin Forgot Password
+ *     tags: [Admin]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Reset token generated
+ */
+router.post('/forgot-password', validateRequest(forgotPasswordSchema), controller.forgotPassword);
+
+/**
+ * @swagger
+ * /api/v1/admin/reset-password:
+ *   post:
+ *     summary: Admin Reset Password
+ *     tags: [Admin]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - token
+ *               - newPassword
+ *             properties:
+ *               email:
+ *                 type: string
+ *               token:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password reset successfully
+ */
+router.post('/reset-password', validateRequest(resetPasswordSchema), controller.resetPassword);
 
 module.exports = router;

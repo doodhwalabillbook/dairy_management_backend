@@ -11,6 +11,9 @@
     "prisma:local": "NODE_ENV=local prisma",
     "prisma:prod": "NODE_ENV=production prisma"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

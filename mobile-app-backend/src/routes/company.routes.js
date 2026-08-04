@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/company.controller');
 const { validateRequest } = require('../validators/auth.validator');
-const { createCompanySchema, createVendorSchema } = require('../validators/company.validator');
+const { createCompanySchema, createVendorSchema, updateCompanySchema } = require('../validators/company.validator');
 const authMiddleware = require('../middleware/auth.middleware');
 
 router.use(authMiddleware);
@@ -266,5 +266,66 @@ router.get('/vendors/all', controller.getAllVendors);
  *         description: Unauthorized
  */
 router.get('/vendors/:id', controller.getVendorById);
+
+/**
+ * @swagger
+ * /api/v1/companies/{id}:
+ *   put:
+ *     summary: Update Company details
+ *     tags: [Company]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *               state:
+ *                 type: string
+ *               gstin:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Company updated successfully
+ */
+router.put('/:id', validateRequest(updateCompanySchema), controller.updateCompany);
+
+/**
+ * @swagger
+ * /api/v1/companies/{id}:
+ *   delete:
+ *     summary: Deactivate Company (Soft Delete)
+ *     tags: [Company]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Company deactivated successfully
+ */
+router.delete('/:id', controller.deleteCompany);
 
 module.exports = router;

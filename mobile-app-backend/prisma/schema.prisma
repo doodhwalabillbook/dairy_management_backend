@@ -31,14 +31,16 @@ enum PaymentMode {
 // ─── Auth ────────────────────────────────────────────────────────────────────
 
 model User {
-  id        String   @id @default(uuid()) @db.VarChar(36)
-  mobile    String   @unique @db.VarChar(15)
-  name      String
-  pinHash   String
-  role      Role     @default(VENDOR)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid()) @db.VarChar(36)
+  mobile       String   @unique @db.VarChar(15)
+  name         String
+  pinHash      String
+  role         Role     @default(VENDOR)
+  email        String?  @unique @db.VarChar(255)
+  passwordHash String?  @db.VarChar(255)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   vendor Vendor?
 }
@@ -86,6 +88,9 @@ model Vendor {
   customers              Customer[]
   milkDeliveries         MilkDelivery[]
   extraProductDeliveries ExtraProductDelivery[]
+  subscriptions          VendorSubscription[]
+  subscriptionRequests   SubscriptionRequest[]
+  subscriptionHistories  SubscriptionHistory[]
 }
 
 // ─── Area ────────────────────────────────────────────────────────────────────
@@ -245,4 +250,108 @@ model Product {
   updatedAt   DateTime @updatedAt
 
   category ProductCategory @relation(fields: [categoryId], references: [id])
+}
+
+// ─── Subscription Enums ──────────────────────────────────────────────────────
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum SubscriptionPaymentMode {
+  CASH
+  QR_CODE
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ─── Subscription Models ─────────────────────────────────────────────────────
+
+model SubscriptionPlan {
+  id            String   @id @default(uuid()) @db.VarChar(36)
+  planCode      String   @unique @db.VarChar(50)
+  planName      String   @db.VarChar(100)
+  description   String?  @db.Text
+  price         Decimal  @db.Decimal(10, 2)
+  customerLimit Int?     // null represents unlimited
+  durationDays  Int      @default(30)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  subscriptions         VendorSubscription[]
+  subscriptionRequests  SubscriptionRequest[]
+  oldHistories          SubscriptionHistory[] @relation("OldPlanRelation")
+  newHistories          SubscriptionHistory[] @relation("NewPlanRelation")
+}
+
+model VendorSubscription {
+  id         String             @id @default(uuid()) @db.VarChar(36)
+  vendorId   String             @db.VarChar(36)
+  planId     String             @db.VarChar(36)
+  status     SubscriptionStatus @default(ACTIVE)
+  startDate  DateTime
+  expiryDate DateTime
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  vendor Vendor           @relation(fields: [vendorId], references: [id])
+  plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+
+  @@index([vendorId])
+  @@index([planId])
+}
+
+model SubscriptionRequest {
+  id              String                  @id @default(uuid()) @db.VarChar(36)
+  vendorId        String                  @db.VarChar(36)
+  planId          String                  @db.VarChar(36)
+  requestedAmount Decimal                 @db.Decimal(10, 2)
+  paymentMode     SubscriptionPaymentMode
+  requestStatus   RequestStatus           @default(PENDING)
+  remarks         String?                 @db.Text
+  requestedAt     DateTime                @default(now())
+  approvedAt      DateTime?
+  approvedBy      String?                 @db.VarChar(36)
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+
+  vendor Vendor           @relation(fields: [vendorId], references: [id])
+  plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+
+  @@index([vendorId])
+  @@index([planId])
+}
+
+model SubscriptionHistory {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  vendorId    String   @db.VarChar(36)
+  oldPlanId   String?  @db.VarChar(36)
+  newPlanId   String   @db.VarChar(36)
+  action      String   @db.VarChar(50) // "INIT", "UPGRADE", "RENEW"
+  performedBy String   @db.VarChar(36)
+  createdAt   DateTime @default(now())
+
+  vendor  Vendor            @relation(fields: [vendorId], references: [id])
+  oldPlan SubscriptionPlan? @relation("OldPlanRelation", fields: [oldPlanId], references: [id])
+  newPlan SubscriptionPlan  @relation("NewPlanRelation", fields: [newPlanId], references: [id])
+
+  @@index([vendorId])
+  @@index([oldPlanId])
+  @@index([newPlanId])
+}
+
+model SystemSetting {
+  id           String   @id @default(uuid()) @db.VarChar(36)
+  settingKey   String   @unique @db.VarChar(100)
+  settingValue String   @db.VarChar(255)
+  description  String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

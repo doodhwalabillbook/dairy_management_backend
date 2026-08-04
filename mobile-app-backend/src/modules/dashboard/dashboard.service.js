@@ -13,6 +13,7 @@ const {
   deriveOpeningBalance,
   getOpeningBalanceForMonth,
 } = require('../../services/billing.calculator');
+const { convertMlToLitre } = require('../../utils/milk.utils');
 
 // ─── Vendor Dashboard ─────────────────────────────────────────────────────────
 
@@ -192,9 +193,9 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
   return {
     todaySummary: {
       date:                      targetDateStr,
-      totalMorningMilkDelivered: parseFloat(todayMorning.toFixed(2)),
-      totalEveningMilkDelivered: parseFloat(todayEvening.toFixed(2)),
-      totalMilkDelivered:        parseFloat(todayMilk.toFixed(2)),
+      totalMorningMilkDelivered: parseFloat(convertMlToLitre(todayMorning).toFixed(2)),
+      totalEveningMilkDelivered: parseFloat(convertMlToLitre(todayEvening).toFixed(2)),
+      totalMilkDelivered:        parseFloat(convertMlToLitre(todayMilk).toFixed(2)),
       totalCustomersServed:      todayServed,
       totalMilkEarning:          parseFloat(todayEarning.toFixed(2)),
       totalExtraProductAmount:   parseFloat(todayExtraAmt.toFixed(2)),
@@ -203,9 +204,9 @@ const getVendorDashboardData = async ({ vendorId, reqDate, reqMonth, reqYear }) 
     monthlySummary: {
       month:                     targetMonth,
       year:                      targetYear,
-      totalMorningMilkDelivered: parseFloat(monthMorning.toFixed(2)),
-      totalEveningMilkDelivered: parseFloat(monthEvening.toFixed(2)),
-      totalMilkDelivered:        parseFloat(monthMilk.toFixed(2)),
+      totalMorningMilkDelivered: parseFloat(convertMlToLitre(monthMorning).toFixed(2)),
+      totalEveningMilkDelivered: parseFloat(convertMlToLitre(monthEvening).toFixed(2)),
+      totalMilkDelivered:        parseFloat(convertMlToLitre(monthMilk).toFixed(2)),
       totalMilkEarning:          parseFloat(monthEarning.toFixed(2)),
       totalExtraProductAmount:   parseFloat(monthExtraAmt.toFixed(2)),
       totalEarning:              parseFloat((monthEarning + monthExtraAmt).toFixed(2)),

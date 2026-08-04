@@ -39,8 +39,8 @@ const vendorStatusSchema = z.object({
 });
 
 const vendorFiltersSchema = z.object({
-  page: z.string().regex(/^\d+$/).transform(Number).optional().default("1"),
-  size: z.string().regex(/^\d+$/).transform(Number).optional().default("10"),
+  page: z.string().regex(/^\d+$/).transform(Number).optional().default(1),
+  size: z.string().regex(/^\d+$/).transform(Number).optional().default(10),
   search: z.string().optional(),
   status: z.enum(['ACTIVE', 'INACTIVE']).optional(),
   mobileNumber: z.string().optional()
@@ -69,6 +69,21 @@ const vendorLoginSchema = z.object({
   pin: z.string().regex(/^[0-9]{4,6}$/, 'PIN must be exactly 4 to 6 digits'),
 });
 
+const adminLoginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email('Invalid email address'),
+});
+
+const resetPasswordSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  token: z.string().min(1, 'Token is required'),
+  newPassword: z.string().min(6, 'New password must be at least 6 characters'),
+});
+
 module.exports = {
   loginSchema,
   resetPinSchema,
@@ -78,6 +93,9 @@ module.exports = {
   vendorStatusSchema,
   vendorFiltersSchema,
   vendorLoginSchema,
+  adminLoginSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
   validateRequest,
   validateQuery,
 };

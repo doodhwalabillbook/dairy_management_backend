@@ -126,6 +126,8 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   pinHash: 'pinHash',
   role: 'role',
+  email: 'email',
+  passwordHash: 'passwordHash',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -268,21 +270,81 @@ exports.Prisma.ProductScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SubscriptionPlanScalarFieldEnum = {
+  id: 'id',
+  planCode: 'planCode',
+  planName: 'planName',
+  description: 'description',
+  price: 'price',
+  customerLimit: 'customerLimit',
+  durationDays: 'durationDays',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VendorSubscriptionScalarFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  planId: 'planId',
+  status: 'status',
+  startDate: 'startDate',
+  expiryDate: 'expiryDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubscriptionRequestScalarFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  planId: 'planId',
+  requestedAmount: 'requestedAmount',
+  paymentMode: 'paymentMode',
+  requestStatus: 'requestStatus',
+  remarks: 'remarks',
+  requestedAt: 'requestedAt',
+  approvedAt: 'approvedAt',
+  approvedBy: 'approvedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubscriptionHistoryScalarFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  oldPlanId: 'oldPlanId',
+  newPlanId: 'newPlanId',
+  action: 'action',
+  performedBy: 'performedBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SystemSettingScalarFieldEnum = {
+  id: 'id',
+  settingKey: 'settingKey',
+  settingValue: 'settingValue',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 exports.Prisma.UserOrderByRelevanceFieldEnum = {
   id: 'id',
   mobile: 'mobile',
   name: 'name',
-  pinHash: 'pinHash'
-};
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
+  pinHash: 'pinHash',
+  email: 'email',
+  passwordHash: 'passwordHash'
 };
 
 exports.Prisma.CompanyOrderByRelevanceFieldEnum = {
@@ -376,6 +438,43 @@ exports.Prisma.ProductOrderByRelevanceFieldEnum = {
   name: 'name',
   description: 'description'
 };
+
+exports.Prisma.SubscriptionPlanOrderByRelevanceFieldEnum = {
+  id: 'id',
+  planCode: 'planCode',
+  planName: 'planName',
+  description: 'description'
+};
+
+exports.Prisma.VendorSubscriptionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  planId: 'planId'
+};
+
+exports.Prisma.SubscriptionRequestOrderByRelevanceFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  planId: 'planId',
+  remarks: 'remarks',
+  approvedBy: 'approvedBy'
+};
+
+exports.Prisma.SubscriptionHistoryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  oldPlanId: 'oldPlanId',
+  newPlanId: 'newPlanId',
+  action: 'action',
+  performedBy: 'performedBy'
+};
+
+exports.Prisma.SystemSettingOrderByRelevanceFieldEnum = {
+  id: 'id',
+  settingKey: 'settingKey',
+  settingValue: 'settingValue',
+  description: 'description'
+};
 exports.Role = exports.$Enums.Role = {
   VENDOR: 'VENDOR',
   ADMIN: 'ADMIN'
@@ -392,6 +491,23 @@ exports.PaymentMode = exports.$Enums.PaymentMode = {
   CARD: 'CARD'
 };
 
+exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.SubscriptionPaymentMode = exports.$Enums.SubscriptionPaymentMode = {
+  CASH: 'CASH',
+  QR_CODE: 'QR_CODE'
+};
+
+exports.RequestStatus = exports.$Enums.RequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Company: 'Company',
@@ -403,7 +519,12 @@ exports.Prisma.ModelName = {
   ExtraProductDelivery: 'ExtraProductDelivery',
   Payment: 'Payment',
   ProductCategory: 'ProductCategory',
-  Product: 'Product'
+  Product: 'Product',
+  SubscriptionPlan: 'SubscriptionPlan',
+  VendorSubscription: 'VendorSubscription',
+  SubscriptionRequest: 'SubscriptionRequest',
+  SubscriptionHistory: 'SubscriptionHistory',
+  SystemSetting: 'SystemSetting'
 };
 
 /**
