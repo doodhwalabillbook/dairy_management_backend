@@ -61,12 +61,15 @@ const softDeleteArea = async (id, updatedBy) => prisma.area.update({
 });
 
 // Advanced Query: Customers mapped to this specific area with generic search constraints
-const getCustomersByAreaId = async (areaId, { page = 1, size = 10, search, status }) => {
+const getCustomersByAreaId = async (areaId, { page = 1, size = 10, search, status = 'ACTIVE' }) => {
   const skip = (page - 1) * size;
   const where = { areaId };
 
-  if (status === 'ACTIVE') where.isActive = true;
-  if (status === 'INACTIVE') where.isActive = false;
+  if (status === 'ACTIVE') {
+    where.isActive = true;
+  } else if (status === 'INACTIVE') {
+    where.isActive = false;
+  }
 
   if (search) {
     where.OR = [

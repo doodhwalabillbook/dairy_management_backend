@@ -121,9 +121,16 @@ const getAllCustomers = async (query) => {
   const page  = parseInt(query.page,  10) || 1;
   const limit = parseInt(query.limit, 10) || 10;
 
-  let isActive;
+  // Default to active-only so deleted customers are hidden by default
+  let isActive = true;
   if (query.isActive !== undefined) {
-    isActive = query.isActive === 'true';
+    if (query.isActive === 'false') {
+      isActive = false;
+    } else if (query.isActive === 'all') {
+      isActive = undefined;
+    } else {
+      isActive = query.isActive === 'true';
+    }
   }
 
   return customerRepo.findAllCustomers({
